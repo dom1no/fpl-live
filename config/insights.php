@@ -8,8 +8,12 @@ use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenNormalClasses;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenPrivateMethods;
 use NunoMaduro\PhpInsights\Domain\Insights\ForbiddenTraits;
 use NunoMaduro\PhpInsights\Domain\Metrics\Architecture\Classes;
-use SlevomatCodingStandard\Sniffs\Commenting\UselessFunctionDocCommentSniff;
-use SlevomatCodingStandard\Sniffs\Namespaces\AlphabeticallySortedUsesSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff;
+use PHP_CodeSniffer\Standards\Generic\Sniffs\Formatting\SpaceAfterNotSniff;
+use SlevomatCodingStandard\Sniffs\Arrays\DisallowImplicitArrayCreationSniff;
+use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowEmptySniff;
+use SlevomatCodingStandard\Sniffs\ControlStructures\DisallowShortTernaryOperatorSniff;
+use SlevomatCodingStandard\Sniffs\Functions\UnusedParameterSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DeclareStrictTypesSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\DisallowMixedTypeHintSniff;
 use SlevomatCodingStandard\Sniffs\TypeHints\ParameterTypeHintSniff;
@@ -75,7 +79,6 @@ return [
     ],
 
     'remove' => [
-        AlphabeticallySortedUsesSniff::class,
         DeclareStrictTypesSniff::class,
         DisallowMixedTypeHintSniff::class,
         ForbiddenDefineFunctions::class,
@@ -84,14 +87,27 @@ return [
         ParameterTypeHintSniff::class,
         PropertyTypeHintSniff::class,
         ReturnTypeHintSniff::class,
-        UselessFunctionDocCommentSniff::class,
-        \SlevomatCodingStandard\Sniffs\Functions\DisallowEmptyFunctionSniff::class
+        DisallowEmptySniff::class,
+        DisallowShortTernaryOperatorSniff::class,
+        SpaceAfterNotSniff::class,
+        DisallowImplicitArrayCreationSniff::class
     ],
 
     'config' => [
         ForbiddenPrivateMethods::class => [
             'title' => 'The usage of private methods is not idiomatic in Laravel.',
         ],
+        LineLengthSniff::class => [
+            'lineLimit' => 120,
+            'absoluteLineLimit' => 120,
+            'ignoreComments' => false
+        ],
+        UnusedParameterSniff::class => [
+            'exclude' => [
+                'app/Console/Kernel.php',
+                'app/Exceptions/Handler.php'
+            ]
+        ]
     ],
 
     /*
@@ -107,7 +123,7 @@ return [
 
     'requirements' => [
         'min-quality' => 100,
-        'min-complexity' => 100,
+        'min-complexity' => 85,
         'min-architecture' => 100,
         'min-style' => 100,
         'disable-security-check' => false,
