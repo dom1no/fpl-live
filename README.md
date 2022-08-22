@@ -45,6 +45,6 @@ Laravel skeleton starter pack. Для быстрого старта разраб
 
     php artisan migrate
 
-##Про аутентификацию
+## Про аутентификацию
 
 [Варианты аутентификации](Authentication.md)
