@@ -1,8 +1,8 @@
-## Info
+## Информация
 
 Laravel skeleton starter pack. Для быстрого старта разработки.
 
-## Install
+## Установка
 
 Клонируем репозиторий 
 
@@ -34,17 +34,14 @@ Laravel skeleton starter pack. Для быстрого старта разраб
 
     vendor/bin/sail up -d
 
-Если контейнер laravel.test не запускается, то необходимо прописать порт в .env файле и 
-заново установить Sail
-
-    APP_PORT=8080
-
 Проект доступен по адресу http://localhost
 
 Запускаем миграции
 
     php artisan migrate
 
-## Про аутентификацию
+## Дополнительно
+
+[Решение возможных проблем](Troubleshooting.md)
 
 [Варианты аутентификации](Authentication.md)
