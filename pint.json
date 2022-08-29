@@ -1,0 +1,33 @@
+{
+    "preset": "laravel",
+    "rules": {
+        "Laravel/laravel_phpdoc_separation": false,
+        "Laravel/laravel_phpdoc_alignment": false,
+        "phpdoc_align": {
+            "align": "left"
+        },
+        "class_attributes_separation": {
+            "elements": {
+                "method": "one",
+                "trait_import": "none"
+            }
+        },
+        "blank_line_before_statement": {
+            "statements": [
+                "return"
+            ]
+        },
+
+        "visibility_required": true,
+        "no_superfluous_phpdoc_tags": true,
+
+        "assign_null_coalescing_to_coalesce_equal": true,
+        "ternary_to_null_coalescing": true,
+        "implode_call": true,
+        "modernize_types_casting": true,
+        "explicit_string_variable": true,
+        "concat_space": {
+            "spacing": "one"
+        }
+    }
+}

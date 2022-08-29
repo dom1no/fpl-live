@@ -40,6 +40,17 @@ Laravel skeleton starter pack. Для быстрого старта разраб
 
     php artisan migrate
 
+## Линтеры
+
+### Laravel Pint
+  - `composer lint` - проверка код-стайла
+  - `composer lint-fix` - проверка код-стайла с исправлением
+  - Правила настраиваются в файле `pint.json`
+
+### Larastan
+  - `composer larastan` - статический анализ кода
+  - Правила настраиваются в файле `phpstan.neon`
+
 ## Дополнительно
 
 [Решение возможных проблем](Troubleshooting.md)
