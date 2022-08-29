@@ -9,7 +9,8 @@
         "ext-pdo": "*",
         "doctrine/dbal": "^3.4",
         "laravel/framework": "9.*",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "sammyjo20/saloon-laravel": "^1.5"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
