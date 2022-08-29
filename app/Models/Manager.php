@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Manager extends Model
 {
@@ -14,14 +14,8 @@ class Manager extends Model
         'fpl_id',
     ];
 
-    public function picks(): BelongsToMany
+    public function picks(): HasMany
     {
-        return $this->belongsToMany(Player::class, 'manager_pick')->using(ManagerPick::class);
-    }
-
-    // TODO: eager loading
-    public function getGameweekPicksQuery(Gameweek $gameweek): BelongsToMany
-    {
-        return $this->picks()->wherePivot('gameweek_id', $gameweek->id);
+        return $this->hasMany(ManagerPick::class);
     }
 }

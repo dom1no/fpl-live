@@ -4,21 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Gameweek;
 use App\Models\Manager;
+use Illuminate\View\View;
 
 class TeamController extends Controller
 {
-    public function index()
+    public function index(): View
     {
         $gameweek = Gameweek::getCurrent();
 
-        $managers = Manager::query()->get();
+        $managers = Manager::query()->with([
+            'picks' => fn ($q) => $q->forGameweek($gameweek),
+            'picks.player.team',
+        ])
+            ->get();
 
-        foreach ($managers as $manager) {
-            $manager->setRelation(
-                'picks', $manager->getGameweekPicksQuery($gameweek)->get()
-            );
-        }
-
-        return response()->json($managers);
+        return view('teams', compact('managers'));
     }
 }
