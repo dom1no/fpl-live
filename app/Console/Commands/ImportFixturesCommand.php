@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 
 class ImportFixturesCommand extends Command
 {
-    protected $signature = 'import:fixtures';
+    protected $signature = 'import:fixtures {--current}';
 
     protected $description = 'Import fixtures from FPL API';
 
@@ -24,10 +24,12 @@ class ImportFixturesCommand extends Command
 
         $this->teams = Team::pluck('id', 'fpl_id');
 
-        Gameweek::each(function (Gameweek $gameweek) use ($FPLService) {
-            $fixtures = $FPLService->getFixturesByGameweek($gameweek);
-            $this->importFixtures($fixtures, $gameweek);
-        });
+        Gameweek::query()
+            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->each(function (Gameweek $gameweek) use ($FPLService) {
+                $fixtures = $FPLService->getFixturesByGameweek($gameweek);
+                $this->importFixtures($fixtures, $gameweek);
+            });
 
         $this->info('Finished import fixtures.');
     }

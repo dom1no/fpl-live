@@ -12,7 +12,7 @@ use Illuminate\Support\Collection;
 
 class ImportManagersPicksCommand extends Command
 {
-    protected $signature = 'import:managers-picks';
+    protected $signature = 'import:managers-picks {--current}';
 
     protected $description = 'Import managers picks from FPL API';
 
@@ -24,12 +24,15 @@ class ImportManagersPicksCommand extends Command
 
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Gameweek::finishedOrCurrent()->each(function (Gameweek $gameweek) use ($FPLService) {
-            Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
-                $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
-                $this->importManagerPicks($picks, $manager, $gameweek);
+        Gameweek::query()
+            ->finishedOrCurrent()
+            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->each(function (Gameweek $gameweek) use ($FPLService) {
+                Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
+                    $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
+                    $this->importManagerPicks($picks, $manager, $gameweek);
+                });
             });
-        });
 
         $this->info('Finished import managers picks.');
     }

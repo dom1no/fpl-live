@@ -70,6 +70,7 @@ class ImportBaseDataCommand extends Command
         $this->info("Finished import players. Imported {$importedCount} players.");
     }
 
+    // TODO: отдельная команда
     private function importGameweeks(array $data): void
     {
         $this->info('Starting import gameweeks...');

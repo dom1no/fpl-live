@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Console\Commands\ImportFixturesCommand;
+use App\Console\Commands\ImportPlayersStatsCommand;
 use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Player;
 use App\Services\PlayerStatsService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\View\View;
 
 class FixtureController extends Controller
@@ -42,5 +46,13 @@ class FixtureController extends Controller
             });
 
         return view('fixtures.show', compact('fixture', 'players', 'bpsTopPlayers', 'managersPicks'));
+    }
+
+    public function syncDataFromFPL(): RedirectResponse
+    {
+        Artisan::call(ImportFixturesCommand::class, ['--current' => true]);
+        Artisan::call(ImportPlayersStatsCommand::class, ['--current' => true]);
+
+        return redirect()->back();
     }
 }

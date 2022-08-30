@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 
 class ImportPlayersStatsCommand extends Command
 {
-    protected $signature = 'import:players-stats';
+    protected $signature = 'import:players-stats {--current}';
 
     protected $description = 'Import players stats from FPL API';
 
@@ -27,10 +27,13 @@ class ImportPlayersStatsCommand extends Command
 
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Gameweek::finishedOrCurrent()->each(function (Gameweek $gameweek) use ($FPLService) {
-            $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
-            $this->importStats($stats, $gameweek);
-        });
+        Gameweek::query()
+            ->finishedOrCurrent()
+            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->each(function (Gameweek $gameweek) use ($FPLService) {
+                $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
+                $this->importStats($stats, $gameweek);
+            });
 
         $this->info('Finished import players stats.');
     }
