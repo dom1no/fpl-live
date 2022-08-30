@@ -12,7 +12,7 @@ class ImportManagersCommand extends Command
 
     protected $signature = 'import:managers';
 
-    protected $description = 'Command description';
+    protected $description = 'Import managers from FPL API';
 
     public function handle(FPLService $FPLService): void
     {

@@ -23,7 +23,14 @@
     <body class="{{ $class ?? '' }}">
         <div class="main-content">
             @include('layouts.navbars.navbar')
-            @yield('content')
+
+            <div class="container-fluid mt-2 mb-5">
+                <div class="row justify-content-center">
+                    <div class="col-sm-10">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
         </div>
 
         <script src="{{ asset('argon') }}/vendor/jquery/dist/jquery.min.js"></script>

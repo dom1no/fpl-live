@@ -14,7 +14,7 @@ class ImportBaseDataCommand extends Command
 {
     protected $signature = 'import:base-data';
 
-    protected $description = 'Import base data from fpl api';
+    protected $description = 'Import base data from FPL API';
 
     public function handle(FPLService $FPLService): void
     {

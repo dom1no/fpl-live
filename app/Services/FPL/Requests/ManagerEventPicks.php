@@ -4,21 +4,21 @@ namespace App\Services\FPL\Requests;
 
 use Sammyjo20\Saloon\Constants\Saloon;
 
-class ManagerGWPicks extends Request
+class ManagerEventPicks extends Request
 {
     protected ?string $method = Saloon::GET;
 
     private int $managerId;
-    private int $gw;
+    private int $eventId;
 
-    public function __construct(int $managerId, int $gw)
+    public function __construct(int $managerId, int $eventId)
     {
         $this->managerId = $managerId;
-        $this->gw = $gw;
+        $this->eventId = $eventId;
     }
 
     public function defineEndpoint(): string
     {
-        return "entry/{$this->managerId}/event/{$this->gw}/picks/";
+        return "entry/{$this->managerId}/event/{$this->eventId}/picks/";
     }
 }

@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 
 class Gameweek extends Model
 {
@@ -20,8 +23,22 @@ class Gameweek extends Model
         'deadline_at',
     ];
 
+    public function fixtures(): HasMany
+    {
+        return $this->hasMany(Fixture::class);
+    }
+
     public static function getCurrent(): static
     {
-        return static::where('is_current', true)->first();
+        return Cache::remember(
+            'current_gameweek',
+            now()->minutes(1),
+            fn () => static::where('is_current', true)->first()
+        );
+    }
+
+    public function scopeFinished(Builder $query): void
+    {
+        $query->where('is_finished', true);
     }
 }

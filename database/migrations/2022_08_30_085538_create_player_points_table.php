@@ -8,17 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('manager_pick', function (Blueprint $table) {
+        Schema::create('player_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('manager_id')->constrained();
             $table->foreignId('player_id')->constrained();
             $table->foreignId('gameweek_id')->constrained();
 
-            $table->boolean('is_captain')->default(false);
-            $table->boolean('is_vice_captain')->default(false);
-            $table->tinyInteger('multiplier');
-
-            $table->integer('points')->nullable();
+            $table->string('action');
+            $table->integer('value');
+            $table->integer('points');
 
             $table->timestamps();
         });
@@ -26,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('manager_pick');
+        Schema::dropIfExists('player_points');
     }
 };

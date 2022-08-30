@@ -12,11 +12,10 @@ class MyTeamController extends Controller
 
     public function index(): View
     {
-        $gameweek = Gameweek::getCurrent();
         $manager = Manager::where('fpl_id', self::MY_MANAGER_ID)->first();
 
         $picks = $manager->picks()
-            ->forGameweek($gameweek)
+            ->forCurrentGameweek()
             ->with('player.team')
             ->get();
 

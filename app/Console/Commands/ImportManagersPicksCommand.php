@@ -14,7 +14,7 @@ class ImportManagersPicksCommand extends Command
 {
     protected $signature = 'import:managers-picks';
 
-    protected $description = 'Command description';
+    protected $description = 'Import managers picks from FPL API';
 
     private Collection $players;
 
@@ -24,14 +24,14 @@ class ImportManagersPicksCommand extends Command
 
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Gameweek::where('deadline_at', '<', now())->each(function (Gameweek $gameweek) use ($FPLService) {
+        Gameweek::finished()->each(function (Gameweek $gameweek) use ($FPLService) {
             Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
-                $picks = $FPLService->getManagerPicks($manager->fpl_id, $gameweek->fpl_id);
+                $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
                 $this->importManagerPicks($picks, $manager, $gameweek);
             });
         });
 
-        $this->info('Finished import managers.');
+        $this->info('Finished import managers picks.');
     }
 
     private function importManagerPicks(Collection $picks, Manager $manager, Gameweek $gameweek): void
@@ -42,7 +42,6 @@ class ImportManagersPicksCommand extends Command
                 'player_id' => $this->players->get($pick['element']),
                 'gameweek_id' => $gameweek->id,
             ], [
-                'position' => $pick['position'],
                 'is_captain' => $pick['is_captain'],
                 'is_vice_captain' => $pick['is_vice_captain'],
                 'multiplier' => $pick['multiplier'],

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\MyTeamController;
 use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
@@ -17,4 +18,5 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MyTeamController::class, 'index'])->name('home');
 Route::get('/teams', [TeamController::class, 'index'])->name('teams');
-
+Route::get('/fixtures', [FixtureController::class, 'index'])->name('fixtures.index');
+Route::get('/fixture/{fixture}', [FixtureController::class, 'show'])->name('fixtures.show');

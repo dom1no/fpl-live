@@ -8,16 +8,20 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ManagerPick extends Model
 {
+    use ForGameweek {
+        scopeForGameweek as baseScopeForGameweek;
+    }
+
     protected $table = 'manager_pick';
 
     protected $fillable = [
         'manager_id',
         'player_id',
         'gameweek_id',
-        'position',
         'is_captain',
         'is_vice_captain',
         'multiplier',
+        'points',
     ];
 
     public function manager(): BelongsTo
@@ -30,13 +34,12 @@ class ManagerPick extends Model
         return $this->belongsTo(Player::class);
     }
 
-    public function gameweek(): BelongsTo
+    public function scopeForGameweek(Builder $query, Gameweek $gameweek): void
     {
-        return $this->belongsTo(Gameweek::class);
-    }
+        if ($gameweek->is_next) {
+            $gameweek = Gameweek::getCurrent();
+        }
 
-    public function scopeForGameweek(Builder $query, Gameweek $gameweek)
-    {
-        $query->where('gameweek_id', $gameweek->id);
+        $this->baseScopeForGameweek($query, $gameweek);
     }
 }
