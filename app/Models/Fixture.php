@@ -47,6 +47,6 @@ class Fixture extends Model
 
     public function isInProgress(): bool
     {
-        return $this->is_started && !$this->is_finished;
+        return $this->is_started && !$this->is_finished && !$this->is_finished_provisional;
     }
 }
