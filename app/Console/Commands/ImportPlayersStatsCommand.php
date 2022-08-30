@@ -27,7 +27,7 @@ class ImportPlayersStatsCommand extends Command
 
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Gameweek::finished()->each(function (Gameweek $gameweek) use ($FPLService) {
+        Gameweek::finishedOrCurrent()->each(function (Gameweek $gameweek) use ($FPLService) {
             $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
             $this->importStats($stats, $gameweek);
         });

@@ -37,8 +37,11 @@ class Gameweek extends Model
         );
     }
 
-    public function scopeFinished(Builder $query): void
+    public function scopeFinishedOrCurrent(Builder $query): void
     {
-        $query->where('is_finished', true);
+        $query->where(function (Builder $query) {
+            $query->where('is_finished', true)
+                ->orWhere('is_current', true);
+        });
     }
 }

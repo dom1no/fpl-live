@@ -24,7 +24,7 @@ class ImportManagersPicksCommand extends Command
 
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Gameweek::finished()->each(function (Gameweek $gameweek) use ($FPLService) {
+        Gameweek::finishedOrCurrent()->each(function (Gameweek $gameweek) use ($FPLService) {
             Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
                 $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
                 $this->importManagerPicks($picks, $manager, $gameweek);
