@@ -72,7 +72,7 @@
                 <td>
                     <ul>
                         @foreach($player->managerPicks->sortByDesc('multiplier') as $pick)
-                            <li class="@if($pick->multiplier === 0)text-light @endif">
+                            <li class="@if($pick->multiplier == 0)text-light @endif">
                                 {{ $pick->manager->name }}
                                 @if ($pick->is_captain)
                                     <i class="fas fa-copyright"></i>

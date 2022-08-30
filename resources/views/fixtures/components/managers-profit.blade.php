@@ -23,7 +23,7 @@
                                 <ul>
                                     @foreach($managerPicks->sortByDesc('points') as $pick)
                                         @php($player = $players->get($pick->player_id))
-                                        <li class="@if($pick->multiplier === 0)text-light @endif">
+                                        <li class="@if($pick->multiplier == 0)text-light @endif">
                                             {{ $player->name }}
                                             @if ($pick->is_captain)
                                                 <i class="fas fa-copyright"></i>
