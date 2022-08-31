@@ -32,7 +32,9 @@
                         <i class="fas fa-futbol text-danger"></i>
                     @endfor
                     <br>
-                    {{ $player->position->value }}
+                    <span class="opacity-7">
+                        {{ $player->position->value }}
+                    </span>
                 </td>
                 <td>
                     {{ $player->points_sum ?: '-' }}
@@ -73,7 +75,9 @@
                 <td>
                     {{ $playerStats->bps ?: '-' }}
                     @if ($bpsTopPlayers->has($player->id))
-                        (+{{ $bpsTopPlayers->get($player->id) }})
+                        <span class="opacity-8">
+                            (+{{ $bpsTopPlayers->get($player->id) }})
+                        </span>
                     @endif
                 </td>
                 <td>

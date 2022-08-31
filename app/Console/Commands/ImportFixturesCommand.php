@@ -25,7 +25,7 @@ class ImportFixturesCommand extends Command
         $this->teams = Team::pluck('id', 'fpl_id');
 
         Gameweek::query()
-            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 $fixturesData = $FPLService->getFixturesByGameweek($gameweek);
                 $this->importFixtures($fixturesData, $gameweek);

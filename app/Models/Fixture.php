@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -31,12 +30,12 @@ class Fixture extends Model
 
     public function isFeature(): bool
     {
-        return $this->kickoff_time > now() && !$this->is_started;
+        return $this->kickoff_time > now() && ! $this->is_started;
     }
 
     public function isInProgress(): bool
     {
-        return $this->is_started && !$this->isFinished();
+        return $this->is_started && ! $this->isFinished();
     }
 
     public function isFinished(): bool

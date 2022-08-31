@@ -18,4 +18,9 @@ class Manager extends Model
     {
         return $this->hasMany(ManagerPick::class);
     }
+
+    public function transfers(): HasMany
+    {
+        return $this->hasMany(ManagerTransfer::class);
+    }
 }

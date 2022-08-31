@@ -6,6 +6,7 @@ use App\Console\Commands\ImportBaseDataCommand;
 use App\Console\Commands\ImportFixturesCommand;
 use App\Console\Commands\ImportManagersCommand;
 use App\Console\Commands\ImportManagersPicksCommand;
+use App\Console\Commands\ImportManagersTransfersCommand;
 use App\Console\Commands\ImportPlayersStatsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -19,8 +20,10 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(ImportManagersCommand::class)->everyTenMinutes();
 
-        $schedule->command(ImportBaseDataCommand::class)->dailyAt('00:30');
-        $schedule->command(ImportManagersPicksCommand::class, ['--current'])->dailyAt('01:00');
+        $schedule->command(ImportBaseDataCommand::class)->after(function () {
+            $this->call(ImportManagersPicksCommand::class);
+            $this->call(ImportManagersTransfersCommand::class);
+        });
     }
 
     protected function commands(): void

@@ -20,7 +20,9 @@
                         <i class="fas fa-copyright"></i>
                     @endif
                     <br>
-                    {{ $player->team->short_name }} {{ $player->position->value }}
+                    <span class="opacity-7">
+                        {{ $player->team->short_name }} {{ $player->position->value }}
+                    </span>
                 </td>
                 <td>
                     @if ($pick->multiplier > 0 && ($pick->points > 0 || !$fixture->isFeature()))

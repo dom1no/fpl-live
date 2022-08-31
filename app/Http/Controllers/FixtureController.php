@@ -42,6 +42,7 @@ class FixtureController extends Controller
             ->groupBy('manager_id')
             ->map(function (Collection $picks) use ($fixture) {
                 $picks->points_sum = $fixture->isFeature() ? 0 : $picks->sum('points');
+
                 return $picks;
             });
 

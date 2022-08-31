@@ -12,6 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('player_id')->constrained();
             $table->foreignId('gameweek_id')->constrained();
+            $table->unique(['player_id', 'gameweek_id']);
 
             $table->integer('minutes')->unsigned()->default(0);
             $table->integer('goals_scored')->unsigned()->default(0);

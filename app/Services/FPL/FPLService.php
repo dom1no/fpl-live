@@ -9,6 +9,8 @@ use App\Services\FPL\Requests\EventLive;
 use App\Services\FPL\Requests\Fixtures;
 use App\Services\FPL\Requests\LeagueInfo;
 use App\Services\FPL\Requests\ManagerEventPicks;
+use App\Services\FPL\Requests\ManagerHistory;
+use App\Services\FPL\Requests\ManagerTransfers;
 use Illuminate\Support\Collection;
 
 class FPLService
@@ -25,6 +27,13 @@ class FPLService
         return $this->fpl->send(new BootstrapStatic())->json();
     }
 
+    public function getFixturesByGameweek(Gameweek $gameweek): Collection
+    {
+        $data = $this->fpl->send(new Fixtures($gameweek->fpl_id))->json();
+
+        return collect($data);
+    }
+
     public function getManagers(int $leagueId): Collection
     {
         $data = $this->fpl->send(new LeagueInfo($leagueId))->json();
@@ -39,11 +48,18 @@ class FPLService
         return collect($data['picks']);
     }
 
-    public function getFixturesByGameweek(Gameweek $gameweek): Collection
+    public function getManagerTransfers(Manager $manager): Collection
     {
-        $data = $this->fpl->send(new Fixtures($gameweek->fpl_id))->json();
+        $data = $this->fpl->send(new ManagerTransfers($manager->fpl_id))->json();
 
         return collect($data);
+    }
+
+    public function getManagerGameweekStats(Manager $manager): Collection
+    {
+        $data = $this->fpl->send(new ManagerHistory($manager->fpl_id))->json();
+
+        return collect($data['current'])->keyBy('event');
     }
 
     public function getPlayersStatsByGameweek(Gameweek $gameweek): Collection

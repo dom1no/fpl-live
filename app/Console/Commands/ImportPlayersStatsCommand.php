@@ -29,7 +29,7 @@ class ImportPlayersStatsCommand extends Command
 
         Gameweek::query()
             ->finishedOrCurrent()
-            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
                 $this->importStats($stats, $gameweek);
@@ -79,7 +79,7 @@ class ImportPlayersStatsCommand extends Command
             PlayerPoint::updateOrCreate([
                 'player_id' => $playerId,
                 'gameweek_id' => $gameweek->id,
-                'action' => PlayerPointAction::from($playerPoint['identifier'])
+                'action' => PlayerPointAction::from($playerPoint['identifier']),
             ], [
                 'value' => $playerPoint['value'],
                 'points' => $playerPoint['points'],

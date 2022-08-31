@@ -24,8 +24,19 @@
                                 <td>{{ $manager->name }}</td>
                                 <td>
                                     {{ $manager->picks->sum('points') }}
+                                    @if ($transfersCost = $manager->paid_transfers_count * 4)
+                                        <span class="opacity-7">
+                                            (-{{ $transfersCost }})
+                                        </span>
+                                    @endif
                                 </td>
-                                <td>{{ $manager->total_points }}</td>
+                                <td>
+                                    {{ $manager->total_points }}
+                                    @php($livePoints = $manager->total_picks_points - ($manager->total_paid_transfers_count * 4))
+                                    @if ($livePoints != $manager->total_points)
+                                        ({{ $livePoints }})
+                                    @endif
+                                </td>
                                 <td>
                                     {{ $playedPicksMain->count() }} ({{ $playedPicks->count() }})
                                     |

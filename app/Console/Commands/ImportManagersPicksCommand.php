@@ -26,7 +26,7 @@ class ImportManagersPicksCommand extends Command
 
         Gameweek::query()
             ->finishedOrCurrent()
-            ->when($this->option('current'), fn($q) => $q->where('is_current', true))
+            ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
                     $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
