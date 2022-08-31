@@ -1,5 +1,5 @@
-<header class="navbar navbar-horizontal navbar-expand-lg navbar-dark flex-row align-items-md-center bg-primary"
-        style="padding: .5rem 0;"
+<header class="navbar navbar-expand-lg bg-primary navbar-dark position-sticky top-0 py-3"
+    style="z-index: 99;"
 >
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('argon') }}/img/brand/blue.png">
+                            {{ config('app.name') }}
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -23,12 +23,16 @@
                 </div>
             </div>
 
-            <ul class="navbar-nav flex-row mr-auto ml-4">
-                <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
+            <ul class="navbar-nav navbar-nav-hover mr-auto ml-4">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#navbar-links-managers" data-toggle="dropdown" role="button" aria-expanded="true" aria-controls="navbar-links-managers">
                         <i class="fas fa-users"></i>
-                        <span class="nav-link-inner--text">Teams</span>
+                        <span class="nav-link-inner--text">Managers</span>
                     </a>
+                    <div class="dropdown-menu" id="navbar-links-managers">
+                        <a href="{{ route('managers.index') }}" class="dropdown-item">Managers</a>
+                        <a href="{{ route('managers.teams') }}" class="dropdown-item">Teams</a>
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('fixtures.index') }}">

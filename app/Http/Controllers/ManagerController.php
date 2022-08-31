@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Gameweek;
 use App\Models\Manager;
+use App\Models\ManagerPick;
 use Illuminate\View\View;
 
+// TODO: убрать дублирование
 class ManagerController extends Controller
 {
-    private const MY_MANAGER_ID = 3503081;
-
     public function index(): View
     {
         $gameweek = Gameweek::getCurrent();
@@ -20,24 +20,61 @@ class ManagerController extends Controller
             'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
             'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
         ])
-            ->get();
+            ->get()
+            ->keyBy('id');
 
-        return view('managers.index', compact('managers', 'gameweek'));
+        $playedPicksByManagers = $managers->map(function (Manager $manager) {
+            return $manager->picks
+                ->where(
+                    fn (ManagerPick $pick) => !$pick->player->team->fixtures->first()?->isFeature()
+                );
+        });
+
+        return view('managers.index', compact('managers', 'gameweek', 'playedPicksByManagers'));
     }
 
-    public function my(): View
+    public function teams(): View
     {
         $gameweek = Gameweek::getCurrent();
 
-        $manager = Manager::where('fpl_id', self::MY_MANAGER_ID)
-            ->with([
+        $managers = Manager::query()->with([
+            'picks' => fn ($q) => $q->forCurrentGameweek(),
+            'picks.player.team',
+            'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
+            'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
+        ])
+            ->get()
+            ->keyBy('id');
+
+        $playedPicksByManagers = $managers->map(function (Manager $manager) {
+            return $manager->picks
+                ->where(
+                    fn (ManagerPick $pick) => !$pick->player->team->fixtures->first()?->isFeature()
+                );
+        });
+
+        return view('managers.teams.index', compact('managers', 'gameweek', 'playedPicksByManagers'));
+    }
+
+    public function managerTeam(Manager $manager): View
+    {
+        $gameweek = Gameweek::getCurrent();
+
+        $manager
+            ->load([
                 'picks' => fn ($q) => $q->forCurrentGameweek(),
                 'picks.player.team',
                 'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
                 'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
-            ])
-            ->first();
+            ]);
 
-        return view('managers.my', compact('manager', 'gameweek'));
+        $playedPicksByManagers = collect([$manager->id => $manager])->map(function (Manager $manager) {
+            return $manager->picks
+                ->where(
+                    fn (ManagerPick $pick) => !$pick->player->team->fixtures->first()?->isFeature()
+                );
+        });
+
+        return view('managers.teams.show', compact('manager', 'gameweek', 'playedPicksByManagers'));
     }
 }

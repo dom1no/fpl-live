@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\ManagerController;
+use App\Models\Manager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [ManagerController::class, 'my'])->name('home');
-Route::get('/teams', [ManagerController::class, 'index'])->name('managers.index');
+Route::get('/', function () {
+    return redirect()->route('managers.teams.show', [
+        Manager::where('fpl_id', 3503081)->firstOrFail(),
+    ]);
+})->name('home');
+
+Route::prefix('managers')->name('managers.')->group(function () {
+    Route::get('/', [ManagerController::class, 'index'])->name('index');
+    Route::get('/teams', [ManagerController::class, 'teams'])->name('teams');
+    Route::get('/teams/{manager}', [ManagerController::class, 'managerTeam'])->name('teams.show');
+});
 
 Route::prefix('fixtures')->name('fixtures.')->group(function () {
     Route::get('/', [FixtureController::class, 'index'])->name('index');

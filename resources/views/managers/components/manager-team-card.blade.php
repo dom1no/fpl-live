@@ -1,8 +1,17 @@
 <div class="card m-2">
     <div class="card-header">
         <h2>{{ $manager->name }}</h2>
-        <p>GW очки: {{ $manager->picks->sum('points') }}</p>
-        <p>Всего очков: {{ $manager->total_points }}</p>
+        <span>
+            GW очки: {{ $manager->picks->sum('points') }}
+            <br>
+            Всего очков: {{ $manager->total_points }}
+            <br><br>
+
+            @php($playedPicks = $playedPicksByManagers->get($manager->id))
+            @php($playedPicksMain = $playedPicks->where('multiplier', '>', 0))
+            Сыграло игроков: {{ $playedPicksMain->count() }} ({{ $playedPicks->count() }})
+            | {{ price_formatted($playedPicksMain->sum('player.price')) }} ({{ price_formatted($playedPicks->sum('player.price')) }})
+        </span>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -11,15 +20,16 @@
                 <tr>
                     <th scope="col">Игрок</th>
                     <th scope="col">GW Очки</th>
-                    <th scope="col">Цена</th>
                     <th scope="col">Матч</th>
+                    <th scope="col">Цена</th>
+                    <th scope="col">Очки на 1£</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($manager->picks as $pick)
                     @php($player = $pick->player)
                     @php($fixture = $player->team->fixtures->first())
-                    <tr>
+                    <tr class="@if($fixture->isFinished())font-weight-bold @endif">
                         <td>
                             {{ $player->name }}
                             @if ($pick->is_captain)
@@ -29,8 +39,8 @@
                             {{ $player->team->short_name }} {{ $player->position->value }}
                         </td>
                         <td>
-                            {{ $pick->points }}
-                            @if(!$fixture->isFeature())
+                            @if ($pick->points > 0 || !$fixture->isFeature())
+                                {{ $pick->points }}
                                 @if ($pick->points >= 10)
                                     <i class="fas fa-angle-double-up text-success"></i>
                                 @elseif ($pick->points >= 7)
@@ -42,10 +52,12 @@
                                 @else
                                     <i class="fas fa-angle-double-down text-danger"></i>
                                 @endif
+                            @else
+                                -
                             @endif
                         </td>
                         <td>
-                            {{ $player->price }}
+                            {{ price_formatted($player->price) }}
                         </td>
                         <td>
                             <a href="{{ route('fixtures.show', $fixture) }}">
@@ -58,10 +70,13 @@
                                 {{ $fixture->awayTeam->name }}
                             </a>
                         </td>
+                        <td>
+                            {{ round($pick->points / $player->price, 1) }}
+                        </td>
                     </tr>
                     @if ($loop->iteration === 11)
                         <tr>
-                            <td colspan="3" class="text-left lead">Запас</td>
+                            <td colspan="5" class="text-left lead">Запас</td>
                         </tr>
                     @endif
                 @endforeach

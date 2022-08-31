@@ -13,7 +13,7 @@
                 <div class="card-header">
                     <h2>
                         {{ $currentGameweek->name }}
-                        <a href="{{ route('fixtures.sync') }}" class="btn btn-primary btn-md float-right">
+                        <a href="{{ route('fixtures.sync') }}" class="btn btn-primary btn-sm float-right">
                             Обновить данные
                         </a>
                     </h2>
