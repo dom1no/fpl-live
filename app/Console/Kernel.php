@@ -14,13 +14,13 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(ImportFixturesCommand::class, ['--current' => true])->everyMinute();
-        $schedule->command(ImportPlayersStatsCommand::class, ['--current' => true])->everyMinute();
+        $schedule->command(ImportFixturesCommand::class, ['--current'])->everyMinute();
+        $schedule->command(ImportPlayersStatsCommand::class, ['--current'])->everyMinute();
 
         $schedule->command(ImportManagersCommand::class)->everyTenMinutes();
 
         $schedule->command(ImportBaseDataCommand::class)->dailyAt('00:30');
-        $schedule->command(ImportManagersPicksCommand::class)->dailyAt('01:00');
+        $schedule->command(ImportManagersPicksCommand::class, ['--current'])->dailyAt('01:00');
     }
 
     protected function commands(): void
