@@ -2,28 +2,28 @@
 
 namespace App\Console;
 
+use App\Console\Commands\ImportBaseDataCommand;
+use App\Console\Commands\ImportFixturesCommand;
+use App\Console\Commands\ImportManagersCommand;
+use App\Console\Commands\ImportManagersPicksCommand;
+use App\Console\Commands\ImportPlayersStatsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
 {
-    /**
-     * Define the application's command schedule.
-     *
-     *
-     * @return void
-     */
-    protected function schedule(Schedule $schedule)
+    protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command(ImportFixturesCommand::class, ['--current' => true])->everyMinute();
+        $schedule->command(ImportPlayersStatsCommand::class, ['--current' => true])->everyMinute();
+
+        $schedule->command(ImportManagersCommand::class)->everyTenMinutes();
+
+        $schedule->command(ImportBaseDataCommand::class)->dailyAt('00:30');
+        $schedule->command(ImportManagersPicksCommand::class)->dailyAt('01:00');
     }
 
-    /**
-     * Register the commands for the application.
-     *
-     * @return void
-     */
-    protected function commands()
+    protected function commands(): void
     {
         $this->load(__DIR__ . '/Commands');
 

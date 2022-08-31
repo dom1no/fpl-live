@@ -1,8 +1,7 @@
 <?php
 
 use App\Http\Controllers\FixtureController;
-use App\Http\Controllers\MyTeamController;
-use App\Http\Controllers\TeamController;
+use App\Http\Controllers\ManagerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,8 +15,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MyTeamController::class, 'index'])->name('home');
-Route::get('/teams', [TeamController::class, 'index'])->name('teams');
-Route::get('/fixtures', [FixtureController::class, 'index'])->name('fixtures.index');
-Route::get('/fixtures/sync', [FixtureController::class, 'syncDataFromFPL'])->name('fixtures.sync');
-Route::get('/fixtures/{fixture}/show', [FixtureController::class, 'show'])->name('fixtures.show');
+Route::get('/', [ManagerController::class, 'my'])->name('home');
+Route::get('/teams', [ManagerController::class, 'index'])->name('managers.index');
+
+Route::prefix('fixtures')->name('fixtures.')->group(function () {
+    Route::get('/', [FixtureController::class, 'index'])->name('index');
+    Route::get('/sync', [FixtureController::class, 'sync'])->name('sync');
+    Route::get('/{fixture}/show', [FixtureController::class, 'show'])->name('show');
+});

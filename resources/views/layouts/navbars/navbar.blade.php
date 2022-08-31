@@ -25,7 +25,7 @@
 
             <ul class="navbar-nav flex-row mr-auto ml-4">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="{{ route('teams') }}">
+                    <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
                         <i class="fas fa-users"></i>
                         <span class="nav-link-inner--text">Teams</span>
                     </a>
