@@ -24,8 +24,7 @@ Route::get('/', function () {
 
 Route::prefix('managers')->name('managers.')->group(function () {
     Route::get('/', [ManagerController::class, 'index'])->name('index');
-    Route::get('/teams', [ManagerController::class, 'teams'])->name('teams');
-    Route::get('/teams/{manager}', [ManagerController::class, 'managerTeam'])->name('teams.show');
+    Route::get('/{manager}/show', [ManagerController::class, 'show'])->name('show');
 });
 
 Route::prefix('fixtures')->name('fixtures.')->group(function () {

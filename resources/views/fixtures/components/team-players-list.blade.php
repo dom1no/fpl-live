@@ -38,7 +38,6 @@
                         (+{{ $bpsTopPlayers->get($player->id) }})
                     @endif
 
-
                     @if($player->points->isNotEmpty() && $playerStats->minutes > 0)
                         <div class="dropup">
                             <div class="badge badge-sm badge-pill badge-primary badge-icon" href="javascript:;" role="button"

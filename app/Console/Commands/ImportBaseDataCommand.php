@@ -83,7 +83,7 @@ class ImportBaseDataCommand extends Command
                 'fpl_id' => $playerData['id'],
             ], [
                 'name' => $playerData['name'],
-                'deadline_at' => Carbon::parse($playerData['deadline_time_epoch']),
+                'deadline_at' => Carbon::parse($playerData['deadline_time_epoch'], 'UTC'),
                 'is_finished' => $playerData['finished'],
                 'is_previous' => $playerData['is_previous'],
                 'is_current' => $playerData['is_current'],

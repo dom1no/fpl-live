@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Fixture;
 use App\Models\Gameweek;
-use App\Models\Manager;
 use App\Models\Team;
 use App\Services\FPL\FPLService;
 use Carbon\Carbon;
@@ -42,7 +41,7 @@ class ImportFixturesCommand extends Command
                 'fpl_id' => $fixtureData['id'],
             ], [
                 'gameweek_id' => $gameweek->id,
-                'kickoff_time' => Carbon::parse($fixtureData['kickoff_time']),
+                'kickoff_time' => Carbon::parse($fixtureData['kickoff_time'], 'UTC'),
                 'is_started' => $fixtureData['started'],
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],

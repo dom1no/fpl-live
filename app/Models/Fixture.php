@@ -53,11 +53,4 @@ class Fixture extends Model
     {
         return $this->teams->firstWhere('pivot.is_home', false);
     }
-
-
-    // TODO: !!! костыль, пока не настроил нормально таймзону
-    public function getKickoffTimeAttribute(): Carbon
-    {
-        return Carbon::parse($this->attributes['kickoff_time'])->addHours(3);
-    }
 }

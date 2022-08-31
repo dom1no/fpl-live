@@ -24,15 +24,11 @@
             </div>
 
             <ul class="navbar-nav navbar-nav-hover mr-auto ml-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="#navbar-links-managers" data-toggle="dropdown" role="button" aria-expanded="true" aria-controls="navbar-links-managers">
+                <li class="nav-item">
+                    <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
                         <i class="fas fa-users"></i>
                         <span class="nav-link-inner--text">Managers</span>
                     </a>
-                    <div class="dropdown-menu" id="navbar-links-managers">
-                        <a href="{{ route('managers.index') }}" class="dropdown-item">Managers</a>
-                        <a href="{{ route('managers.teams') }}" class="dropdown-item">Teams</a>
-                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('fixtures.index') }}">

@@ -4,7 +4,7 @@
     <p class="display-3">{{ $gameweek->name }}</p>
     <div class="row">
         <div class="col-sm-12">
-            @include('managers.components.manager-team-card')
+            @include('managers.components.manager-card')
         </div>
     </div>
 @endsection

@@ -33,30 +33,7 @@ class ManagerController extends Controller
         return view('managers.index', compact('managers', 'gameweek', 'playedPicksByManagers'));
     }
 
-    public function teams(): View
-    {
-        $gameweek = Gameweek::getCurrent();
-
-        $managers = Manager::query()->with([
-            'picks' => fn ($q) => $q->forCurrentGameweek(),
-            'picks.player.team',
-            'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
-            'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
-        ])
-            ->get()
-            ->keyBy('id');
-
-        $playedPicksByManagers = $managers->map(function (Manager $manager) {
-            return $manager->picks
-                ->where(
-                    fn (ManagerPick $pick) => !$pick->player->team->fixtures->first()?->isFeature()
-                );
-        });
-
-        return view('managers.teams.index', compact('managers', 'gameweek', 'playedPicksByManagers'));
-    }
-
-    public function managerTeam(Manager $manager): View
+    public function show(Manager $manager): View
     {
         $gameweek = Gameweek::getCurrent();
 
@@ -75,6 +52,6 @@ class ManagerController extends Controller
                 );
         });
 
-        return view('managers.teams.show', compact('manager', 'gameweek', 'playedPicksByManagers'));
+        return view('managers.show', compact('manager', 'gameweek', 'playedPicksByManagers'));
     }
 }

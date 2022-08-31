@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('gameweeks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('deadline_at');
+            $table->dateTimeTz('deadline_at');
             $table->boolean('is_finished');
             $table->boolean('is_previous');
             $table->boolean('is_current');
