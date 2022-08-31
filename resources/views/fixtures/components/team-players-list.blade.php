@@ -28,6 +28,9 @@
                     @for ($i = 0; $i < $playerStats->red_cards; $i++)
                         <i class="fab fa-square icon-shape-danger"></i>
                     @endfor
+                    @for ($i = 0; $i < $playerStats->own_goals; $i++)
+                        <i class="fas fa-futbol text-danger"></i>
+                    @endfor
                     <br>
                     {{ $player->position->value }}
                 </td>
