@@ -17,6 +17,8 @@ class ManagerController extends Controller
         $managers = Manager::query()->with([
             'picks' => fn ($q) => $q->forCurrentGameweek(),
             'picks.player.team',
+            'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
+            'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
         ])
             ->get();
 
@@ -31,6 +33,8 @@ class ManagerController extends Controller
             ->with([
                 'picks' => fn ($q) => $q->forCurrentGameweek(),
                 'picks.player.team',
+                'picks.player.team.fixtures' => fn ($q) => $q->forCurrentGameweek(),
+                'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
             ])
             ->first();
 

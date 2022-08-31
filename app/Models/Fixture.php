@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Fixture extends Model
 {
+    use ForGameweek;
+
     protected $fillable = [
         'gameweek_id',
         'kickoff_time',
@@ -21,11 +22,6 @@ class Fixture extends Model
     protected $dates = [
         'kickoff_time',
     ];
-
-    public function gameweek(): BelongsTo
-    {
-        return $this->belongsTo(Gameweek::class);
-    }
 
     public function teams(): BelongsToMany
     {
