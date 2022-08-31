@@ -9,7 +9,7 @@
                 @if ($fixture->isFeature())
                     -
                 @else
-                    {{ $fixture->home_team_score }}:{{ $fixture->away_team_score }}
+                    {{ $fixture->homeTeam->pivot->score }}:{{ $fixture->awayTeam->pivot->score }}
                 @endif
                 {{ $fixture->awayTeam->name }}
             </p>
@@ -36,11 +36,11 @@
             <div class="row">
                 @include('fixtures.components.team-card', [
                     'team' => $fixture->homeTeam,
-                    'players' => $players->where('team_id', $fixture->home_team_id)
+                    'players' => $players->where('team_id', $fixture->homeTeam->id)
                 ])
                 @include('fixtures.components.team-card', [
                     'team' => $fixture->awayTeam,
-                    'players' => $players->where('team_id', $fixture->away_team_id)
+                    'players' => $players->where('team_id', $fixture->awayTeam->id)
                 ])
             </div>
         </div>

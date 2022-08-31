@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    public function up()
+    public function up(): void
     {
         Schema::create('fixtures', function (Blueprint $table) {
             $table->id();
@@ -17,17 +17,13 @@ return new class extends Migration
             $table->boolean('is_finished')->default(false);
             $table->boolean('is_finished_provisional')->default(false);
             $table->integer('minutes')->unsigned()->default(0);
-            $table->foreignId('home_team_id')->constrained('teams');
-            $table->foreignId('away_team_id')->constrained('teams');
-            $table->integer('home_team_score')->unsigned()->nullable();
-            $table->integer('away_team_score')->unsigned()->nullable();
             $table->integer('fpl_id')->unsigned()->index();
 
             $table->timestamps();
         });
     }
 
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('fixtures');
     }

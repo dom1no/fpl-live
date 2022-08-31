@@ -17,14 +17,14 @@ class FixtureController extends Controller
 {
     public function index(): View
     {
-        $gameweeks = Gameweek::with('fixtures', 'fixtures.homeTeam', 'fixtures.awayTeam')->get();
+        $gameweeks = Gameweek::with('fixtures', 'fixtures.teams')->get();
 
         return view('fixtures.index', compact('gameweeks'));
     }
 
     public function show(Fixture $fixture, PlayerStatsService $playerStatsService): View
     {
-        $players = Player::whereIn('team_id', [$fixture->homeTeam->id, $fixture->awayTeam->id])
+        $players = Player::whereIn('team_id', $fixture->teams->pluck('id'))
             ->with([
                 'gameweekStats' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'points' => fn ($q) => $q->forGameweek($fixture->gameweek),

@@ -1,9 +1,9 @@
+@php use App\Models\Enums\PlayerPointAction; @endphp
 <div class="table-responsive">
     <table class="table align-items-center">
         <thead class="thead-light">
         <tr>
             <th scope="col">Игрок</th>
-            <th scope="col">Позиция</th>
             <th scope="col">Очки</th>
             <th scope="col">BPS</th>
             <th scope="col">У кого в команде</th>
@@ -28,12 +28,17 @@
                     @for ($i = 0; $i < $playerStats->red_cards; $i++)
                         <i class="fab fa-square icon-shape-danger"></i>
                     @endfor
-                </td>
-                <td>
+                    <br>
                     {{ $player->position->value }}
                 </td>
                 <td>
                     {{ $player->points_sum ?: '-' }}
+
+                    @if ($player->points->doesntContain('action', PlayerPointAction::BONUS) && $bpsTopPlayers->has($player->id))
+                        (+{{ $bpsTopPlayers->get($player->id) }})
+                    @endif
+
+
                     @if($player->points->isNotEmpty() && $playerStats->minutes > 0)
                         <div class="dropup">
                             <div class="badge badge-sm badge-pill badge-primary badge-icon" href="javascript:;" role="button"
@@ -60,7 +65,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                    </div>
+                        </div>
                     @endif
                 </td>
                 <td>
