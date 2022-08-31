@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return redirect()->route('managers.teams.show', [
+    return redirect()->route('managers.show', [
         Manager::where('fpl_id', 3503081)->firstOrFail(),
     ]);
 })->name('home');
