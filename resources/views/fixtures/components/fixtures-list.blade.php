@@ -8,7 +8,7 @@
                 </td>
             </tr>
             @foreach($dayFixtures as $fixture)
-                <tr>
+                <tr class="@if($fixture->isFinished())font-weight-bold @endif">
                     <td>
                         <a href="{{ route('fixtures.show', $fixture) }}">
                             {{ $fixture->homeTeam->name }}
