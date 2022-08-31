@@ -41,7 +41,7 @@ class ImportFixturesCommand extends Command
                 'fpl_id' => $fixtureData['id'],
             ], [
                 'gameweek_id' => $gameweek->id,
-                'kickoff_time' => Carbon::parse($fixtureData['kickoff_time'], 'UTC'),
+                'kickoff_time' => Carbon::parse($fixtureData['kickoff_time'])->addHours(3),
                 'is_started' => $fixtureData['started'],
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],

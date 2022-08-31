@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('gameweek_id')->constrained();
-            $table->dateTimeTz('kickoff_time');
+            $table->dateTime('kickoff_time');
             $table->boolean('is_started')->default(false);
             $table->boolean('is_finished')->default(false);
             $table->boolean('is_finished_provisional')->default(false);
