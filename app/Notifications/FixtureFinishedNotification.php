@@ -11,12 +11,10 @@ use NotificationChannels\Telegram\TelegramMessage;
 class FixtureFinishedNotification extends Notification
 {
     private Fixture $fixture;
-    private Manager $manager;
 
-    public function __construct(Fixture $fixture, Manager $manager)
+    public function __construct(Fixture $fixture)
     {
         $this->fixture = $fixture;
-        $this->manager = $manager;
     }
 
     public function via(): array
@@ -24,22 +22,25 @@ class FixtureFinishedNotification extends Notification
         return ['telegram'];
     }
 
-    public function toTelegram(): TelegramMessage
+    public function toTelegram(Manager $manager): TelegramMessage
     {
         return TelegramMessage::create()
             ->content(implode("\n", [
                 $this->getWinText(),
                 $this->getScoreText(),
                 "\n",
-                $this->getManagerPointsText(),
-                $this->getManagerTotalPointsText(),
+                $this->getManagerPointsText($manager),
+                $this->getManagerTotalPointsText($manager),
+
+                "\n",
+                "´´´{$manager->name}´´´" // TODO: удалить, после выката для всех
             ]));
     }
 
     private function getWinText(): string
     {
         if ($this->fixture->home_team->pivot->score == $this->fixture->away_team->pivot->score) {
-            return 'Ничья!';
+            return '*Ничья!*';
         }
 
         if ($this->fixture->home_team->pivot->score == $this->fixture->away_team->pivot->score) {
@@ -48,7 +49,7 @@ class FixtureFinishedNotification extends Notification
             $winner = $this->fixture->away_team;
         }
 
-        return "Победа {$winner->name}!";
+        return "*Победа {$winner->name}!*";
     }
 
     private function getScoreText(): string
@@ -59,17 +60,17 @@ class FixtureFinishedNotification extends Notification
         return "[{$fixture->home_team->name} {$fixture->score_formatted} {$fixture->away_team->name}]({$fixtureUrl})";
     }
 
-    private function getManagerPointsText(): string
+    private function getManagerPointsText(Manager $manager): string
     {
-        return $this->manager->picks->map(function (ManagerPick $pick) {
+        return $manager->picks->map(function (ManagerPick $pick) {
             $isCaptain = $pick->is_captain;
 
             return "{$pick->player->name} ({$pick->player->team->name}): {$pick->points} " . ($isCaptain ? '©️' : '');
         })->implode("\n");
     }
 
-    private function getManagerTotalPointsText(): string
+    private function getManagerTotalPointsText(Manager $manager): string
     {
-        return "Всего очков: {$this->manager->picks->sum('points')}";
+        return "*Всего очков: {$manager->picks->sum('points')}*";
     }
 }

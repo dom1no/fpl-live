@@ -21,11 +21,9 @@ class PlayerPointObserver
         if ($playerPoint->wasRecentlyCreated || $playerPoint->wasChanged('points')) {
             $managers = $this->getManagersHasPlayer($playerPoint->player);
 
-            $diffPoints = $playerPoint->points - $playerPoint->getOriginal('points', 0);
-
             Notification::send(
                 $managers,
-                new PlayerActionNotification($playerPoint->player, $playerPoint->action, $diffPoints)
+                new PlayerActionNotification($playerPoint)
             );
         }
     }

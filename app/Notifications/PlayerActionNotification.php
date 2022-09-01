@@ -4,22 +4,19 @@ namespace App\Notifications;
 
 use App\Models\Enums\PlayerPointAction;
 use App\Models\Fixture;
+use App\Models\Manager;
 use App\Models\Player;
+use App\Models\PlayerPoint;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class PlayerActionNotification extends Notification
 {
-    private Player $player;
-    private PlayerPointAction $action;
-    private int $diffPoints;
+    private PlayerPoint $playerPoint;
 
-    // TODO: передавать всю модель PlayerPoint, чтобы из value писать "Дубль, Хет-трик, ..."
-    public function __construct(Player $player, PlayerPointAction $action, int $diffPoints)
+    public function __construct(PlayerPoint $playerPoint)
     {
-        $this->player = $player;
-        $this->action = $action;
-        $this->diffPoints = $diffPoints;
+        $this->playerPoint = $playerPoint;
     }
 
     public function via(): array
@@ -29,7 +26,7 @@ class PlayerActionNotification extends Notification
 
     public function shouldSend(): bool
     {
-        return in_array($this->action, [
+        return in_array($this->playerPoint->action, [
             PlayerPointAction::GOALS_SCORED,
             PlayerPointAction::ASSISTS,
             PlayerPointAction::RED_CARDS,
@@ -40,13 +37,16 @@ class PlayerActionNotification extends Notification
         ], true);
     }
 
-    public function toTelegram(): TelegramMessage
+    public function toTelegram(Manager $manager): TelegramMessage
     {
         return TelegramMessage::create()
             ->content(implode("\n", [
                 $this->getActionFullText(),
                 $this->getFixtureScoreText(),
                 $this->getPlayerPointsText(),
+
+                "\n",
+                "´´´{$manager->name}´´´" // TODO: удалить, после выката для всех
             ]));
     }
 
@@ -57,7 +57,7 @@ class PlayerActionNotification extends Notification
 
     private function getActionEmoji(): string
     {
-        return match ($this->action) {
+        return match ($this->playerPoint->action) {
             PlayerPointAction::GOALS_SCORED => '⚽',
             PlayerPointAction::ASSISTS => '🎯',
             PlayerPointAction::RED_CARDS => '🟥',
@@ -70,8 +70,15 @@ class PlayerActionNotification extends Notification
 
     private function getActionTitleText(): string
     {
-        return match ($this->action) {
-            PlayerPointAction::GOALS_SCORED => 'Гол!',
+        return match ($this->playerPoint->action) {
+            PlayerPointAction::GOALS_SCORED => match ((int) $this->playerPoint->value) {
+                1 => 'Гол!',
+                2 => 'Дубль!',
+                3 => 'Хет-трик!',
+                4 => 'Пента-трик!',
+                5 => 'Покер!',
+                default => "{$this->playerPoint->value}-й гол!",
+            },
             PlayerPointAction::ASSISTS => 'Голевая!',
             PlayerPointAction::RED_CARDS => 'Красная карточка!',
             PlayerPointAction::YELLOW_CARDS => 'Желтая карточка -',
@@ -83,7 +90,7 @@ class PlayerActionNotification extends Notification
 
     private function getActionText(): string
     {
-        return match ($this->action) {
+        return match ($this->playerPoint->action) {
             PlayerPointAction::GOALS_SCORED => 'забил',
             PlayerPointAction::ASSISTS => 'отдал',
             PlayerPointAction::RED_CARDS => 'удален',
@@ -96,14 +103,15 @@ class PlayerActionNotification extends Notification
 
     private function getActionDiffPointText(): string
     {
-        $withSign = $this->diffPoints > 0 ? "+{$this->diffPoints}" : $this->diffPoints;
+        $diff = $this->playerPoint->points - $this->playerPoint->getOriginal('points', 0);
+        $withSign = $diff > 0 ? "+{$diff}" : $diff;
 
         return "({$withSign})";
     }
 
     private function getPlayerText(): string
     {
-        return "*{$this->player->full_name}* **({$this->player->team->name})**";
+        return "*{$this->playerPoint->player->full_name}* **({$this->playerPoint->player->team->name})**";
     }
 
     private function getFixtureScoreText(): string
@@ -116,11 +124,11 @@ class PlayerActionNotification extends Notification
 
     private function getCurrentFixture(): Fixture
     {
-        return $this->player->team->fixtures()->forCurrentGameweek()->first();
+        return $this->playerPoint->player->team->fixtures()->forCurrentGameweek()->first();
     }
 
     private function getPlayerPointsText(): string
     {
-        return "Очки: {$this->player->points()->forCurrentGameweek()->sum('points')}";
+        return "Очки: {$this->playerPoint->player->points()->forCurrentGameweek()->sum('points')}";
     }
 }

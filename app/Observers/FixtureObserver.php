@@ -7,6 +7,7 @@ use App\Models\Manager;
 use App\Models\ManagerPick;
 use App\Notifications\FixtureFinishedNotification;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Notification;
 
 class FixtureObserver
 {
@@ -20,13 +21,13 @@ class FixtureObserver
         if ($fixture->wasChanged('is_finished_provisional') && $fixture->is_finished_provisional) {
             $picks = $this->getFixtureManagersPicks($fixture);
 
-            Manager::whereKey($picks->keys())
+            $managers = Manager::whereKey($picks->keys())
                 ->get()
                 ->each(
                     fn (Manager $manager) => $manager->setRelation('picks', $picks->get($manager->id))
-                )->each(
-                    fn (Manager $manager) => $manager->notify(new FixtureFinishedNotification($fixture, $manager))
                 );
+
+            Notification::send($managers, new FixtureFinishedNotification($fixture));
         }
     }
 
