@@ -7,17 +7,16 @@
         [$previousGameweeks, $featureGameweeks] = $gameweeks->partition('is_finished', true);
     @endphp
 
+    <p class="display-3">
+        {{ $currentGameweek->name }}
+        <a href="{{ route('fixtures.sync') }}" class="btn btn-primary btn-md float-right">
+            Обновить данные
+        </a>
+    </p>
+
     <div class="row">
         <div class="col-sm">
             <div class="card">
-                <div class="card-header">
-                    <p class="display-3">
-                        {{ $currentGameweek->name }}
-                        <a href="{{ route('fixtures.sync') }}" class="btn btn-primary btn-sm float-right">
-                            Обновить данные
-                        </a>
-                    </p>
-                </div>
                 <div class="card-body p-0">
                     @include('fixtures.components.fixtures-list', ['gameweek' => $currentGameweek])
                 </div>

@@ -4,8 +4,8 @@
         <tr>
             <th scope="col">Игрок</th>
             <th scope="col">GW Очки</th>
-            <th scope="col">Цена</th>
             <th scope="col">Матч</th>
+            <th scope="col">Цена</th>
             <th scope="col">Очки на 1£</th>
         </tr>
         </thead>
@@ -43,9 +43,6 @@
                     @endif
                 </td>
                 <td>
-                    {{ price_formatted($player->price) }}
-                </td>
-                <td>
                     <a href="{{ route('fixtures.show', $fixture) }}">
                         {{ $fixture->homeTeam->name }}
                         @if ($fixture->isFeature())
@@ -55,6 +52,9 @@
                         @endif
                         {{ $fixture->awayTeam->name }}
                     </a>
+                </td>
+                <td>
+                    {{ price_formatted($player->price) }}
                 </td>
                 <td>
                     {{ round($pick->points / $player->price, 1) }}

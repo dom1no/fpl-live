@@ -4,7 +4,7 @@
     <p class="display-3">{{ $gameweek->name }}</p>
     <div class="row">
         <div class="col-sm-12">
-            <div class="card m-2">
+            <div class="card">
                 <div class="table-responsive table-hover">
                     <table class="table align-items-center">
                         <thead class="thead-light">

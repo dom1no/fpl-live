@@ -1,8 +1,17 @@
-@media (max-width: 575.98px) {
+@media (max-width: 576px) {
     .display-3 {
         font-size: 1.6275rem;
         font-weight: 600;
         line-height: 1.5;
+    }
+
+    .card {
+        margin-right: -15px;
+        margin-left: -15px;
+    }
+
+    .card-header {
+        width: 100%;
     }
 }
 

@@ -1,4 +1,4 @@
-<div class="card m-2">
+<div class="card">
     <div class="card-header">
         <h2>{{ $manager->name }}</h2>
         <span>
