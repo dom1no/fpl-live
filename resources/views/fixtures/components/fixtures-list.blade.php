@@ -22,20 +22,7 @@
                     </td>
                     <td>
                         @if ($fixture->isInProgress())
-                            @if ($fixture->minutes)
-                                {{ $fixture->minutes }}'
-                            @else
-                                @php
-                                    //TODO: fpl не отдает сыгранные минуты в реал.времени
-                                    $diffInMinutes = now()->diffInMinutes($fixture->kickoff_time);
-                                    if ($diffInMinutes > 45 && $diffInMinutes < 60) {
-                                        $diffInMinutes = 45;
-                                    } elseif ($diffInMinutes >= 60) {
-                                        $diffInMinutes -= 15;
-                                    }
-                                @endphp
-                                ~{{ $diffInMinutes }}'
-                            @endif
+                            {{ $fixture->minutes }}'
                         @elseif($fixture->isFeature())
                             Не начался
                         @else

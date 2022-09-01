@@ -47,6 +47,8 @@ class ImportPlayersStatsCommand extends Command
                 }
 
                 $this->updateManagersPicksPoints($gameweek);
+
+                $this->calcFixtureLiveMinutes($gameweek);
             });
 
         $this->finishMeasure();
@@ -169,6 +171,24 @@ class ImportPlayersStatsCommand extends Command
                 ->update([
                     'points' => DB::raw("{$playerPoints} * `multiplier`"),
                 ]);
+        }
+    }
+
+    private function calcFixtureLiveMinutes(Gameweek $gameweek): void
+    {
+        $fixtures = Fixture::forGameweek($gameweek)
+            ->where('is_started', true)
+            ->where('is_finished', false)
+            ->where('is_finished_provisional', false)
+            ->with('teams:id')
+            ->get();
+
+        foreach ($fixtures as $fixture) {
+            $maxFixturePlayerMinutes = PlayerStats::whereHas('player', function ($q) use ($fixture) {
+                $q->where('team_id', $fixture->teams->pluck('id'));
+            })->max('minutes');
+
+            $fixture->update(['minutes' => $maxFixturePlayerMinutes]);
         }
     }
 }

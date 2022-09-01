@@ -110,7 +110,7 @@ class PlayerActionNotification extends Notification
         $fixture = $this->getCurrentFixture();
         $fixtureUrl = route('fixtures.show', $fixture);
 
-        return "[{$fixture->home_team->name} {$fixture->score_formatted} {$fixture->away_team->name}]({$fixtureUrl})";
+        return "[{$fixture->home_team->name} {$fixture->score_formatted} {$fixture->away_team->name}]({$fixtureUrl}) {$fixture->minutes}";
     }
 
     private function getCurrentFixture(): Fixture

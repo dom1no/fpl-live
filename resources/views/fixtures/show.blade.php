@@ -3,7 +3,13 @@
 @section('content')
     <div class="row">
         <div class="col-sm text-center">
-            <span class="size">{{ $fixture->kickoff_time->format('d.m.Y H:i') }}</span>
+            @if($fixture->isInProgress())
+                <span class="size">
+                    {{ $fixture->minutes }}'
+                </span>
+            @else
+                <span class="size">{{ $fixture->kickoff_time->format('d.m.Y H:i') }}</span>
+            @endif
             <p class="display-3">
                 {{ $fixture->homeTeam->name }}
                 @if ($fixture->isFeature())

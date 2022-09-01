@@ -55,7 +55,7 @@ class ImportFixturesCommand extends Command
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],
                 'is_bonuses_added' => ! empty($fixtureBonusStats['a'] ?? false) || ! empty($fixtureBonusStats['h'] ?? false),
-                'minutes' => $fixtureData['minutes'],
+                // 'minutes' => $fixtureData['minutes'], //TODO: FPL всегда отдает 0 для текущих матчей
             ]);
 
             $fixture->teams()->sync([
