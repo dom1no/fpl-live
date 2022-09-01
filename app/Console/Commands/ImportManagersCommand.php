@@ -45,7 +45,7 @@ class ImportManagersCommand extends Command
     private function mapManagerTelegram(string $name): ?string
     {
         return match ($name) {
-            'Maksim Kuprov' => '119785472',
+            'Maxim Kuprov' => '119785472',
             default => null,
         };
     }
