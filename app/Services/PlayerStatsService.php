@@ -28,7 +28,7 @@ class PlayerStatsService
 
         if ($first->count() < 3) {
             $secondBps = $bpsTopValues->get(1);
-            $second = $bpsTopPlayers->where('bps', $secondBps)->pluck('bps', 'id')->map(fn () => 2);
+            $second = $bpsTopPlayers->where('bps', $secondBps)->pluck('bps', 'id')->map(fn () => $first->count() === 1 ? 2 : 1);
 
             if ($first->count() + $second->count() < 3) {
                 $thirdBps = $bpsTopValues->get(2);

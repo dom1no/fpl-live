@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Team;
@@ -12,6 +14,9 @@ use Illuminate\Support\Collection;
 
 class ImportFixturesCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     protected $signature = 'import:fixtures {--current}';
 
     protected $description = 'Import fixtures from FPL API';
@@ -20,6 +25,7 @@ class ImportFixturesCommand extends Command
 
     public function handle(FPLService $FPLService): void
     {
+        $this->startMeasure();
         $this->info('Starting import fixtures...');
 
         $this->teams = Team::pluck('id', 'fpl_id');
@@ -31,12 +37,15 @@ class ImportFixturesCommand extends Command
                 $this->importFixtures($fixturesData, $gameweek);
             });
 
-        $this->info('Finished import fixtures.');
+        $this->finishMeasure();
+        $this->info("Finished import fixtures. {$this->importedCountText('fixture')} {$this->durationText()}");
     }
 
     private function importFixtures(Collection $fixturesData, Gameweek $gameweek): void
     {
         foreach ($fixturesData as $fixtureData) {
+            $fixtureBonusStats = collect($fixtureData['stats'])->firstWhere('identifier', 'bonus') ?? [];
+
             $fixture = Fixture::updateOrCreate([
                 'fpl_id' => $fixtureData['id'],
             ], [
@@ -45,6 +54,7 @@ class ImportFixturesCommand extends Command
                 'is_started' => $fixtureData['started'],
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],
+                'is_bonuses_added' => !empty($fixtureBonusStats['a'] ?? false) || !empty($fixtureBonusStats['h'] ?? false),
                 'minutes' => $fixtureData['minutes'],
             ]);
 
@@ -58,6 +68,8 @@ class ImportFixturesCommand extends Command
                     'score' => $fixtureData['team_a_score'],
                 ],
             ]);
+
+            $this->importedInc();
         }
     }
 }

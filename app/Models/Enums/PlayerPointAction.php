@@ -17,6 +17,8 @@ enum PlayerPointAction: string
     case BONUS = 'bonus';
     case CLEAN_SHEETS = 'clean_sheets';
 
+    case PREDICTION_BONUS = 'prediction_bonus';
+
     public function title(): string
     {
         return match ($this) {
@@ -32,6 +34,7 @@ enum PlayerPointAction: string
             self::SAVES => 'Сейвы',
             self::BONUS => 'Бонусы',
             self::CLEAN_SHEETS => 'Сухой матч',
+            self::PREDICTION_BONUS => 'Бонусы (предполагаемые)',
         };
     }
 }

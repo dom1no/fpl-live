@@ -27,6 +27,7 @@ class ManagerController extends Controller
             ->withCount([
                 'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
             ], 'is_free')
+            ->orderByDesc('total_points')
             ->get()
             ->keyBy('id');
 

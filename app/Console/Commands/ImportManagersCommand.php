@@ -2,12 +2,17 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Manager;
 use App\Services\FPL\FPLService;
 use Illuminate\Console\Command;
 
 class ImportManagersCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     private const LEAGUE_ID = 698751;
 
     protected $signature = 'import:managers';
@@ -16,11 +21,11 @@ class ImportManagersCommand extends Command
 
     public function handle(FPLService $FPLService): void
     {
+        $this->startMeasure();
         $this->info('Starting import managers...');
 
         $managers = $FPLService->getManagers(self::LEAGUE_ID);
 
-        $importedCount = 0;
         foreach ($managers as $manager) {
             Manager::updateOrCreate([
                 'fpl_id' => $manager['entry'],
@@ -29,9 +34,10 @@ class ImportManagersCommand extends Command
                 'command_name' => $manager['entry_name'],
                 'total_points' => $manager['total'],
             ]);
-            $importedCount++;
+            $this->importedInc();
         }
 
-        $this->info("Finished import managers. Imported {$importedCount} managers.");
+        $this->finishMeasure();
+        $this->info("Finished import managers. {$this->importedCountText('managers')} {$this->durationText()}");
     }
 }

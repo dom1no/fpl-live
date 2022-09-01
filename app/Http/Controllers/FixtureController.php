@@ -7,7 +7,6 @@ use App\Console\Commands\ImportPlayersStatsCommand;
 use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Player;
-use App\Services\PlayerStatsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
@@ -22,7 +21,7 @@ class FixtureController extends Controller
         return view('fixtures.index', compact('gameweeks'));
     }
 
-    public function show(Fixture $fixture, PlayerStatsService $playerStatsService): View
+    public function show(Fixture $fixture): View
     {
         $players = Player::whereIn('team_id', $fixture->teams->pluck('id'))
             ->with([
@@ -35,8 +34,6 @@ class FixtureController extends Controller
             ->get()
             ->keyBy('id');
 
-        $bpsTopPlayers = $playerStatsService->calculateBpsBonuses($players);
-
         $managersPicks = $players->pluck('managerPicks')
             ->collapse()
             ->groupBy('manager_id')
@@ -46,7 +43,7 @@ class FixtureController extends Controller
                 return $picks;
             });
 
-        return view('fixtures.show', compact('fixture', 'players', 'bpsTopPlayers', 'managersPicks'));
+        return view('fixtures.show', compact('fixture', 'players', 'managersPicks'));
     }
 
     public function sync(): RedirectResponse

@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Enums\PlayerPosition;
 use App\Models\Gameweek;
 use App\Models\Player;
@@ -12,6 +14,9 @@ use Illuminate\Console\Command;
 
 class ImportBaseDataCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     protected $signature = 'import:base-data';
 
     protected $description = 'Import base data from FPL API';
@@ -27,11 +32,12 @@ class ImportBaseDataCommand extends Command
 
     private function importTeams(array $data): void
     {
+        $this->startMeasure();
         $this->info('Starting import teams...');
 
         $teamsData = $data['teams'];
 
-        $importedCount = 0;
+        $this->clearImportedCount();
         foreach ($teamsData as $teamData) {
             Team::updateOrCreate([
                 'fpl_id' => $teamData['id'],
@@ -39,21 +45,23 @@ class ImportBaseDataCommand extends Command
                 'name' => $teamData['name'],
                 'short_name' => $teamData['short_name'],
             ]);
-            $importedCount++;
+            $this->importedInc();
         }
 
-        $this->info("Finished import teams. Imported {$importedCount} teams.");
+        $this->finishMeasure();
+        $this->info("Finished import teams. {$this->importedCountText('teams')} {$this->durationText()}");
     }
 
     private function importPlayers(array $data): void
     {
+        $this->startMeasure();
         $this->info('Starting import players...');
 
         $playersData = $data['elements'];
 
         $teamsIds = Team::pluck('id', 'fpl_id');
 
-        $importedCount = 0;
+        $this->clearImportedCount();
         foreach ($playersData as $playerData) {
             Player::updateOrCreate([
                 'fpl_id' => $playerData['id'],
@@ -64,20 +72,21 @@ class ImportBaseDataCommand extends Command
                 'price' => $playerData['now_cost'] / 10,
                 'team_id' => $teamsIds->get($playerData['team']),
             ]);
-            $importedCount++;
+            $this->importedInc();
         }
 
-        $this->info("Finished import players. Imported {$importedCount} players.");
+        $this->finishMeasure();
+        $this->info("Finished import players. {$this->importedCountText('players')} {$this->durationText()}");
     }
 
-    // TODO: отдельная команда
     private function importGameweeks(array $data): void
     {
+        $this->startMeasure();
         $this->info('Starting import gameweeks...');
 
         $gameweeksData = $data['events'];
 
-        $importedCount = 0;
+        $this->clearImportedCount();
         foreach ($gameweeksData as $playerData) {
             Gameweek::updateOrCreate([
                 'fpl_id' => $playerData['id'],
@@ -89,9 +98,10 @@ class ImportBaseDataCommand extends Command
                 'is_current' => $playerData['is_current'],
                 'is_next' => $playerData['is_next'],
             ]);
-            $importedCount++;
+            $this->importedInc();
         }
 
-        $this->info("Finished import gameweeks. Imported {$importedCount} gameweeks.");
+        $this->finishMeasure();
+        $this->info("Finished import gameweeks. {$this->importedCountText('gameweeks')} {$this->durationText()}");
     }
 }

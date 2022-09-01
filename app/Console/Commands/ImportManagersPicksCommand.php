@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Gameweek;
 use App\Models\Manager;
 use App\Models\ManagerPick;
@@ -12,6 +14,9 @@ use Illuminate\Support\Collection;
 
 class ImportManagersPicksCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     protected $signature = 'import:managers-picks {--current}';
 
     protected $description = 'Import managers picks from FPL API';
@@ -20,6 +25,7 @@ class ImportManagersPicksCommand extends Command
 
     public function handle(FPLService $FPLService): void
     {
+        $this->startMeasure();
         $this->info('Starting import managers picks...');
 
         $this->players = Player::pluck('id', 'fpl_id');
@@ -34,7 +40,8 @@ class ImportManagersPicksCommand extends Command
                 });
             });
 
-        $this->info('Finished import managers picks.');
+        $this->finishMeasure();
+        $this->info("Finished import managers picks. {$this->importedCountText('picks')} {$this->durationText()}");
     }
 
     private function importManagerPicks(Collection $picks, Manager $manager, Gameweek $gameweek): void
@@ -49,6 +56,8 @@ class ImportManagersPicksCommand extends Command
                 'is_vice_captain' => $pick['is_vice_captain'],
                 'multiplier' => $pick['multiplier'],
             ]);
+
+            $this->importedInc();
         }
     }
 }

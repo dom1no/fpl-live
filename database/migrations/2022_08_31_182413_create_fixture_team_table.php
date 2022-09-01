@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('fixture_team', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('fixture_id');
-            $table->foreignId('team_id')->constrained('teams');
+            $table->foreignId('fixture_id')->constrained();
+            $table->foreignId('team_id')->constrained();
             $table->boolean('is_home')->default(false);
             $table->integer('score')->unsigned()->nullable();
         });

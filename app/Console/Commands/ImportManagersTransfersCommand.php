@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Gameweek;
 use App\Models\Manager;
 use App\Models\ManagerTransfer;
@@ -13,6 +15,9 @@ use Illuminate\Support\Collection;
 
 class ImportManagersTransfersCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     protected $signature = 'import:managers-transfers';
 
     protected $description = 'Import managers transfers from FPL API';
@@ -22,6 +27,7 @@ class ImportManagersTransfersCommand extends Command
 
     public function handle(FPLService $FPLService): void
     {
+        $this->startMeasure();
         $this->info('Starting import managers transfers...');
 
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
@@ -33,7 +39,8 @@ class ImportManagersTransfersCommand extends Command
             $this->importManagerTransfers($transfers, $gameweeksStats, $manager);
         });
 
-        $this->info('Finished import managers transfers.');
+        $this->finishMeasure();
+        $this->info("Finished import managers transfers. {$this->importedCountText('transfers')} {$this->durationText()}");
     }
 
     private function importManagerTransfers(Collection $transfers, Collection $gameweeksStats, Manager $manager): void
@@ -55,12 +62,14 @@ class ImportManagersTransfersCommand extends Command
                     'player_out_id' => $this->players->get($transfer['element_out']),
                     'player_in_id' => $this->players->get($transfer['element_in']),
                     'gameweek_id' => $gameweekId,
-            ], [
+                ], [
                     'player_out_cost' => $this->players->get($transfer['element_out_cost']),
                     'player_in_cost' => $this->players->get($transfer['element_in_cost']),
                     'is_free' => $gameweekTransfersCount <= $freeTransfersCount,
                     'happened_at' => Carbon::parse($transfer['time'])->addHours(3),
                 ]);
+
+                $this->importedInc();
             }
         }
     }

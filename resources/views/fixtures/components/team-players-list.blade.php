@@ -39,8 +39,10 @@
                 <td>
                     {{ $player->points_sum ?: '-' }}
 
-                    @if ($player->points->doesntContain('action', PlayerPointAction::BONUS) && $bpsTopPlayers->has($player->id))
-                        (+{{ $bpsTopPlayers->get($player->id) }})
+                    @if ($predictionBonus = $player->points->firstWhere('action', PlayerPointAction::PREDICTION_BONUS))
+                        <span class="opacity-7">
+                            (+{{ $predictionBonus->points }})
+                        </span>
                     @endif
 
                     @if($player->points->isNotEmpty() && $playerStats->minutes > 0)
@@ -74,9 +76,9 @@
                 </td>
                 <td>
                     {{ $playerStats->bps ?: '-' }}
-                    @if ($bpsTopPlayers->has($player->id))
+                    @if ($bonus = $player->points->firstWhere('action', PlayerPointAction::BONUS))
                         <span class="opacity-8">
-                            (+{{ $bpsTopPlayers->get($player->id) }})
+                            (+{{ $bonus->points }})
                         </span>
                     @endif
                 </td>

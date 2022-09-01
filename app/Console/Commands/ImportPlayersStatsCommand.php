@@ -2,19 +2,26 @@
 
 namespace App\Console\Commands;
 
+use App\Console\Commands\Traits\HasImportedCount;
+use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Enums\PlayerPointAction;
+use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\ManagerPick;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\PlayerStats;
 use App\Services\FPL\FPLService;
+use App\Services\PlayerStatsService;
 use DB;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
 class ImportPlayersStatsCommand extends Command
 {
+    use HasImportedCount;
+    use HasMeasure;
+
     protected $signature = 'import:players-stats {--current}';
 
     protected $description = 'Import players stats from FPL API';
@@ -23,6 +30,7 @@ class ImportPlayersStatsCommand extends Command
 
     public function handle(FPLService $FPLService): void
     {
+        $this->startMeasure();
         $this->info('Starting import players stats...');
 
         $this->players = Player::pluck('id', 'fpl_id');
@@ -33,9 +41,16 @@ class ImportPlayersStatsCommand extends Command
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
                 $this->importStats($stats, $gameweek);
+
+                if ($gameweek->is_current) {
+                    $this->upsertPredictedBonusPoints($gameweek);
+                }
+
+                $this->updateManagersPicksPoints($gameweek);
             });
 
-        $this->info('Finished import players stats.');
+        $this->finishMeasure();
+        $this->info("Finished import players stats. {$this->importedCountText('players stats')} {$this->durationText()}");
     }
 
     private function importStats(Collection $stats, Gameweek $gameweek): void
@@ -45,6 +60,8 @@ class ImportPlayersStatsCommand extends Command
 
             $this->upsertPlayerStats($playerData['stats'], $playerId, $gameweek);
             $this->upsertPlayerPoints(head($playerData['explain'])['stats'], $playerId, $gameweek);
+
+            $this->importedInc();
         }
     }
 
@@ -85,14 +102,64 @@ class ImportPlayersStatsCommand extends Command
                 'points' => $playerPoint['points'],
             ]);
         }
-
-        $this->updateManagerPicksPoints($playerId, $gameweek, $playerPoints);
     }
 
-    private function updateManagerPicksPoints(int $playerId, Gameweek $gameweek, array $playerPoints): void
+    private function upsertPredictedBonusPoints(Gameweek $gameweek): void
     {
-        ManagerPick::where('player_id', $playerId)->where('gameweek_id', $gameweek->id)->update([
-            'points' => DB::raw(collect($playerPoints)->sum('points') . '* `multiplier`'),
-        ]);
+        $fixtures = Fixture::select('id', 'is_bonuses_added')
+            ->forGameweek($gameweek)
+            ->where('is_started', true)
+            ->where('kickoff_time', '<', now()->subMinutes(30))
+            ->with('teams:id')
+            ->get();
+
+        $players = Player::select('id', 'team_id', 'fpl_id')
+            ->whereIn('team_id', $fixtures->pluck('teams.*.id')->collapse())
+            ->with([
+                'gameweekStats' => fn ($q) => $q->select('player_id', 'bps')->forGameweek($gameweek),
+            ])
+            ->get();
+
+        foreach ($fixtures as $fixture) {
+            $fixturePlayers = $players->whereIn('team_id', $fixture->teams->pluck('id'));
+
+            if ($fixture->is_bonuses_added) {
+                PlayerPoint::whereIn('player_id', $fixturePlayers->modelKeys())
+                    ->where('action', PlayerPointAction::PREDICTION_BONUS)
+                    ->delete();
+
+                continue;
+            }
+
+            $playerStatsService = app(PlayerStatsService::class);
+            $calculatedBpsBonuses = $playerStatsService->calculateBpsBonuses($fixturePlayers);
+
+            foreach ($calculatedBpsBonuses as $playerId => $bonus) {
+                PlayerPoint::updateOrCreate([
+                    'player_id' => $playerId,
+                    'gameweek_id' => $gameweek->id,
+                    'action' => PlayerPointAction::PREDICTION_BONUS,
+                ], [
+                    'value' => $bonus,
+                    'points' => $bonus,
+                ]);
+            }
+        }
+    }
+
+    private function updateManagersPicksPoints(Gameweek $gameweek): void
+    {
+        $playersPoints = PlayerPoint::select('player_id', DB::raw('SUM(points) as total_points'))
+            ->forGameweek($gameweek)
+            ->groupBy('player_id')
+            ->pluck('total_points', 'player_id');
+
+        foreach ($playersPoints as $playerId => $playerPoints) {
+            ManagerPick::forGameweek($gameweek)
+                ->where('player_id', $playerId)
+                ->update([
+                    'points' => DB::raw("$playerPoints * `multiplier`"),
+                ]);
+        }
     }
 }

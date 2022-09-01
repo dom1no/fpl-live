@@ -13,7 +13,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('command_name');
             $table->integer('total_points')->index();
-            $table->integer('transfers_count')->unsigned()->index();
             $table->integer('fpl_id')->unsigned()->index();
 
             $table->timestamps();

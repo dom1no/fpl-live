@@ -15,6 +15,7 @@ class Fixture extends Model
         'is_started',
         'is_finished',
         'is_finished_provisional',
+        'is_bonuses_added',
         'minutes',
         'fpl_id',
     ];
