@@ -14,6 +14,7 @@ class PlayerActionNotification extends Notification
     private PlayerPointAction $action;
     private int $diffPoints;
 
+    // TODO: передавать всю модель PlayerPoint, чтобы из value писать "Дубль, Хет-трик, ..."
     public function __construct(Player $player, PlayerPointAction $action, int $diffPoints)
     {
         $this->player = $player;
@@ -95,7 +96,7 @@ class PlayerActionNotification extends Notification
 
     private function getActionDiffPointText(): string
     {
-        $withSign = $this->diffPoints > 0 ? "+$this->diffPoints" : $this->diffPoints;
+        $withSign = $this->diffPoints > 0 ? "+{$this->diffPoints}" : $this->diffPoints;
 
         return "({$withSign})";
     }

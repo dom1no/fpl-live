@@ -98,7 +98,7 @@ class ImportPlayersStatsCommand extends Command
             if ($this->option('current')) {
                 $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
             } else {
-                PlayerPoint::withoutEvents(fn() => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
+                PlayerPoint::withoutEvents(fn () => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
             }
         }
     }

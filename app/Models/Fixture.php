@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Collection;
 
 class Fixture extends Model
 {
@@ -23,6 +22,13 @@ class Fixture extends Model
 
     protected $dates = [
         'kickoff_time',
+    ];
+
+    protected $casts = [
+        'is_started' => 'bool',
+        'is_finished' => 'bool',
+        'is_finished_provisional' => 'bool',
+        'is_bonuses_added' => 'bool',
     ];
 
     public function teams(): BelongsToMany

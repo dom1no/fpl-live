@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Fixture;
 use App\Models\PlayerPoint;
+use App\Observers\FixtureObserver;
 use App\Observers\PlayerPointObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -27,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot(): void
     {
         PlayerPoint::observe(PlayerPointObserver::class);
+        Fixture::observe(FixtureObserver::class);
     }
 
     /**
