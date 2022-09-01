@@ -42,7 +42,7 @@ class ImportManagersCommand extends Command
         $this->info("Finished import managers. {$this->importedCountText('managers')} {$this->durationText()}");
     }
 
-    private function mapManagerTelegram(string $name): string
+    private function mapManagerTelegram(string $name): ?string
     {
         return match ($name) {
             'Maksim Kuprov' => '119785472',
