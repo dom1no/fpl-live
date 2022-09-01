@@ -18,7 +18,7 @@
                         </a>
                     </p>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-0">
                     @include('fixtures.components.fixtures-list', ['gameweek' => $currentGameweek])
                 </div>
             </div>

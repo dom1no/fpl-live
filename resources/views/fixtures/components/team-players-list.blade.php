@@ -5,12 +5,11 @@
         <tr>
             <th scope="col">Игрок</th>
             <th scope="col">Очки</th>
-            <th scope="col">BPS</th>
             <th scope="col">У кого в команде</th>
+            <th scope="col">BPS</th>
         </tr>
         </thead>
         <tbody>
-
         @foreach($players->sortByDesc('points_sum') as $player)
             @php($playerStats = $player->gameweekStats ?? optional())
             <tr data-toggle="collapse" data-target="#player-points-explain-{{ $player->id }}"
@@ -59,14 +58,6 @@
                     @endif
                 </td>
                 <td>
-                    {{ $playerStats->bps ?: '-' }}
-                    @if ($bonus = $player->points->firstWhere('action', PlayerPointAction::BONUS))
-                        <span class="opacity-8">
-                            (+{{ $bonus->points }})
-                        </span>
-                    @endif
-                </td>
-                <td>
                     <ul class="p-3">
                         @foreach($player->managerPicks->sortByDesc('multiplier') as $pick)
                             <li class="@if($pick->multiplier == 0)text-light @endif">
@@ -77,6 +68,14 @@
                             </li>
                         @endforeach
                     </ul>
+                </td>
+                <td>
+                    {{ $playerStats->bps ?: '-' }}
+                    @if ($bonus = $player->points->firstWhere('action', PlayerPointAction::BONUS))
+                        <span class="opacity-8">
+                            (+{{ $bonus->points }})
+                        </span>
+                    @endif
                 </td>
             </tr>
             <tr class="collapse d-print-block d-md-none" id="player-points-explain-{{ $player->id }}">

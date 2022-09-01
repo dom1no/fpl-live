@@ -22,7 +22,7 @@
             | {{ price_formatted($playedPicksMain->sum('player.price')) }} ({{ price_formatted($playedPicks->sum('player.price')) }})
         </span>
     </div>
-    <div class="card-body">
+    <div class="card-body p-0">
         @include('managers.components.manager-team-table')
     </div>
 </div>
