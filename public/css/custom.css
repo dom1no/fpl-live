@@ -5,6 +5,10 @@
         line-height: 1.5;
     }
 
+    .btn-md {
+        padding: .375rem 1rem;
+    }
+
     .card {
         margin-right: -15px;
         margin-left: -15px;
