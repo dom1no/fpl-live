@@ -184,9 +184,11 @@ class ImportPlayersStatsCommand extends Command
             ->get();
 
         foreach ($fixtures as $fixture) {
-            $maxFixturePlayerMinutes = PlayerStats::whereHas('player', function ($q) use ($fixture) {
-                $q->where('team_id', $fixture->teams->pluck('id'));
-            })->max('minutes');
+            $maxFixturePlayerMinutes = PlayerStats::forGameweek($gameweek)
+                ->whereHas('player', function ($q) use ($fixture) {
+                    $q->whereIn('team_id', $fixture->teams->pluck('id'));
+                })
+                ->max('minutes');
 
             $fixture->update(['minutes' => $maxFixturePlayerMinutes]);
         }
