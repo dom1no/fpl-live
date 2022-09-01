@@ -1,16 +1,12 @@
 @extends('layouts.app')
 
+
 @section('content')
     <div class="row">
         <div class="col-sm text-center">
-            @if($fixture->isInProgress())
-                <span class="size">
-                    {{ $fixture->minutes }}'
-                </span>
-            @else
-                <span class="size">{{ $fixture->kickoff_time->format('d.m.Y H:i') }}</span>
-            @endif
-            <p class="display-3">
+            <span class="size">{{ $fixture->kickoff_time->format('d.m.Y H:i') }}</span>
+            <br>
+            <span class="display-3">
                 {{ $fixture->homeTeam->name }}
                 @if ($fixture->isFeature())
                     -
@@ -18,7 +14,13 @@
                     {{ $fixture->score_formatted }}
                 @endif
                 {{ $fixture->awayTeam->name }}
-            </p>
+            </span>
+            <br>
+            @if($fixture->isInProgress())
+                <span class="size">
+                    {{ $fixture->minutes }}'
+                </span>
+            @endif
         </div>
     </div>
 
@@ -27,12 +29,12 @@
             <li class="nav-item">
                 <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-icons-text-1-tab" data-toggle="tab"
                    href="#tabs-icons-text-1" role="tab" aria-controls="tabs-icons-text-1" aria-selected="true"><i
-                        class="ni ni-cloud-upload-96 mr-2"></i>Match</a>
+                        class="ni ni-cloud-upload-96 mr-2"></i>Матч</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mb-sm-3 mb-md-0" id="tabs-icons-text-2-tab" data-toggle="tab"
                    href="#tabs-icons-text-2" role="tab" aria-controls="tabs-icons-text-2" aria-selected="false"><i
-                        class="ni ni-bell-55 mr-2"></i>Mangers Profit</a>
+                        class="ni ni-bell-55 mr-2"></i>Очки менеджеров</a>
             </li>
         </ul>
     </div>

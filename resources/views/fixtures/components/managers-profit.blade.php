@@ -1,8 +1,5 @@
 <div class="col-sm-6">
     <div class="card">
-        <div class="card-header">
-            <h2>Managers profit</h2>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table align-items-center">
