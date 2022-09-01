@@ -23,7 +23,7 @@
         <!-- Argon CSS -->
         <link type="text/css" href="{{ asset('argon') }}/css/argon.css?v=1.0.0" rel="stylesheet">
 
-        <link type="text/css" href="{{ asset('css') }}/custom.css" rel="stylesheet">
+        <link type="text/css" href="{{ asset('css') }}/custom.css?v=1.0.1" rel="stylesheet">
     </head>
     <body class="{{ $class ?? '' }}">
         <div class="main-content">
@@ -31,7 +31,7 @@
 
             <div class="container-fluid mt-2 mb-5">
                 <div class="row justify-content-center">
-                    <div class="col-sm-10">
+                    <div class="@if ($fluid ?? false)col-sm-12 @else col-sm-10 @endif">
                         @yield('content')
                     </div>
                 </div>

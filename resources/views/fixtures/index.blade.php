@@ -11,12 +11,12 @@
         <div class="col-sm">
             <div class="card">
                 <div class="card-header">
-                    <h2>
+                    <p class="display-3">
                         {{ $currentGameweek->name }}
                         <a href="{{ route('fixtures.sync') }}" class="btn btn-primary btn-sm float-right">
                             Обновить данные
                         </a>
-                    </h2>
+                    </p>
                 </div>
                 <div class="card-body">
                     @include('fixtures.components.fixtures-list', ['gameweek' => $currentGameweek])
@@ -26,8 +26,8 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-sm">
-            <h3>Прошедшие</h3>
+        <div class="col-sm-6">
+            <h2 class="mt-3 mt-sm-0">Прошедшие</h2>
             <div class="accordion" id="gameweeks-accordion-previous">
                 @foreach($previousGameweeks as $gameweek)
                     <div class="card">
@@ -50,8 +50,8 @@
                 @endforeach
             </div>
         </div>
-        <div class="col-sm">
-            <h3>Будущие</h3>
+        <div class="col-sm-6">
+            <h2 class="mt-3 mt-sm-0">Будущие</h2>
             <div class="accordion" id="gameweeks-accordion-feature">
                 @foreach($featureGameweeks as $gameweek)
                     <div class="card">
