@@ -2,7 +2,10 @@
     style="z-index: 99;"
 >
     <div class="container">
-        <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name') }}</a>
+        <a class="navbar-brand" href="{{ route('home') }}">
+            <img src="{{ asset('img') }}/logo.png" width="26">
+            {{ config('app.name') }}
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,6 +14,7 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
+                            <img src="{{ asset('img') }}/logo.png" width="26">
                             {{ config('app.name') }}
                         </a>
                     </div>
