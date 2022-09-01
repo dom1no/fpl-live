@@ -23,6 +23,6 @@ trait HasImportedCount
 
     private function importedCountText(string $entity): string
     {
-        return "Imported {$this->importedCount()} $entity. ";
+        return "Imported {$this->importedCount()} {$entity}. ";
     }
 }

@@ -33,11 +33,20 @@ class ImportManagersCommand extends Command
                 'name' => $manager['player_name'],
                 'command_name' => $manager['entry_name'],
                 'total_points' => $manager['total'],
+                'telegram_username' => $this->mapManagerTelegram($manager['player_name']),
             ]);
             $this->importedInc();
         }
 
         $this->finishMeasure();
         $this->info("Finished import managers. {$this->importedCountText('managers')} {$this->durationText()}");
+    }
+
+    private function mapManagerTelegram(string $name): string
+    {
+        return match ($name) {
+            'Maksim Kuprov' => '119785472',
+            default => null,
+        };
     }
 }

@@ -51,7 +51,7 @@
                         @if ($fixture->isFeature())
                             -
                         @else
-                            {{ $fixture->homeTeam->pivot->score }}:{{ $fixture->awayTeam->pivot->score }}
+                            {{ $fixture->score_formatted }}
                         @endif
                         {{ $fixture->awayTeam->name }}
                     </a>

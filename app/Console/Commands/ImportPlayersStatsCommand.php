@@ -93,15 +93,24 @@ class ImportPlayersStatsCommand extends Command
     private function upsertPlayerPoints(array $playerPoints, int $playerId, Gameweek $gameweek): void
     {
         foreach ($playerPoints as $playerPoint) {
-            PlayerPoint::updateOrCreate([
-                'player_id' => $playerId,
-                'gameweek_id' => $gameweek->id,
-                'action' => PlayerPointAction::from($playerPoint['identifier']),
-            ], [
-                'value' => $playerPoint['value'],
-                'points' => $playerPoint['points'],
-            ]);
+            if ($this->option('current')) {
+                $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
+            } else {
+                PlayerPoint::withoutEvents(fn() => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
+            }
         }
+    }
+
+    private function upsertPlayerPoint(array $playerPoint, int $playerId, Gameweek $gameweek)
+    {
+        PlayerPoint::updateOrCreate([
+            'player_id' => $playerId,
+            'gameweek_id' => $gameweek->id,
+            'action' => PlayerPointAction::from($playerPoint['identifier']),
+        ], [
+            'value' => $playerPoint['value'],
+            'points' => $playerPoint['points'],
+        ]);
     }
 
     private function upsertPredictedBonusPoints(Gameweek $gameweek): void
@@ -158,7 +167,7 @@ class ImportPlayersStatsCommand extends Command
             ManagerPick::forGameweek($gameweek)
                 ->where('player_id', $playerId)
                 ->update([
-                    'points' => DB::raw("$playerPoints * `multiplier`"),
+                    'points' => DB::raw("{$playerPoints} * `multiplier`"),
                 ]);
         }
     }

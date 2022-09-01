@@ -53,4 +53,9 @@ class Fixture extends Model
     {
         return $this->teams->firstWhere('pivot.is_home', false);
     }
+
+    public function getScoreFormattedAttribute(): string
+    {
+        return $this->home_team->pivot->score . ':' . $this->away_team->pivot->score;
+    }
 }

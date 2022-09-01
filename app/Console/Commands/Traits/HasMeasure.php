@@ -28,6 +28,7 @@ trait HasMeasure
 
         if (is_null($duration)) {
             $this->finishMeasure($name);
+
             return $this->duration();
         }
 

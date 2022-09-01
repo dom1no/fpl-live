@@ -14,6 +14,7 @@ return new class extends Migration
             $table->string('command_name');
             $table->integer('total_points')->index();
             $table->integer('fpl_id')->unsigned()->index();
+            $table->string('telegram_username')->nullable();
 
             $table->timestamps();
         });

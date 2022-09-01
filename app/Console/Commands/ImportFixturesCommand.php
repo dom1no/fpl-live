@@ -54,7 +54,7 @@ class ImportFixturesCommand extends Command
                 'is_started' => $fixtureData['started'],
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],
-                'is_bonuses_added' => !empty($fixtureBonusStats['a'] ?? false) || !empty($fixtureBonusStats['h'] ?? false),
+                'is_bonuses_added' => ! empty($fixtureBonusStats['a'] ?? false) || ! empty($fixtureBonusStats['h'] ?? false),
                 'minutes' => $fixtureData['minutes'],
             ]);
 
