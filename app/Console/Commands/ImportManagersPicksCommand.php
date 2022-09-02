@@ -49,6 +49,7 @@ class ImportManagersPicksCommand extends FPLImportCommand
                 'is_captain' => $pick['is_captain'],
                 'is_vice_captain' => $pick['is_vice_captain'],
                 'multiplier' => $pick['multiplier'],
+                'position' => $pick['position'],
             ]);
 
             $this->importedInc();

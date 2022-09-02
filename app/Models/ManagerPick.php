@@ -21,6 +21,7 @@ class ManagerPick extends Model
         'is_captain',
         'is_vice_captain',
         'multiplier',
+        'position',
         'points',
     ];
 

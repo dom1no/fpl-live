@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('is_captain')->default(false);
             $table->boolean('is_vice_captain')->default(false);
             $table->tinyInteger('multiplier');
+            $table->tinyInteger('position');
 
             $table->integer('points')->nullable();
 

@@ -19,4 +19,14 @@ enum PlayerPosition: string
             default => null
         };
     }
+
+    public function title(): string
+    {
+        return match ($this) {
+            self::GOALKEEPER => 'Вратарь',
+            self::DEFENDER => 'Защита',
+            self::MIDFIELDER => 'Полузащита',
+            self::FORWARD => 'Нападение',
+        };
+    }
 }
