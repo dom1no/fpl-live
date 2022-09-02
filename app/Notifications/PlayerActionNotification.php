@@ -44,7 +44,7 @@ class PlayerActionNotification extends Notification
                 $this->getFixtureScoreText(),
                 $this->getPlayerPointsText(),
 
-                "\n",
+                "",
                 "`{$manager->name}`", // TODO: удалить, после выката для всех
             ]));
     }

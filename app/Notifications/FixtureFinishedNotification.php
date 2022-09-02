@@ -28,11 +28,11 @@ class FixtureFinishedNotification extends Notification
             ->content(implode("\n", [
                 $this->getWinText(),
                 $this->getScoreText(),
-                "\n",
+                "",
                 $this->getManagerPointsText($manager),
                 $this->getManagerTotalPointsText($manager),
 
-                "\n",
+                "",
                 "`{$manager->name}`", // TODO: удалить, после выката для всех
             ]));
     }
