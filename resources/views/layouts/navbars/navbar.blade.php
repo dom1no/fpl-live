@@ -31,13 +31,13 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
                         <i class="fas fa-users"></i>
-                        <span class="nav-link-inner--text">Managers</span>
+                        <span class="nav-link-inner--text">Лига</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('fixtures.index') }}">
                         <i class="fas fa-futbol"></i>
-                        <span class="nav-link-inner--text">Fixtures</span>
+                        <span class="nav-link-inner--text">Матчи</span>
                     </a>
                 </li>
             </ul>

@@ -4,12 +4,11 @@ namespace App\Console;
 
 use App\Console\Commands\ImportFixturesCommand;
 use App\Console\Commands\ImportGameweeksCommand;
-use App\Console\Commands\ImportManagersCommand;
+use App\Console\Commands\ImportManagersChipsCommand;
 use App\Console\Commands\ImportManagersPicksCommand;
 use App\Console\Commands\ImportManagersTransfersCommand;
 use App\Console\Commands\ImportPlayersCommand;
 use App\Console\Commands\ImportPlayersStatsCommand;
-use App\Console\Commands\ImportTeamsCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -25,6 +24,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(ImportGameweeksCommand::class)->hourly(); //TODO: запускать по дедлайну
         $schedule->command(ImportManagersPicksCommand::class)->hourly();
         $schedule->command(ImportManagersTransfersCommand::class)->hourly();
+        $schedule->command(ImportManagersChipsCommand::class)->hourly();
 
         // $schedule->command(ImportTeamsCommand::class)->daily();
         // $schedule->command(ImportManagersCommand::class)->daily();

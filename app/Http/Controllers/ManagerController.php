@@ -20,6 +20,7 @@ class ManagerController extends Controller
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
             'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
             'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
+            'chips' => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),

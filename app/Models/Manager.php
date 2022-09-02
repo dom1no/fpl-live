@@ -33,6 +33,11 @@ class Manager extends Model
         return $this->hasMany(ManagerAutoSub::class);
     }
 
+    public function chips(): HasMany
+    {
+        return $this->hasMany(ManagerChip::class);
+    }
+
     public function routeNotificationForTelegram(): ?string
     {
         return $this->telegram_username;

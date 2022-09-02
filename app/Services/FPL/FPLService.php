@@ -65,6 +65,13 @@ class FPLService
         return collect($data['current'])->keyBy('event');
     }
 
+    public function getManagerChips(Manager $manager): Collection
+    {
+        $data = $this->fpl->send(new ManagerHistory($manager->fpl_id))->json();
+
+        return collect($data['chips']);
+    }
+
     public function getPlayersStatsByGameweek(Gameweek $gameweek): Collection
     {
         $data = $this->fpl->send(new EventLive($gameweek->fpl_id))->json();

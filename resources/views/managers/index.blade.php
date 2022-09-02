@@ -21,7 +21,15 @@
                             @php($playedPicksMain = $playedPicks->where('multiplier', '>', 0))
                             <tr data-toggle="collapse" data-target="#manager-team-{{ $manager->id }}"
                                 class="accordion-toggle">
-                                <td>{{ $manager->name }}</td>
+                                <td>
+                                    {{ $manager->name }}
+                                    @foreach($manager->chips as $chip)
+                                        <br class="d-block d-sm-none">
+                                        <span class="badge badge-light">
+                                            {{ $chip->type->title() }}
+                                        </span>
+                                    @endforeach
+                                </td>
                                 <td>
                                     {{ $manager->picks->sum('points') }}
                                     @if ($transfersCost = $manager->paid_transfers_count * 4)
