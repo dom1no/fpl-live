@@ -10,10 +10,6 @@
             @endif
             <br>
             Всего очков: {{ $manager->total_points }}
-            @php($livePoints = $manager->total_picks_points - ($manager->total_paid_transfers_count * 4))
-            @if ($livePoints != $manager->total_points)
-                ({{ $livePoints }})
-            @endif
             <br><br>
 
             @php($playedPicks = $playedPicksByManagers->get($manager->id))

@@ -33,7 +33,7 @@ class FixtureFinishedNotification extends Notification
                 $this->getManagerTotalPointsText($manager),
 
                 "\n",
-                "´´´{$manager->name}´´´" // TODO: удалить, после выката для всех
+                "´´´{$manager->name}´´´", // TODO: удалить, после выката для всех
             ]));
     }
 

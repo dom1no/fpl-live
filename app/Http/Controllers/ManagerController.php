@@ -20,12 +20,8 @@ class ManagerController extends Controller
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
             'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
         ])
-            ->withSum('picks as total_picks_points', 'points')
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ], 'is_free')
-            ->withCount([
-                'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
             ], 'is_free')
             ->orderByDesc('total_points')
             ->get()

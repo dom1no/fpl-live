@@ -5,7 +5,6 @@ namespace App\Notifications;
 use App\Models\Enums\PlayerPointAction;
 use App\Models\Fixture;
 use App\Models\Manager;
-use App\Models\Player;
 use App\Models\PlayerPoint;
 use Illuminate\Notifications\Notification;
 use NotificationChannels\Telegram\TelegramMessage;
@@ -46,7 +45,7 @@ class PlayerActionNotification extends Notification
                 $this->getPlayerPointsText(),
 
                 "\n",
-                "´´´{$manager->name}´´´" // TODO: удалить, после выката для всех
+                "´´´{$manager->name}´´´", // TODO: удалить, после выката для всех
             ]));
     }
 

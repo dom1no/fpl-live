@@ -32,10 +32,6 @@
                                 </td>
                                 <td>
                                     {{ $manager->total_points }}
-                                    @php($livePoints = $manager->total_picks_points - ($manager->total_paid_transfers_count * 4))
-                                    @if ($livePoints != $manager->total_points)
-                                        ({{ $livePoints }})
-                                    @endif
                                 </td>
                                 <td>
                                     {{ $playedPicksMain->count() }} ({{ $playedPicks->count() }})
