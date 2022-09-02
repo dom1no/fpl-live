@@ -2,34 +2,26 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\Traits\HasImportedCount;
-use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Gameweek;
 use App\Models\Manager;
 use App\Models\ManagerTransfer;
 use App\Models\Player;
 use App\Services\FPL\FPLService;
 use Carbon\Carbon;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
-class ImportManagersTransfersCommand extends Command
+class ImportManagersTransfersCommand extends FPLImportCommand
 {
-    use HasImportedCount;
-    use HasMeasure;
-
-    protected $signature = 'import:managers-transfers';
-
-    protected $description = 'Import managers transfers from FPL API';
-
     private Collection $gameweeks;
     private Collection $players;
 
-    public function handle(FPLService $FPLService): void
+    public function entityName(): string
     {
-        $this->startMeasure();
-        $this->info('Starting import managers transfers...');
+        return 'managers transfers';
+    }
 
+    public function import(FPLService $FPLService): void
+    {
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
         $this->players = Player::pluck('id', 'fpl_id');
 
@@ -38,9 +30,6 @@ class ImportManagersTransfersCommand extends Command
             $gameweeksStats = $FPLService->getManagerGameweekStats($manager);
             $this->importManagerTransfers($transfers, $gameweeksStats, $manager);
         });
-
-        $this->finishMeasure();
-        $this->info("Finished import managers transfers. {$this->importedCountText('transfers')} {$this->durationText()}");
     }
 
     private function importManagerTransfers(Collection $transfers, Collection $gameweeksStats, Manager $manager): void

@@ -2,28 +2,20 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\Traits\HasImportedCount;
-use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Manager;
 use App\Services\FPL\FPLService;
-use Illuminate\Console\Command;
 
-class ImportManagersCommand extends Command
+class ImportManagersCommand extends FPLImportCommand
 {
-    use HasImportedCount;
-    use HasMeasure;
-
     private const LEAGUE_ID = 698751;
 
-    protected $signature = 'import:managers';
-
-    protected $description = 'Import managers from FPL API';
-
-    public function handle(FPLService $FPLService): void
+    public function entityName(): string
     {
-        $this->startMeasure();
-        $this->info('Starting import managers...');
+        return 'managers';
+    }
 
+    public function import(FPLService $FPLService): void
+    {
         $managers = $FPLService->getManagers(self::LEAGUE_ID);
 
         foreach ($managers as $manager) {
@@ -32,14 +24,12 @@ class ImportManagersCommand extends Command
             ], [
                 'name' => $manager['player_name'],
                 'command_name' => $manager['entry_name'],
-                'total_points' => $manager['total'],
+                // 'total_points' => $manager['total'], // вычисляем из пиков, потому что тут значение обновляется позже
                 'telegram_username' => $this->mapManagerTelegram($manager['player_name']),
             ]);
+
             $this->importedInc();
         }
-
-        $this->finishMeasure();
-        $this->info("Finished import managers. {$this->importedCountText('managers')} {$this->durationText()}");
     }
 
     private function mapManagerTelegram(string $name): ?string

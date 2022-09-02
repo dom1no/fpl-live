@@ -2,11 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Console\Commands\Traits\HasImportedCount;
-use App\Console\Commands\Traits\HasMeasure;
 use App\Models\Enums\PlayerPointAction;
 use App\Models\Fixture;
 use App\Models\Gameweek;
+use App\Models\Manager;
 use App\Models\ManagerPick;
 use App\Models\Player;
 use App\Models\PlayerPoint;
@@ -14,25 +13,24 @@ use App\Models\PlayerStats;
 use App\Services\FPL\FPLService;
 use App\Services\PlayerStatsService;
 use DB;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 
-class ImportPlayersStatsCommand extends Command
+class ImportPlayersStatsCommand extends FPLImportCommand
 {
-    use HasImportedCount;
-    use HasMeasure;
-
-    protected $signature = 'import:players-stats {--current}';
-
-    protected $description = 'Import players stats from FPL API';
-
     private Collection $players;
 
-    public function handle(FPLService $FPLService): void
+    public function entityName(): string
     {
-        $this->startMeasure();
-        $this->info('Starting import players stats...');
+        return 'players stats';
+    }
 
+    public function signatureArgs(): string
+    {
+        return '{--current}';
+    }
+
+    public function import(FPLService $FPLService): void
+    {
         $this->players = Player::pluck('id', 'fpl_id');
 
         Gameweek::query()
@@ -48,11 +46,10 @@ class ImportPlayersStatsCommand extends Command
 
                 $this->updateManagersPicksPoints($gameweek);
 
-                $this->calcFixtureLiveMinutes($gameweek);
+                $this->calcFixturesLiveMinutes($gameweek);
             });
 
-        $this->finishMeasure();
-        $this->info("Finished import players stats. {$this->importedCountText('players stats')} {$this->durationText()}");
+        $this->updateManagersTotalPoints();
     }
 
     private function importStats(Collection $stats, Gameweek $gameweek): void
@@ -174,23 +171,34 @@ class ImportPlayersStatsCommand extends Command
         }
     }
 
-    private function calcFixtureLiveMinutes(Gameweek $gameweek): void
+    private function updateManagersTotalPoints(): void
     {
-        $fixtures = Fixture::forGameweek($gameweek)
+        Manager::withSum('picks as total_picks_points', 'points')
+            ->withCount([
+                'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
+            ], 'is_free')
+            ->each(function (Manager $manager) {
+                $manager->update([
+                    'total_points' => $manager->total_picks_points - ($manager->total_paid_transfers_count * 4),
+                ]);
+            });
+    }
+
+    private function calcFixturesLiveMinutes(Gameweek $gameweek): void
+    {
+        Fixture::forGameweek($gameweek)
             ->where('is_started', true)
             ->where('is_finished', false)
             ->where('is_finished_provisional', false)
             ->with('teams:id')
-            ->get();
+            ->each(function (Fixture $fixture) use ($gameweek) {
+                $maxFixturePlayerMinutes = PlayerStats::forGameweek($gameweek)
+                    ->whereHas('player', function ($q) use ($fixture) {
+                        $q->whereIn('team_id', $fixture->teams->pluck('id'));
+                    })
+                    ->max('minutes');
 
-        foreach ($fixtures as $fixture) {
-            $maxFixturePlayerMinutes = PlayerStats::forGameweek($gameweek)
-                ->whereHas('player', function ($q) use ($fixture) {
-                    $q->whereIn('team_id', $fixture->teams->pluck('id'));
-                })
-                ->max('minutes');
-
-            $fixture->update(['minutes' => $maxFixturePlayerMinutes]);
-        }
+                $fixture->update(['minutes' => $maxFixturePlayerMinutes]);
+            });
     }
 }
