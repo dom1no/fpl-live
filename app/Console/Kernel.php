@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
         $schedule->command(ImportPlayersStatsCommand::class, ['--current'])->everyMinute();
 
         $schedule->command(ImportPlayersCommand::class)->hourly();
+
         $schedule->command(ImportGameweeksCommand::class)->hourly(); //TODO: запускать по дедлайну
         $schedule->command(ImportManagersPicksCommand::class)->hourly();
         $schedule->command(ImportManagersTransfersCommand::class)->hourly();

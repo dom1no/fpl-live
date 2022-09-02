@@ -28,7 +28,10 @@
             <td colspan="5" class="text-left">Запас</td>
         </tr>
         @foreach($benchPicks as $pick)
-            @include('managers.components.manager-team-pick-row', ['showPosition' => true])
+            @include('managers.components.manager-team-pick-row', [
+                'showPosition' => true,
+                'showCleanPoints' => true,
+            ])
         @endforeach
         </tbody>
     </table>

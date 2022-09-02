@@ -167,6 +167,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                 ->where('player_id', $playerId)
                 ->update([
                     'points' => DB::raw("{$playerPoints} * `multiplier`"),
+                    'clean_points' => $playerPoints,
                 ]);
         }
     }

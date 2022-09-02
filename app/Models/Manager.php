@@ -28,6 +28,11 @@ class Manager extends Model
         return $this->hasMany(ManagerTransfer::class);
     }
 
+    public function autoSubs(): HasMany
+    {
+        return $this->hasMany(ManagerAutoSub::class);
+    }
+
     public function routeNotificationForTelegram(): ?string
     {
         return $this->telegram_username;

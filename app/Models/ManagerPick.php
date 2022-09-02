@@ -23,6 +23,7 @@ class ManagerPick extends Model
         'multiplier',
         'position',
         'points',
+        'clean_points',
     ];
 
     public function manager(): BelongsTo
@@ -42,10 +43,5 @@ class ManagerPick extends Model
         }
 
         $this->baseScopeForGameweek($query, $gameweek);
-    }
-
-    public function getCleanPointsAttribute(): int
-    {
-        return $this->multiplier > 0 ? $this->points / $this->multiplier : $this->points;
     }
 }

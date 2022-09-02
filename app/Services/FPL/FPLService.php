@@ -41,11 +41,14 @@ class FPLService
         return collect($data['standings']['results']);
     }
 
-    public function getManagerPicksByGameweek(Manager $manager, Gameweek $gameweek): Collection
+    public function getManagerGameweekInfo(Manager $manager, Gameweek $gameweek): array
     {
         $data = $this->fpl->send(new ManagerEventPicks($manager->fpl_id, $gameweek->fpl_id))->json();
 
-        return collect($data['picks']);
+        $data['automatic_subs'] = collect($data['automatic_subs']);
+        $data['picks'] = collect($data['picks']);
+
+        return $data;
     }
 
     public function getManagerTransfers(Manager $manager): Collection

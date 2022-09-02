@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Gameweek;
 use App\Models\Manager;
+use App\Models\ManagerAutoSub;
 use App\Models\ManagerPick;
 use App\Models\Player;
 use App\Services\FPL\FPLService;
@@ -32,8 +33,9 @@ class ImportManagersPicksCommand extends FPLImportCommand
             ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
-                    $picks = $FPLService->getManagerPicksByGameweek($manager, $gameweek);
-                    $this->importManagerPicks($picks, $manager, $gameweek);
+                    $data = $FPLService->getManagerGameweekInfo($manager, $gameweek);
+                    $this->importManagerPicks($data['picks'], $manager, $gameweek);
+                    $this->importManagerAutoSubs($data['automatic_subs'], $manager, $gameweek);
                 });
             });
     }
@@ -53,6 +55,18 @@ class ImportManagersPicksCommand extends FPLImportCommand
             ]);
 
             $this->importedInc();
+        }
+    }
+
+    private function importManagerAutoSubs(Collection $autoSubs, Manager $manager, Gameweek $gameweek): void
+    {
+        foreach ($autoSubs as $autoSub) {
+            ManagerAutoSub::updateOrCreate([
+                'manager_id' => $manager->id,
+                'gameweek_id' => $gameweek->id,
+                'player_out_id' => $this->players->get($autoSub['element_out']),
+                'player_in_id' => $this->players->get($autoSub['element_in']),
+            ]);
         }
     }
 }

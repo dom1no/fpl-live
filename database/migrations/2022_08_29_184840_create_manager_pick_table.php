@@ -20,6 +20,7 @@ return new class extends Migration
             $table->tinyInteger('position');
 
             $table->integer('points')->nullable();
+            $table->integer('clean_points')->nullable();
 
             $table->timestamps();
         });
