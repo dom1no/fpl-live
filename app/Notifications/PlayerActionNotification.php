@@ -45,7 +45,7 @@ class PlayerActionNotification extends Notification
                 $this->getPlayerPointsText(),
 
                 "\n",
-                "´´´{$manager->name}´´´", // TODO: удалить, после выката для всех
+                "`{$manager->name}`", // TODO: удалить, после выката для всех
             ]));
     }
 
