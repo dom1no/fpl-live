@@ -3,8 +3,8 @@
 >
     <div class="container">
         <a class="navbar-brand" href="{{ route('home') }}">
-            <img src="{{ asset('img') }}/logo.png" width="26">
-            {{ config('app.name') }}
+            <img class="mt--2" src="{{ asset('img') }}/logo.png" width="30">
+            <span class="display-4">{{ config('app.name') }}</span>
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-default" aria-controls="navbar-default" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -14,8 +14,8 @@
                 <div class="row">
                     <div class="col-6 collapse-brand">
                         <a href="{{ route('home') }}">
-                            <img src="{{ asset('img') }}/logo.png" width="26">
-                            {{ config('app.name') }}
+                            <img class="mt--2" src="{{ asset('img') }}/logo.png">
+                            <span class="display-4">{{ config('app.name') }}</span>
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <ul class="navbar-nav navbar-nav-hover mr-auto ml-4">
+            <ul class="navbar-nav navbar-nav-hover">
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
                         <i class="fas fa-users"></i>
