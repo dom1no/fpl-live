@@ -15,11 +15,14 @@
         @endif
         <br>
         <span class="text-muted">
-            {{ $player->team->short_name }}
-            @if ($showPosition ?? false)
-                {{ $player->position->title() }}
-            @endif
+            {{ $player->team->name }}
         </span>
+        @if ($showPosition ?? false)
+            <br>
+            <span class="text-muted font-weight-normal">
+                {{ $player->position->title() }}
+            </span>
+        @endif
     </td>
     <td>
         @if ($pick->points > 0 || !$fixture->isFeature())

@@ -15,7 +15,7 @@ class ManagerController extends Controller
         $gameweek = Gameweek::getCurrent();
 
         $managers = Manager::query()->with([
-            'picks' => fn ($q) => $q->forGameweek($gameweek),
+            'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
             'picks.player.team',
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
             'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
