@@ -91,7 +91,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
 
     private function syncPlayerPoints(array $playerPoints, int $playerId, Gameweek $gameweek): void
     {
-        $existedPointsIds = PlayerPoint::pluck('id');
+        $existedPointsIds = PlayerPoint::forGameweek($gameweek)->where('player_id', $playerId)->pluck('id');
         $importedPointsIds = [];
 
         foreach ($playerPoints as $playerPoint) {
