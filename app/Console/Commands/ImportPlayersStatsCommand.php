@@ -58,7 +58,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
             $playerId = $this->players->get($playerData['id']);
 
             $this->upsertPlayerStats($playerData['stats'], $playerId, $gameweek);
-            $this->upsertPlayerPoints(head($playerData['explain'])['stats'], $playerId, $gameweek);
+            $this->syncPlayerPoints(head($playerData['explain'])['stats'], $playerId, $gameweek);
 
             $this->importedInc();
         }
@@ -89,20 +89,28 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         ]);
     }
 
-    private function upsertPlayerPoints(array $playerPoints, int $playerId, Gameweek $gameweek): void
+    private function syncPlayerPoints(array $playerPoints, int $playerId, Gameweek $gameweek): void
     {
+        $existedPointsIds = PlayerPoint::pluck('id');
+        $importedPointsIds = [];
+
         foreach ($playerPoints as $playerPoint) {
             if ($this->option('current')) {
-                $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
+                 $playerPoint = $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
             } else {
-                PlayerPoint::withoutEvents(fn () => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
+                $playerPoint = PlayerPoint::withoutEvents(fn () => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
             }
+
+            $importedPointsIds[] = $playerPoint->id;
         }
+
+        PlayerPoint::whereKey($existedPointsIds->diff($importedPointsIds))
+            ->each(fn(PlayerPoint $point) => $point->delete());
     }
 
-    private function upsertPlayerPoint(array $playerPoint, int $playerId, Gameweek $gameweek)
+    private function upsertPlayerPoint(array $playerPoint, int $playerId, Gameweek $gameweek): PlayerPoint
     {
-        PlayerPoint::updateOrCreate([
+        return PlayerPoint::updateOrCreate([
             'player_id' => $playerId,
             'gameweek_id' => $gameweek->id,
             'action' => PlayerPointAction::from($playerPoint['identifier']),
