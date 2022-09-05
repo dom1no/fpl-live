@@ -11,7 +11,7 @@
                             {{ $pick->player->position->value }}
                         </span>
                     </h3>
-                    @include('managers.components.pitch.element', ['showCleanPoints' => true])
+                    @include('managers.show.tab-players.pitch.element', ['showCleanPoints' => true])
                 </div>
             @endforeach
         </div>

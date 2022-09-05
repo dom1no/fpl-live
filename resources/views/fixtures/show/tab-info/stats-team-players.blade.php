@@ -1,4 +1,5 @@
-@php($statsPlayers = $players->where("gameweekStats.{$statsKey}", '>', 0))
+@php($statsPlayers = $players->where("gameweekStats.{$statsKey}", '>', 0)->sortByDesc("gameweekStats.{$statsKey}"))
+
 @if ($statsPlayers->isNotEmpty())
     <tr>
         <td colspan="100%" class="text-center bg-secondary py-2 font-weight-bold">

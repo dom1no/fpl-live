@@ -16,7 +16,12 @@ class FixtureController extends Controller
 {
     public function index(): View
     {
-        $gameweeks = Gameweek::with('fixtures', 'fixtures.teams')->get();
+        $gameweeks = Gameweek::query()
+            ->with([
+                'fixtures' => fn($q) => $q->orderBy('kickoff_time'),
+                'fixtures.teams',
+            ])
+            ->get();
 
         return view('fixtures.index', compact('gameweeks'));
     }
@@ -32,6 +37,7 @@ class FixtureController extends Controller
             ])
             ->withSum(['points as points_sum' => fn ($q) => $q->forGameweek($fixture->gameweek)], 'points')
             ->get()
+            ->sortByDesc('points_sum')
             ->keyBy('id');
 
         $managersPicks = $players->pluck('managerPicks')
@@ -41,7 +47,8 @@ class FixtureController extends Controller
                 $picks->points_sum = $fixture->isFeature() ? 0 : $picks->sum('points');
 
                 return $picks;
-            });
+            })
+            ->sortByDesc('points_sum');
 
         return view('fixtures.show', compact('fixture', 'players', 'managersPicks'));
     }

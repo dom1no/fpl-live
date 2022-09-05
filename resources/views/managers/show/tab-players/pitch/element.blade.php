@@ -6,7 +6,7 @@
 <div class="pitch-row-unit-element-wrapper">
     <div class="pitch-row-unit-element">
         <button type="button" class="pitch-row-unit-element-shirt">
-            @include('managers.components.pitch.element-shirt')
+            @include('managers.show.tab-players.pitch.element-shirt')
             <div class="pitch-row-unit-element-data">
                 <div class="pitch-row-unit-element-name">
                     {{ $pick->player->name }}
@@ -17,6 +17,6 @@
             </div>
         </button>
 
-        @includeWhen($pick->is_captain, 'managers.components.pitch.element-captain-icon')
+        @includeWhen($pick->is_captain, 'managers.show.tab-players.pitch.element-captain-icon')
     </div>
 </div>

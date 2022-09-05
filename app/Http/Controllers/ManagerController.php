@@ -18,9 +18,8 @@ class ManagerController extends Controller
             'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
             'picks.player.team',
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
-            'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
-            'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
-            'chips' => fn ($q) => $q->forGameweek($gameweek),
+            'picks.player.team.fixtures.teams',
+            'chips', // => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
@@ -32,20 +31,7 @@ class ManagerController extends Controller
             ->get()
             ->keyBy('id');
 
-        $playedPicksCountByManagers = collect($managers)->map(function (Manager $manager) {
-            $mainPicks = $manager->picks->where('multiplier', '>', 0);
-
-            return [
-                'played' => $mainPicks->where(
-                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
-                )->count(),
-                'playing' => $mainPicks->where(
-                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isInProgress()
-                )->count(),
-            ];
-        });
-
-        return view('managers.index', compact('managers', 'gameweek', 'playedPicksCountByManagers'));
+        return view('managers.index', compact('managers', 'gameweek'));
     }
 
     public function show(Manager $manager): View
@@ -59,6 +45,9 @@ class ManagerController extends Controller
                 'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
                 'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
+                'chips',
+                'transfers' => fn ($q) => $q->orderByDesc('gameweek_id'),
+                'transfers.gameweek',
             ])
             ->loadCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),

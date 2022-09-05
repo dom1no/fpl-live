@@ -10,7 +10,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($players->sortByDesc('points_sum') as $player)
+    @foreach($players as $player)
         @php($playerStats = $player->gameweekStats ?? optional())
         <tr data-toggle="collapse" data-target="#player-points-explain-{{ $player->id }}"
             class="accordion-toggle">

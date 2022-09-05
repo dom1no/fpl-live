@@ -2,7 +2,7 @@
     <tbody>
     @foreach($gameweek->fixtures->groupBy(fn($fixture) => $fixture->kickoff_time->day) as $dayFixtures)
         <tr>
-            <td colspan="100%">
+            <td colspan="100%" class="py-2 bg-secondary">
                 {{ $dayFixtures->first()->kickoff_time->format('d.m.Y') }}
             </td>
         </tr>

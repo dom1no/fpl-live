@@ -17,7 +17,7 @@
             </td>
         </tr>
         @foreach($picks as $pick)
-            @include('managers.components.team-players-table-row')
+            @include('managers.show.tab-players.players-table-row')
         @endforeach
     @endforeach
 
@@ -25,7 +25,7 @@
         <td colspan="100%" class="text-left">Запас</td>
     </tr>
     @foreach($benchPicks as $pick)
-        @include('managers.components.team-players-table-row', [
+        @include('managers.show.tab-players.players-table-row', [
             'showPosition' => true,
             'showCleanPoints' => true,
         ])

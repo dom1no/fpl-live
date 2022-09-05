@@ -1,3 +1,5 @@
+@php use App\Models\Enums\ChipType; @endphp
+
 <table class="table">
     <thead>
     <tr>
@@ -8,8 +10,15 @@
     </thead>
     <tbody>
     @foreach($manager->transfers->groupBy('gameweek_id') as $gameweekTransfers)
+        @php($gameweek = $gameweekTransfers->first()->gameweek)
         <tr class="font-weight-bold bg-secondary">
-            <td colspan="2" class="py-2">{{ $gameweekTransfers->first()->gameweek->name }}</td>
+            <td colspan="2" class="py-2">
+                {{ $gameweek->name }}
+                @include('managers.components.chips-badges', [
+                    'chips' => $manager->chips->where('gameweek_id', $gameweek->id)->whereIn('type', [ChipType::WILDCARD, ChipType::FREE_HIT]),
+                    'badgeClass' => 'info',
+                ])
+            </td>
             <td class="text-right py-2">
                 Платных: {{ $gameweekTransfers->where('is_free', false)->count() }}
             </td>

@@ -19,9 +19,9 @@
 
 <div class="tab-content">
     <div class="tab-pane fade show active" id="tabs-players" role="tabpanel" aria-labelledby="tabs-players-tab">
-        @include('managers.components.team')
+        @include('managers.show.tab-players.index')
     </div>
     <div class="tab-pane fade" id="tabs-transfers" role="tabpanel" aria-labelledby="tabs-transfers-tab">
-        @include('managers.show.transfers')
+        @include('managers.show.tab-transfers.index')
     </div>
 </div>

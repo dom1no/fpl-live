@@ -23,10 +23,10 @@
 <div class="tab-content">
     <div class="tab-pane fade show active" id="tabs-manager-{{ $manager->id }}-table-team" role="tabpanel"
          aria-labelledby="tabs-manager-{{ $manager->id }}-table-team-tab">
-        @include('managers.components.team-players-table')
+        @include('managers.show.tab-players.players-table')
     </div>
     <div class="tab-pane fade" id="tabs-manager-{{ $manager->id }}-pitch" role="tabpanel"
          aria-labelledby="tabs-manager-{{ $manager->id }}-pitch-tab">
-        @include('managers.components.pitch.index')
+        @include('managers.show.tab-players.pitch.index')
     </div>
 </div>

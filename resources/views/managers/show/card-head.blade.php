@@ -1,26 +1,63 @@
-<h2>{{ $manager->name }}</h2>
+<div class="row">
+    <h2 class="col-12 col-md-6 text-center">{{ $manager->name }}</h2>
+</div>
 
-<dl class="row">
-    <dt class="col-6 col-md-2 text-right">Очки в туре:</dt>
-    <dd class="col-6 col-md-10">
-        {{ $manager->gameweek_points }}
-        @if ($transfersCost = $manager->paid_transfers_count * 4)
-            <span class="opacity-7">
-            (-{{ $transfersCost }})
-        </span>
-        @endif
-    </dd>
-
-    <dt class="col-6 col-md-2 text-right">Всего очков:</dt>
-    <dd class="col-6 col-md-10">
-        {{ $manager->total_points }}
-    </dd>
-
-    <dt class="col-6 col-md-2 text-right">Сыграло(играет) игроков:</dt>
-    <dd class="col-6 col-md-10">
-        {{ $playedPicksCount['played'] }}
-        @if ($playedPicksCount['playing'])
-            ({{ $playedPicksCount['playing'] }})
-        @endif
-    </dd>
-</dl>
+<div class="row">
+    <div class="col-md-6">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{{ $gameweek->name }}</th>
+                    <th>Всего</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Очки</td>
+                    <td>
+                        {{ $manager->gameweek_points }}
+                        @if ($transfersCost = $manager->paid_transfers_count * 4)
+                            <span class="opacity-7">
+                                (-{{ $transfersCost }})
+                            </span>
+                        @endif
+                    </td>
+                    <td>
+                        {{ $manager->total_points }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Место</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Чипы</td>
+                    <td>
+                        @include('managers.components.chips-badges', [
+                            'chips' => $manager->chips->where('gameweek_id', $gameweek->id),
+                            'emptyValue' => '-',
+                        ])
+                    </td>
+                    <td>
+                        @include('managers.components.chips-badges', [
+                            'chips' => $manager->chips,
+                            'emptyValue' => '-',
+                        ])
+                    </td>
+                </tr>
+                <tr>
+                    <td>Сыграло(играет) игроков</td>
+                    <td>
+                        {{ $playedPicksCount['played'] }}
+                        @if ($playedPicksCount['playing'])
+                            ({{ $playedPicksCount['playing'] }})
+                        @endif
+                    </td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

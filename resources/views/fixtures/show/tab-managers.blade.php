@@ -11,7 +11,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($managersPicks->sortByDesc('points_sum') as $managerPicks)
+                    @foreach($managersPicks as $managerPicks)
                         @php($manager = $managerPicks->first()->manager)
                         <tr>
                             <td class="pl-4 pr-2 text-truncate" style="max-width: 40vw;">{{ $manager->name }}</td>
