@@ -11,10 +11,10 @@
                 <div class="pitch-row-unit-element-name">
                     <span>{{ $pick->player->name }}</span>
                 </div>
-                <div class="pitch-row-unit-element-value font-weight-bold text-break">
+                <div class="pitch-row-unit-element-value text-dark font-weight-bold">
                     @include('managers.components.pick-points')
                 </div>
-                <div class="pitch-row-unit-element-fixture bg-white">
+                <div class="pitch-row-unit-element-fixture">
                     @include('fixtures.components.fixture-link', [
                         'showShortNames' => true,
                     ])
