@@ -10,8 +10,8 @@
                     <tr>
                         <th scope="col" class="px-3">#</th>
                         <th scope="col" class="pl-2">Менеджер</th>
-                        <th scope="col">Тур</th>
                         <th scope="col">Очки</th>
+                        <th scope="col">Всего</th>
 {{--                            <th scope="col">Сыграло(играет) игроков</th>--}}
                     </tr>
                     </thead>

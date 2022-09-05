@@ -3,6 +3,6 @@
         @include('managers.show.card-head')
     </div>
     <div class="card-body p-0">
-        @include('managers.components.team')
+        @include('managers.show.tabs')
     </div>
 </div>

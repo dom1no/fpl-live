@@ -21,6 +21,7 @@
                 @if ($player->gameweekStats->{$statsKey} > 1)
                     ({{ $player->gameweekStats->{$statsKey} }})
                 @endif
+                <br>
             @endforeach
         </td>
     </tr>
