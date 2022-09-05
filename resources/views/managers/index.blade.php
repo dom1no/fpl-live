@@ -54,7 +54,7 @@
                         </tr>
                         <tr class="collapse" id="manager-team-{{ $manager->id }}">
                             <td colspan="100%" class="p-0">
-                                @include('managers.components.manager-team')
+                                @include('managers.components.team')
                             </td>
                         </tr>
                     @endforeach

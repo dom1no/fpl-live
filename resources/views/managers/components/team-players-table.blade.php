@@ -5,7 +5,7 @@
         <th scope="col">Очки</th>
         <th scope="col" class="d-none d-md-flex">Матч</th>
         <th scope="col">Цена</th>
-{{--            <th scope="col">Очки на 1£</th>--}}
+        {{--            <th scope="col">Очки на 1£</th>--}}
     </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
             </td>
         </tr>
         @foreach($picks as $pick)
-            @include('managers.components.manager-team-pick-row')
+            @include('managers.components.team-players-table-row')
         @endforeach
     @endforeach
 
@@ -25,7 +25,7 @@
         <td colspan="100%" class="text-left">Запас</td>
     </tr>
     @foreach($benchPicks as $pick)
-        @include('managers.components.manager-team-pick-row', [
+        @include('managers.components.team-players-table-row', [
             'showPosition' => true,
             'showCleanPoints' => true,
         ])

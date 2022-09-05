@@ -24,14 +24,14 @@
             </span>
         @endif
         <span class="d-block d-md-none text-truncate">
-            @include('components.fixture-link', ['showShortNames' => true])
+            @include('fixtures.components.fixture-link', ['showShortNames' => true])
         </span>
     </td>
     <td>
-        @include('components.pick-points')
+        @include('managers.components.pick-points')
     </td>
     <td class="d-none d-md-table-cell">
-        @include('components.fixture-link')
+        @include('fixtures.components.fixture-link')
     </td>
     <td>
         {{ price_formatted($player->price) }}
