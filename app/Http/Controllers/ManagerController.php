@@ -24,19 +24,28 @@ class ManagerController extends Controller
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ], 'is_free')
+            ])
+            ->withSum([
+                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
+            ], 'points')
             ->orderByDesc('total_points')
             ->get()
             ->keyBy('id');
 
-        $playedPicksByManagers = $managers->map(function (Manager $manager) {
-            return $manager->picks
-                ->where(
-                    fn (ManagerPick $pick) => ! $pick->player->team->fixtures->first()?->isFeature()
-                );
+        $playedPicksCountByManagers = collect($managers)->map(function (Manager $manager) {
+            $mainPicks = $manager->picks->where('multiplier', '>', 0);
+
+            return [
+                'played' => $mainPicks->where(
+                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
+                )->count(),
+                'playing' => $mainPicks->where(
+                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isInProgress()
+                )->count(),
+            ];
         });
 
-        return view('managers.index', compact('managers', 'gameweek', 'playedPicksByManagers'));
+        return view('managers.index', compact('managers', 'gameweek', 'playedPicksCountByManagers'));
     }
 
     public function show(Manager $manager): View
@@ -51,18 +60,24 @@ class ManagerController extends Controller
                 'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
             ])
-            ->loadSum('picks as total_picks_points', 'points')
             ->loadCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ], 'is_free');
+            ])
+            ->loadSum([
+                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
+            ], 'points');
 
-        $playedPicksByManagers = collect([$manager->id => $manager])->map(function (Manager $manager) {
-            return $manager->picks
-                ->where(
-                    fn (ManagerPick $pick) => ! $pick->player->team->fixtures->first()?->isFeature()
-                );
-        });
+        $mainPicks = $manager->picks->where('multiplier', '>', 0);
 
-        return view('managers.show', compact('manager', 'gameweek', 'playedPicksByManagers'));
+        $playedPicksCount = [
+            'played' => $mainPicks->where(
+                fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
+            )->count(),
+            'playing' => $mainPicks->where(
+                fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isInProgress()
+            )->count(),
+        ];
+
+        return view('managers.show', compact('manager', 'gameweek', 'playedPicksCount'));
     }
 }

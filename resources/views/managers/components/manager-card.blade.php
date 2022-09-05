@@ -2,7 +2,7 @@
     <div class="card-header">
         <h2>{{ $manager->name }}</h2>
         <span>
-            GW очки: {{ $manager->picks->sum('points') }}
+            Тур: {{ $manager->gameweek_points }}
             @if ($transfersCost = $manager->paid_transfers_count * 4)
                 <span class="opacity-7">
                     (-{{ $transfersCost }})
@@ -12,10 +12,10 @@
             Всего очков: {{ $manager->total_points }}
             <br><br>
 
-            @php($playedPicks = $playedPicksByManagers->get($manager->id))
-            @php($playedPicksMain = $playedPicks->where('multiplier', '>', 0))
-            Сыграло игроков: {{ $playedPicksMain->count() }} ({{ $playedPicks->count() }})
-            | {{ price_formatted($playedPicksMain->sum('player.price')) }} ({{ price_formatted($playedPicks->sum('player.price')) }})
+            Сыграло(играет) игроков: {{ $playedPicksCount['played'] }}
+            @if($playedPicksCount['playing'])
+                ({{ $playedPicksCount['playing'] }})
+            @endif
         </span>
     </div>
     <div class="card-body p-0">
