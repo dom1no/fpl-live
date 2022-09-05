@@ -19,7 +19,7 @@ class ManagerController extends Controller
             'picks.player.team',
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
             'picks.player.team.fixtures.teams',
-            'chips', // => fn ($q) => $q->forGameweek($gameweek),
+            'chips' => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
@@ -56,6 +56,20 @@ class ManagerController extends Controller
                 'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
             ], 'points');
 
+        $managerPositions = [
+            $gameweek->id => Manager::select('id')
+                    ->withSum([
+                        'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
+                    ], 'points')
+                    ->get()
+                    ->sortByDesc('gameweek_points')
+                    ->pluck('id')
+                    ->search($manager->id) + 1,
+            'total' => Manager::orderByDesc('total_points')
+                    ->pluck('id')
+                    ->search($manager->id) + 1,
+        ];
+
         $mainPicks = $manager->picks->where('multiplier', '>', 0);
 
         $playedPicksCount = [
@@ -67,6 +81,6 @@ class ManagerController extends Controller
             )->count(),
         ];
 
-        return view('managers.show', compact('manager', 'gameweek', 'playedPicksCount'));
+        return view('managers.show', compact('manager', 'gameweek', 'managerPositions', 'playedPicksCount'));
     }
 }

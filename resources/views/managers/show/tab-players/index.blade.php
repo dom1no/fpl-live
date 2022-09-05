@@ -25,7 +25,7 @@
          aria-labelledby="tabs-manager-{{ $manager->id }}-table-team-tab">
         @include('managers.show.tab-players.players-table')
     </div>
-    <div class="tab-pane fade" id="tabs-manager-{{ $manager->id }}-pitch" role="tabpanel"
+    <div class="tab-pane fade justify-content-center" id="tabs-manager-{{ $manager->id }}-pitch" role="tabpanel"
          aria-labelledby="tabs-manager-{{ $manager->id }}-pitch-tab">
         @include('managers.show.tab-players.pitch.index')
     </div>

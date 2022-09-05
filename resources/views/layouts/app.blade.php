@@ -29,12 +29,8 @@
         <div class="main-content">
             @include('layouts.navbars.navbar')
 
-            <div class="container-fluid mt-2 mb-5">
-                <div class="row justify-content-center">
-                    <div class="@if ($fluid ?? false)col-sm-12 @else col-sm-10 @endif">
-                        @yield('content')
-                    </div>
-                </div>
+            <div class="container mt-2 mb-5">
+                @yield('content')
             </div>
         </div>
 

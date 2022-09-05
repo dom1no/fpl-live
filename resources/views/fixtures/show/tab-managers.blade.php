@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-10 offset-sm-1 col-md-8 offset-md-2">
+    <div class="col-sm-10 offset-sm-1">
         <div class="card">
             <div class="card-body p-0">
                 <table class="table align-items-center">

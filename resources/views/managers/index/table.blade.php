@@ -18,10 +18,12 @@
                 <a href="{{ route('managers.show', $manager) }}">
                     {{ $manager->name }}
                 </a>
-                @include('managers.components.chips-badges', [
-                    'chips' => $manager->chips,
-                    'withMobileBr' => true,
-                ])
+                @foreach($manager->chips as $chip)
+                    <br class="d-block d-sm-none">
+                    <span class="badge badge-light mt-1 mt-sm-0">
+                        {{ $chip->type->title() }}
+                    </span>
+                @endforeach
             </td>
             <td>
                 {{ $manager->gameweek_points }}
