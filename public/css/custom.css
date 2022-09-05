@@ -218,6 +218,8 @@
     /*border-bottom-right-radius: 3px;*/
     background-color: #dae4ee !important;
     /*background-color: rgba(233, 249, 241, 0.3);*/
+
+    opacity: 80%;
 }
 
 @media (min-width: 38.125em) {
@@ -233,12 +235,14 @@
 }
 
 .pitch-row-unit-element-fixture {
-    padding: 3px;
+    padding: 3px 2px;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    font-size: 9px;
+    font-size: 10px;
     /*background-color: #dae4ee !important;*/
     /*background-color: rgba(233, 249, 241, 0.3);*/
+
+    opacity: 80%;
 }
 
 @media (min-width: 38.125em) {
