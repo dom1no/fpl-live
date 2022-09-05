@@ -5,9 +5,9 @@
 
     <div class="card-body p-0">
         @if ($fixture->isFeature())
-            @include('fixtures.show.tab-players.team-players-list')
+            @include('fixtures.show.tab-players.team-players-table')
         @else
-            @include('fixtures.show.tab-players.team-players-list', [
+            @include('fixtures.show.tab-players.team-players-table', [
                 'players' => $players->where('gameweekStats.minutes', '>', 0)
             ])
 
@@ -22,7 +22,7 @@
                 </button>
             </h3>
             <div class="collapse" id="collapse-bench-team-{{ $team->id }}">
-                @include('fixtures.show.tab-players.team-players-list', [
+                @include('fixtures.show.tab-players.team-players-table', [
                     'players' => $players->where('gameweekStats.minutes', 0)
                 ])
             </div>

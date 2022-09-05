@@ -1,15 +1,17 @@
 <div class="col-sm text-center">
     <span class="size">{{ $fixture->kickoff_time->format('d.m.Y H:i') }}</span>
+
     <br>
     <span class="display-3">
-        {{ $fixture->homeTeam->name }}
+        {{ $homeTeam->name }}
         @if ($fixture->isFeature())
             -
         @else
             {{ $fixture->score_formatted }}
         @endif
-        {{ $fixture->awayTeam->name }}
+        {{ $awayTeam->name }}
     </span>
+
     <br>
     @if ($fixture->isInProgress())
         <span class="size">
