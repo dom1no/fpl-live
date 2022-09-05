@@ -25,11 +25,15 @@ class ImportManagersTransfersCommand extends FPLImportCommand
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
         $this->players = Player::pluck('id', 'fpl_id');
 
-        Manager::each(function (Manager $manager) use ($FPLService) {
-            $transfers = $FPLService->getManagerTransfers($manager);
-            $gameweeksStats = $FPLService->getManagerGameweekStats($manager);
-            $this->importManagerTransfers($transfers, $gameweeksStats, $manager);
-        });
+        Manager::query()
+            ->tap(fn ($query) => $this->startProgressBar($query->count()))
+            ->each(function (Manager $manager) use ($FPLService) {
+                $transfers = $FPLService->getManagerTransfers($manager);
+                $gameweeksStats = $FPLService->getManagerGameweekStats($manager);
+                $this->importManagerTransfers($transfers, $gameweeksStats, $manager);
+
+                $this->advanceProgressBar();
+            });
     }
 
     private function importManagerTransfers(Collection $transfers, Collection $gameweeksStats, Manager $manager): void

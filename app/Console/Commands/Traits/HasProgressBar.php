@@ -6,7 +6,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 
 trait HasProgressBar
 {
-    private ProgressBar $progressBar;
+    private ?ProgressBar $progressBar = null;
 
     protected function startProgressBar(int $total): void
     {
@@ -17,11 +17,12 @@ trait HasProgressBar
 
     protected function advanceProgressBar(): void
     {
-        $this->progressBar->advance();
+        $this->progressBar?->advance();
     }
 
     protected function finishProgressBar(): void
     {
-        $this->progressBar->finish();
+        $this->progressBar?->finish();
+        $this->newLine();
     }
 }

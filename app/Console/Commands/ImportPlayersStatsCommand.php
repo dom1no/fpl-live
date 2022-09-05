@@ -36,6 +36,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         Gameweek::query()
             ->finishedOrCurrent()
             ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
+            ->tap(fn ($query) => $this->startProgressBar($query->count()))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
                 $this->importStats($stats, $gameweek);
@@ -47,6 +48,8 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                 $this->updateManagersPicksPoints($gameweek);
 
                 $this->calcFixturesLiveMinutes($gameweek);
+
+                $this->advanceProgressBar();
             });
 
         $this->updateManagersTotalPoints();

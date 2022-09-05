@@ -20,6 +20,7 @@ class ImportPlayersCommand extends FPLImportCommand
     {
         $data = $FPLService->getBootstrapStatic();
         $playersData = $data['elements'];
+        $this->startProgressBar(count($playersData));
 
         $teamsIds = Team::pluck('id', 'fpl_id');
 
@@ -35,6 +36,7 @@ class ImportPlayersCommand extends FPLImportCommand
             ]);
 
             $this->importedInc();
+            $this->advanceProgressBar();
         }
     }
 }

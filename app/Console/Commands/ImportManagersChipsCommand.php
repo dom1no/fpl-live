@@ -22,10 +22,14 @@ class ImportManagersChipsCommand extends FPLImportCommand
     {
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
 
-        Manager::each(function (Manager $manager) use ($FPLService) {
-            $chips = $FPLService->getManagerChips($manager);
-            $this->importChips($chips, $manager);
-        });
+        Manager::query()
+            ->tap(fn ($query) => $this->startProgressBar($query->count()))
+            ->each(function (Manager $manager) use ($FPLService) {
+                $chips = $FPLService->getManagerChips($manager);
+                $this->importChips($chips, $manager);
+
+                $this->advanceProgressBar();
+            });
     }
 
     protected function importChips(Collection $chips, Manager $manager): void

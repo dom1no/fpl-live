@@ -44,6 +44,7 @@ abstract class FPLImportCommand extends Command
 
         $this->import($FPLService);
 
+        $this->finishProgressBar();
         $this->finishMeasure();
         $this->info("Finished import {$this->entityName()}. {$this->importedCountText($this->entityName())} {$this->durationText()}");
     }

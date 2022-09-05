@@ -17,6 +17,7 @@ class ImportManagersCommand extends FPLImportCommand
     protected function import(FPLService $FPLService): void
     {
         $managers = $FPLService->getManagers(self::LEAGUE_ID);
+        $this->startProgressBar($managers->count());
 
         foreach ($managers as $manager) {
             Manager::updateOrCreate([
@@ -29,6 +30,7 @@ class ImportManagersCommand extends FPLImportCommand
             ]);
 
             $this->importedInc();
+            $this->advanceProgressBar();
         }
     }
 

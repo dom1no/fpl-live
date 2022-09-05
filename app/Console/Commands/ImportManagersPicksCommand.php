@@ -31,12 +31,15 @@ class ImportManagersPicksCommand extends FPLImportCommand
         Gameweek::query()
             ->finishedOrCurrent()
             ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
+            ->tap(fn ($query) => $this->startProgressBar($query->count()))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 Manager::each(function (Manager $manager) use ($FPLService, $gameweek) {
                     $data = $FPLService->getManagerGameweekInfo($manager, $gameweek);
                     $this->importManagerPicks($data['picks'], $manager, $gameweek);
                     $this->importManagerAutoSubs($data['automatic_subs'], $manager, $gameweek);
                 });
+
+                $this->advanceProgressBar();
             });
     }
 

@@ -29,9 +29,12 @@ class ImportFixturesCommand extends FPLImportCommand
 
         Gameweek::query()
             ->when($this->option('current'), fn ($q) => $q->where('is_current', true))
+            ->tap(fn ($q) => $this->startProgressBar($q->count()))
             ->each(function (Gameweek $gameweek) use ($FPLService) {
                 $fixturesData = $FPLService->getFixturesByGameweek($gameweek);
                 $this->importFixtures($fixturesData, $gameweek);
+
+                $this->advanceProgressBar();
             });
     }
 

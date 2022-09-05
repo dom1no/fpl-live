@@ -33,8 +33,6 @@ class ImportTeamsCommand extends FPLImportCommand
             $this->importedInc();
             $this->advanceProgressBar();
         }
-
-        $this->finishProgressBar();
     }
 
     private function downloadShirts(Team $team, array $teamData): void
