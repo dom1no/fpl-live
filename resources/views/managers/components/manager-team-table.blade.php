@@ -11,8 +11,6 @@
         </thead>
         <tbody>
 
-        @php([$mainPicks, $benchPicks] = $manager->picks->partition(fn ($pick) => $pick->position <= 11))
-
         @foreach($mainPicks->groupBy('player.position.value') as $picks)
             <tr class="opacity-8">
                 <td colspan="5" class="py-2">

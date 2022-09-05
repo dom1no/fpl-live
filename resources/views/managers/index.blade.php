@@ -20,7 +20,7 @@
                             @php($playedPicks = $playedPicksByManagers->get($manager->id))
                             @php($playedPicksMain = $playedPicks->where('multiplier', '>', 0))
                             <tr data-toggle="collapse" data-target="#manager-team-{{ $manager->id }}"
-                                class="accordion-toggle">
+                                class="manager-table-row collapsed">
                                 <td>
                                     {{ $manager->name }}
                                     @foreach($manager->chips as $chip)
@@ -50,7 +50,7 @@
                             </tr>
                             <tr class="collapse" id="manager-team-{{ $manager->id }}">
                                 <td colspan="4" class="p-0">
-                                    @include('managers.components.manager-team-table')
+                                    @include('managers.components.manager-team')
                                 </td>
                             </tr>
                         @endforeach

@@ -19,6 +19,6 @@
         </span>
     </div>
     <div class="card-body p-0">
-        @include('managers.components.manager-team-table')
+        @include('managers.components.manager-team')
     </div>
 </div>
