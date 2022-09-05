@@ -23,7 +23,7 @@ class ImportFixturesCommand extends FPLImportCommand
         return '{--current}';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $this->teams = Team::pluck('id', 'fpl_id');
 

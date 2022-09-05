@@ -1,20 +1,23 @@
-@php($fixture = $pick->player->team->fixtures->first())
+@php use App\Models\Enums\PlayerPosition; @endphp
+@php($team = $pick->player->team)
+@php($fixture = $team->fixtures->first())
+@php($isGKP = $pick->player->position === PlayerPosition::GOALKEEPER)
 
 <div class="pitch-row-unit-element-wrapper">
     <div class="pitch-row-unit-element">
         <button type="button" class="pitch-row-unit-element-shirt">
             <picture>
                 <source type="image/webp" srcset="
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-66.webp 66w,
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-110.webp 110w,
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-220.webp 220w
-        " sizes="(min-width: 1024px) 55px, (min-width: 610px) 44px, 33px">
-                <img src="https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-66.png"
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(66, 'webp', $isGKP)) }} 66w,
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(110, 'webp', $isGKP)) }} 110w,
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(220, 'webp', $isGKP)) }} 220w,
+                " sizes="(min-width: 1024px) 55px, (min-width: 610px) 44px, 33px">
+                <img src="{{ Storage::disk('shirts')->url($team->getFileShirtName(66, 'png', $isGKP)) }}"
                      srcset="
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-66.png 66w,
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-110.png 110w,
-        https://fantasy.premierleague.com/dist/img/shirts/standard/shirt_6_1-220.png 220w
-        " sizes="(min-width: 1024px) 55px, (min-width: 610px) 44px, 33px" alt="Spurs"
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(66, 'png', $isGKP)) }} 66w,
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(110, 'png', $isGKP)) }} 110w,
+                {{ Storage::disk('shirts')->url($team->getFileShirtName(220, 'png', $isGKP)) }} 220w,
+                " sizes="(min-width: 1024px) 55px, (min-width: 610px) 44px, 33px" alt="Spurs"
                      class="pitch-row-unit-element-shirt-img">
             </picture>
             <div class="pitch-row-unit-element-data">

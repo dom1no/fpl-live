@@ -14,7 +14,7 @@ class ImportManagersCommand extends FPLImportCommand
         return 'managers';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $managers = $FPLService->getManagers(self::LEAGUE_ID);
 

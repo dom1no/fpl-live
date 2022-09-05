@@ -20,7 +20,7 @@ class ImportManagersTransfersCommand extends FPLImportCommand
         return 'managers transfers';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
         $this->players = Player::pluck('id', 'fpl_id');

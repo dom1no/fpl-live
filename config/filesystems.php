@@ -56,6 +56,13 @@ return [
             'throw' => false,
         ],
 
+        'shirts' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/shirts'),
+            'url' => env('APP_URL') . '/storage/shirts',
+            'visibility' => 'public',
+            'throw' => false,
+        ]
     ],
 
     /*

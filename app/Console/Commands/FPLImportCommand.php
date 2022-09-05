@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Console\Commands\Traits\HasImportedCount;
 use App\Console\Commands\Traits\HasMeasure;
+use App\Console\Commands\Traits\HasProgressBar;
 use App\Services\FPL\FPLService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
@@ -11,6 +12,7 @@ use Illuminate\Support\Str;
 abstract class FPLImportCommand extends Command
 {
     use HasImportedCount;
+    use HasProgressBar;
     use HasMeasure;
 
     public function __construct()
@@ -46,5 +48,5 @@ abstract class FPLImportCommand extends Command
         $this->info("Finished import {$this->entityName()}. {$this->importedCountText($this->entityName())} {$this->durationText()}");
     }
 
-    abstract public function import(FPLService $FPLService): void;
+    abstract protected function import(FPLService $FPLService): void;
 }

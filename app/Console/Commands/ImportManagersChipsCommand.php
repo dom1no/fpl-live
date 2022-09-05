@@ -18,7 +18,7 @@ class ImportManagersChipsCommand extends FPLImportCommand
         return 'managers chips';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $this->gameweeks = Gameweek::pluck('id', 'fpl_id');
 
@@ -28,7 +28,7 @@ class ImportManagersChipsCommand extends FPLImportCommand
         });
     }
 
-    public function importChips(Collection $chips, Manager $manager): void
+    protected function importChips(Collection $chips, Manager $manager): void
     {
         foreach ($chips as $chip) {
             ManagerChip::updateOrCreate([

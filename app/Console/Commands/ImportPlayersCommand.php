@@ -16,7 +16,7 @@ class ImportPlayersCommand extends FPLImportCommand
 
     // TODO: выгружать данные по травмам, фото, status
     // status: a - все ок, i - травма (точно не сыграет), d - повреждение (возможно сыграет), u - ушел (аренда/трансфер)
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $data = $FPLService->getBootstrapStatic();
         $playersData = $data['elements'];

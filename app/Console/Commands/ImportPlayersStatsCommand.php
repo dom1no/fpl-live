@@ -29,7 +29,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         return '{--current}';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $this->players = Player::pluck('id', 'fpl_id');
 

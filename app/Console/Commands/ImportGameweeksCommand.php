@@ -13,7 +13,7 @@ class ImportGameweeksCommand extends FPLImportCommand
         return 'gameweeks';
     }
 
-    public function import(FPLService $FPLService): void
+    protected function import(FPLService $FPLService): void
     {
         $data = $FPLService->getBootstrapStatic();
         $gameweeksData = $data['events'];
