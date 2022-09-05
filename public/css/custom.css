@@ -28,8 +28,10 @@
     display: none;
 }
 
-.manager-table-row:not(.collapsed) {
-    background-color: #ced4da !important;
+.text-break {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
 }
 
 .table-responsive .pitch {
@@ -127,7 +129,7 @@
 
 .pitch-row-unit-element {
     position: relative;
-    width: 64px;
+    width: 75px;
     margin: auto;
     padding-right: 3px;
     padding-left: 3px;
@@ -138,7 +140,7 @@
 @media (min-width: 38.125em) {
     .pitch-row-unit-element {
         /*width: 10.5rem;*/
-        width: 105px;
+        width: 115px;
     }
 }
 
@@ -184,11 +186,11 @@
 }
 
 .pitch-row-unit-element-data {
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .pitch-row-unit-element-name {
-    padding: 2px;
+    padding: 3px;
     background-color: rgb(55, 0, 60);
     color: white;
     text-overflow: ellipsis;
@@ -212,8 +214,8 @@
 
 .pitch-row-unit-element-value {
     padding: 2px;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
+    /*border-bottom-left-radius: 3px;*/
+    /*border-bottom-right-radius: 3px;*/
     background-color: #dae4ee !important;
     /*background-color: rgba(233, 249, 241, 0.3);*/
 }
@@ -227,6 +229,27 @@
 @media (min-width: 64em) {
     .pitch-row-unit-element-value {
         font-size: 13px;
+    }
+}
+
+.pitch-row-unit-element-fixture {
+    padding: 3px;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    font-size: 9px;
+    /*background-color: #dae4ee !important;*/
+    /*background-color: rgba(233, 249, 241, 0.3);*/
+}
+
+@media (min-width: 38.125em) {
+    .pitch-row-unit-element-fixture {
+        font-size: 10px;
+    }
+}
+
+@media (min-width: 64em) {
+    .pitch-row-unit-element-fixture {
+        font-size: 11px;
     }
 }
 
