@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\Manager;
 use App\Models\Player;
 use App\Models\PlayerPoint;
+use App\Notifications\PlayerActionVarCancelledNotification;
 use App\Notifications\PlayerActionNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
@@ -16,14 +17,26 @@ class PlayerPointObserver
         $this->playerActionNotify($playerPoint);
     }
 
+    public function deleted(PlayerPoint $playerPoint): void
+    {
+        $this->playerActionNotify($playerPoint);
+    }
+
     private function playerActionNotify(PlayerPoint $playerPoint): void
     {
-        if ($playerPoint->wasRecentlyCreated || $playerPoint->wasChanged('points')) {
+        if ($playerPoint->wasRecentlyCreated || $playerPoint->wasChanged('points') || !$playerPoint->exists) {
             $managers = $this->getManagersHasPlayer($playerPoint->player);
 
+            if ($playerPoint->exists && $playerPoint->value - $playerPoint->getOriginal('value', 0) > 0) {
+                $notification = new PlayerActionNotification($playerPoint);
+            } else {
+                $notification = new PlayerActionVarCancelledNotification($playerPoint);
+            }
+
             Notification::send(
-                $managers,
-                new PlayerActionNotification($playerPoint)
+                // $managers,
+                Manager::first(),
+                $notification,
             );
         }
     }

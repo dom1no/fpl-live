@@ -11,7 +11,7 @@ use NotificationChannels\Telegram\TelegramMessage;
 
 class PlayerActionNotification extends Notification
 {
-    private PlayerPoint $playerPoint;
+    protected PlayerPoint $playerPoint;
 
     public function __construct(PlayerPoint $playerPoint)
     {
@@ -49,13 +49,17 @@ class PlayerActionNotification extends Notification
             ]));
     }
 
-    private function getActionFullText(): string
+    protected function getActionFullText(): string
     {
         return "{$this->getActionEmoji()} {$this->getActionTitleText()} {$this->getPlayerText()} {$this->getActionText()} {$this->getActionDiffPointText()}";
     }
 
-    private function getActionEmoji(): string
+    protected function getActionEmoji(): string
     {
+        if ($this->playerPoint->value - $this->playerPoint->getOriginal('value') < 0) {
+            return '🚫';
+        }
+
         return match ($this->playerPoint->action) {
             PlayerPointAction::GOALS_SCORED => '⚽',
             PlayerPointAction::ASSISTS => '🎯',
@@ -67,7 +71,7 @@ class PlayerActionNotification extends Notification
         };
     }
 
-    private function getActionTitleText(): string
+    protected function getActionTitleText(): string
     {
         return match ($this->playerPoint->action) {
             PlayerPointAction::GOALS_SCORED => match ((int) $this->playerPoint->value) {
@@ -87,7 +91,7 @@ class PlayerActionNotification extends Notification
         };
     }
 
-    private function getActionText(): string
+    protected function getActionText(): string
     {
         return match ($this->playerPoint->action) {
             PlayerPointAction::GOALS_SCORED => 'забил',
@@ -100,20 +104,29 @@ class PlayerActionNotification extends Notification
         };
     }
 
-    private function getActionDiffPointText(): string
+    protected function getActionDiffPointText(): string
     {
-        $diff = $this->playerPoint->points - $this->playerPoint->getOriginal('points', 0);
+        $diff = $this->getActionDiffPoints();
         $withSign = $diff > 0 ? "+{$diff}" : $diff;
 
         return "({$withSign})";
     }
 
-    private function getPlayerText(): string
+    protected function getActionDiffPoints(): int
+    {
+        if (!$this->playerPoint->exists) {
+            return -$this->playerPoint->getOriginal('points', 0);
+        }
+
+        return $this->playerPoint->points - $this->playerPoint->getOriginal('points', 0);
+    }
+
+    protected function getPlayerText(): string
     {
         return "*{$this->playerPoint->player->full_name}* **({$this->playerPoint->player->team->name})**";
     }
 
-    private function getFixtureScoreText(): string
+    protected function getFixtureScoreText(): string
     {
         $fixture = $this->getCurrentFixture();
         $fixtureUrl = route('fixtures.show', $fixture);
@@ -121,12 +134,12 @@ class PlayerActionNotification extends Notification
         return "[{$fixture->home_team->name} {$fixture->score_formatted} {$fixture->away_team->name}]({$fixtureUrl}) {$fixture->minutes}'";
     }
 
-    private function getCurrentFixture(): Fixture
+    protected function getCurrentFixture(): Fixture
     {
         return $this->playerPoint->player->team->fixtures()->forCurrentGameweek()->first();
     }
 
-    private function getPlayerPointsText(): string
+    protected function getPlayerPointsText(): string
     {
         return "Очки: {$this->playerPoint->player->points()->forCurrentGameweek()->sum('points')}";
     }
