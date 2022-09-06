@@ -216,8 +216,9 @@
     padding: 2px;
     /*border-bottom-left-radius: 3px;*/
     /*border-bottom-right-radius: 3px;*/
-    background-color: rgb(218, 228, 238, 0.8) !important;
     /*background-color: rgba(233, 249, 241, 0.3);*/
+
+    background-color: #5de7acff !important;
 }
 
 @media (min-width: 38.125em) {
@@ -240,18 +241,18 @@
     /*background-color: #dae4ee !important;*/
     /*background-color: rgba(233, 249, 241, 0.3);*/
 
-    background-color: rgb(255, 255, 255, 0.8);
+    background-color: #11cdef !important;
 }
 
 @media (min-width: 38.125em) {
     .pitch-row-unit-element-fixture {
-        font-size: 10px;
+        font-size: 11px;
     }
 }
 
 @media (min-width: 64em) {
     .pitch-row-unit-element-fixture {
-        font-size: 11px;
+        font-size: 12px;
     }
 }
 
@@ -259,8 +260,8 @@
     height: 14px;
     width: 14px;
     position: absolute;
-    top: 22%;
-    right: 0;
+    top: 16%;
+    right: 3px;
     color: white;
 }
 
@@ -282,26 +283,34 @@
 
 .pitch-row-unit-element-points-icon {
     position: absolute;
-    top: 44%;
-    right: 0;
-    height: 14px;
-    width: 14px;
+    top: 31%;
+    right: 2px;
+    height: 16px;
+    width: 16px;
+    filter: brightness(85%);
 }
 
 @media (min-width: 38.125em) {
     .pitch-row-unit-element-points-icon {
-        right: 10px;
-        height: 18px;
-        width: 18px;
+        right: 9px;
+        height: 29px;
+        width: 20px;
+        top: 35%;
     }
 }
 
 @media (min-width: 64em) {
     .pitch-row-unit-element-points-icon {
-        right: 20px;
-        height: 20px;
-        width: 20px;
+        right: 19px;
+        height: 22px;
+        width: 22px;
+        top: 38%;
     }
+}
+
+.pitch-row-unit-element-points-icon.text-success {
+    color: #66ff33 !important;
+    /*color: #097527 !important;*/
 }
 
 .pitch-bench {

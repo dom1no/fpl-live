@@ -44,4 +44,26 @@ class ManagerPick extends Model
 
         $this->baseScopeForGameweek($query, $gameweek);
     }
+
+    public function getIconByPoints(): string
+    {
+        return match (true) {
+            $this->clean_points >= 10 => 'icomoon-fire',
+            $this->clean_points >= 7 => 'phosphor-fire-fill',
+            $this->clean_points >= 3 => 'jam-chevron-circle-up',
+            $this->clean_points >= 0 => 'jam-minus-circle',
+            default => 'jam-chevron-circle-down',
+        };
+    }
+
+    public function getColorClassByPoints(): string
+    {
+        return match (true) {
+            $this->clean_points >= 10 => 'danger',
+            $this->clean_points >= 7 => 'warning',
+            $this->clean_points >= 3 => 'primary',
+            $this->clean_points >= 0 => 'gray',
+            default => 'danger',
+        };
+    }
 }
