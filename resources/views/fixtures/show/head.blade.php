@@ -17,7 +17,7 @@
             @endif
         </div>
         <div class="text-left ml-2">
-            {!! Str::replace('&', '&nbsp', Str::padLeft($awayTeam->name, $maxTeamNameLength, "&")) !!}
+            {!! Str::replace('&', '&nbsp', Str::padRight($awayTeam->name, $maxTeamNameLength, "&")) !!}
         </div>
     </div>
 

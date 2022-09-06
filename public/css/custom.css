@@ -42,6 +42,10 @@
     width: 100vw;
 }
 
+.nav-wrapper .nav-item {
+    padding-right: 1rem !important;
+}
+
 /* Pitch View */
 .pitch {
     min-height: 330px;
