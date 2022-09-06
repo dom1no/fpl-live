@@ -32,5 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('managers')->name('managers.')->group(function () {
         Route::get('/', [ManagerController::class, 'index'])->name('index');
         Route::get('/{manager}/show', [ManagerController::class, 'show'])->name('show');
+        Route::get('/detail-list', [ManagerController::class, 'detailList'])->name('detail-list');
     });
 });

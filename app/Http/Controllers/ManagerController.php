@@ -15,10 +15,6 @@ class ManagerController extends Controller
         $gameweek = Gameweek::getCurrent();
 
         $managers = Manager::query()->with([
-            'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-            'picks.player.team',
-            'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
-            'picks.player.team.fixtures.teams',
             'chips' => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
@@ -82,5 +78,42 @@ class ManagerController extends Controller
         ];
 
         return view('managers.show', compact('manager', 'gameweek', 'managerPositions', 'playedPicksCount'));
+    }
+
+    public function detailList(): View
+    {
+        $gameweek = Gameweek::getCurrent();
+
+        $managers = Manager::query()->with([
+            'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
+            'picks.player.team',
+            'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
+            'picks.player.team.fixtures.teams',
+            'chips' => fn ($q) => $q->forGameweek($gameweek),
+        ])
+            ->withCount([
+                'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
+            ])
+            ->withSum([
+                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
+            ], 'points')
+            ->orderByDesc('total_points')
+            ->get()
+            ->keyBy('id');
+
+        $playedPicksCountByManagers = $managers->map(function (Manager $manager) {
+            $mainPicks = $manager->picks->where('multiplier', '>', 0);
+
+             return [
+                'played' => $mainPicks->where(
+                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
+                )->count(),
+                'playing' => $mainPicks->where(
+                    fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isInProgress()
+                )->count(),
+            ];
+        });
+
+        return view('managers.detail-list', compact('managers', 'gameweek', 'playedPicksCountByManagers'));
     }
 }

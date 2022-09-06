@@ -9,6 +9,7 @@
         @svg($pick->getIconByPoints(), [
             'class' => 'text-' . $pick->getColorClassByPoints(),
             'width' => '16px',
+            'style' => 'padding-bottom: 1px;',
         ])
     @endif
 @else

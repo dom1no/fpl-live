@@ -42,6 +42,14 @@
                         <span class="nav-link-inner--text">Матчи</span>
                     </a>
                 </li>
+                @if (auth()->user() && auth()->user()->isAdmin())
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="{{ route('managers.detail-list') }}">
+                            <i class="fas fa-list"></i>
+                            <span class="nav-link-inner--text">Лига (детальная)</span>
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">

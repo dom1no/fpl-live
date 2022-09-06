@@ -50,4 +50,9 @@ class Manager extends Authenticatable
     {
         return $this->telegram_username;
     }
+
+    public function isAdmin(): bool
+    {
+        return $this->name === 'Maxim Kuprov';
+    }
 }

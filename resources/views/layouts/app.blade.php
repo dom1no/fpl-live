@@ -29,7 +29,7 @@
         <div class="main-content">
             @include('layouts.navbars.navbar')
 
-            <div class="container mt-2 mb-5">
+            <div class="container{{ ($fluid ?? false) ? '-fluid' : '' }} mt-2 mb-5">
                 @yield('content')
             </div>
         </div>
