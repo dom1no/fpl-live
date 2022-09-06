@@ -21,10 +21,12 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(ImportPlayersCommand::class)->hourly();
 
-        $schedule->command(ImportGameweeksCommand::class)->hourly(); //TODO: запускать по дедлайну
-        $schedule->command(ImportManagersPicksCommand::class)->hourly();
-        $schedule->command(ImportManagersTransfersCommand::class)->hourly();
-        $schedule->command(ImportManagersChipsCommand::class)->hourly();
+        $schedule->command(ImportGameweeksCommand::class)->hourly()
+            ->after(function () {
+                $this->call(ImportManagersPicksCommand::class);
+                $this->call(ImportManagersTransfersCommand::class);
+                $this->call(ImportManagersChipsCommand::class);
+            });
 
         // $schedule->command(ImportTeamsCommand::class)->daily();
         // $schedule->command(ImportManagersCommand::class)->daily();

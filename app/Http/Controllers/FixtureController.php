@@ -52,12 +52,4 @@ class FixtureController extends Controller
 
         return view('fixtures.show', compact('fixture', 'players', 'managersPicks'));
     }
-
-    public function sync(): RedirectResponse
-    {
-        Artisan::call(ImportFixturesCommand::class, ['--current' => true]);
-        Artisan::call(ImportPlayersStatsCommand::class, ['--current' => true]);
-
-        return redirect()->back();
-    }
 }

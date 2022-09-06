@@ -5,7 +5,9 @@
     <tr>
         <th scope="col">Игрок</th>
         <th scope="col" class="px-2">Очки</th>
-        <th scope="col" class="pl-3 pr-1">У кого</th>
+        @auth
+            <th scope="col" class="pl-3 pr-1">У кого</th>
+        @endauth
         <th scope="col" class="d-none d-md-block">BPS</th>
     </tr>
     </thead>
@@ -13,7 +15,7 @@
     @foreach($players as $player)
         @php($playerStats = $player->gameweekStats ?? optional())
         <tr data-toggle="collapse" data-target="#player-points-explain-{{ $player->id }}"
-            class="accordion-toggle">
+            @class(['accordion-toggle', 'bg-light' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])>
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)
@@ -60,18 +62,20 @@
                     </div>
                 @endif
             </td>
-            <td class="pl-3 pr-1">
-                <ul class="pl-2 pr-0">
-                    @foreach($player->managerPicks->sortByDesc('multiplier') as $pick)
-                        <li class="@if($pick->multiplier == 0)text-light @endif">
-                            {{ $pick->manager->name }}
-                            @if ($pick->is_captain)
-                                <i class="fas fa-copyright"></i>
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
-            </td>
+            @auth
+                <td class="pl-3 pr-1">
+                    <ul class="pl-2 pr-0">
+                        @foreach($player->managerPicks->sortByDesc('multiplier') as $pick)
+                            <li @class(['text-light' => $pick->multiplier == 0])">
+                                {{ $pick->manager->name }}
+                                @if ($pick->is_captain)
+                                    <i class="fas fa-copyright"></i>
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </td>
+            @endauth
             <td class="d-none d-md-table-cell">
                 {{ $playerStats->bps ?: '-' }}
             </td>

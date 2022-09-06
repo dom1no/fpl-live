@@ -7,7 +7,9 @@
         [$previousGameweeks, $featureGameweeks] = $gameweeks->partition('is_finished', true);
     @endphp
 
-    @include('fixtures.index.head')
+    <p class="display-3 text-center">
+        {{ $currentGameweek->name }}
+    </p>
 
     <div class="row">
         <div class="col-sm">

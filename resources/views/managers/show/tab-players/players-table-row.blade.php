@@ -1,7 +1,7 @@
 @php($player = $pick->player)
 @php($fixture = $player->team->fixtures->first())
 
-<tr class="@if($fixture->isFinished())font-weight-bold @endif">
+<tr @class(['font-weight-bold' => $fixture->isFinished()])>
     <td>
         {{ $player->name }}
         @if ($pick->is_captain)

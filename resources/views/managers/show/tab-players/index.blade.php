@@ -4,7 +4,7 @@
             <a class="nav-link p-2 active" id="tabs-squad-pitch-view-tab"
                data-toggle="tab" href="#tabs-squad-pitch-view" role="tab"
                aria-controls="tabs-squad-pitch-view" aria-selected="true">
-                Pitch view
+                Расстановка
             </a>
         </li>
         <li class="nav-item col-6 col-sm-3">
@@ -12,7 +12,7 @@
                href="#tabs-squad-table-view" role="tab"
                aria-controls="tabs-squad-table-view"
                aria-selected="false">
-                Table view
+                Список
             </a>
         </li>
     </ul>

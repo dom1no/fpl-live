@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Manager extends Model
+class Manager extends Authenticatable
 {
+    public const DEFAULT_PASSWORD = 'qwerty';
+
     use Notifiable;
 
     protected $fillable = [
@@ -16,6 +18,12 @@ class Manager extends Model
         'total_points',
         'fpl_id',
         'telegram_username',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
     ];
 
     public function picks(): HasMany

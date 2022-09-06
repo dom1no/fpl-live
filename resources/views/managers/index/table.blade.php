@@ -10,7 +10,7 @@
     </thead>
     <tbody>
     @foreach($managers as $manager)
-        <tr>
+        <tr @class(['font-weight-bold bg-light' => auth()->user()->is($manager)])>
             <td style="width: 20px;" class="px-3">
                 {{ $loop->iteration }}
             </td>

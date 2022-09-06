@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\FixtureController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
-use App\Models\Manager;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,19 +16,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect()->route('managers.show', [
-        Manager::where('fpl_id', 3503081)->firstOrFail(),
-    ]);
-})->name('home');
-
-Route::prefix('managers')->name('managers.')->group(function () {
-    Route::get('/', [ManagerController::class, 'index'])->name('index');
-    Route::get('/{manager}/show', [ManagerController::class, 'show'])->name('show');
-});
+Auth::routes([
+    'register' => false,
+    'reset' => false
+]);
 
 Route::prefix('fixtures')->name('fixtures.')->group(function () {
     Route::get('/', [FixtureController::class, 'index'])->name('index');
-    Route::get('/sync', [FixtureController::class, 'sync'])->name('sync');
     Route::get('/{fixture}/show', [FixtureController::class, 'show'])->name('show');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/', HomeController::class)->name('home');
+
+    Route::prefix('managers')->name('managers.')->group(function () {
+        Route::get('/', [ManagerController::class, 'index'])->name('index');
+        Route::get('/{manager}/show', [ManagerController::class, 'show'])->name('show');
+    });
 });

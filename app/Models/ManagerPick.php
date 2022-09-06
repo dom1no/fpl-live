@@ -52,7 +52,7 @@ class ManagerPick extends Model
             $this->clean_points >= 7 => 'phosphor-fire-fill',
             $this->clean_points >= 3 => 'jam-chevron-circle-up',
             $this->clean_points >= 0 => 'jam-minus-circle',
-            default => 'jam-chevron-circle-down',
+            default => 'fas-poop',
         };
     }
 
@@ -63,7 +63,7 @@ class ManagerPick extends Model
             $this->clean_points >= 7 => 'warning',
             $this->clean_points >= 3 => 'primary',
             $this->clean_points >= 0 => 'gray',
-            default => 'danger',
+            default => 'brown',
         };
     }
 }

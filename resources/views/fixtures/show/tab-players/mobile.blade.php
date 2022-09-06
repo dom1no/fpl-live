@@ -1,4 +1,3 @@
-
 <div class="nav-wrapper">
     <ul class="nav nav-pills nav-fill text-center" id="tabs-fixture-teams"
         role="tablist">

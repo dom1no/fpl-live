@@ -34,6 +34,10 @@
     overflow-wrap: break-word !important;
 }
 
+.text-brown {
+    color: #964b00 !important;
+}
+
 .table-responsive .pitch {
     width: 100vw;
 }

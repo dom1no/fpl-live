@@ -8,11 +8,14 @@
                             aria-expanded="true" aria-controls="collapse-gameweek-{{ $gameweek->id }}">
                         {{ $gameweek->name }}
                         <i class="ni ni-bold-down float-right"></i>
+                        <span class="float-right mr-5">
+                            {{ $gameweek->deadline_at->format('d.m H:i') }}
+                        </span>
                     </button>
                 </h5>
             </div>
             <div id="collapse-gameweek-{{ $gameweek->id }}"
-                 class="collapse @if($gameweek->is_current)show @endif"
+                 class="collapse"
                  aria-labelledby="heading-gameweek-{{ $gameweek->id }}">
                 @include('fixtures.index.table', ['gameweek' => $gameweek])
             </div>

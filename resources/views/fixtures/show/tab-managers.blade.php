@@ -13,7 +13,7 @@
                     <tbody>
                     @foreach($managersPicks as $managerPicks)
                         @php($manager = $managerPicks->first()->manager)
-                        <tr>
+                        <tr @class(['font-weight-bold bg-light' => auth()->user()->is($manager)])>
                             <td class="pl-4 pr-2 text-truncate" style="max-width: 40vw;">{{ $manager->name }}</td>
                             <td class="px-2">{{ $managerPicks->points_sum }}</td>
                             <td class="pl-3 pr-1">

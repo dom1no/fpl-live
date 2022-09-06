@@ -7,7 +7,7 @@
             </td>
         </tr>
         @foreach($dayFixtures as $fixture)
-            <tr class="@if($fixture->isFinished())font-weight-bold @endif">
+            <tr @class(['font-weight-bold' => $fixture->isFinished()])>
                 <td>
                     @include('fixtures.components.fixture-link')
                 </td>

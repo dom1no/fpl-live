@@ -28,18 +28,47 @@
             </div>
 
             <ul class="navbar-nav navbar-nav-hover">
-                <li class="nav-item">
-                    <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
-                        <i class="fas fa-users"></i>
-                        <span class="nav-link-inner--text">Лига</span>
-                    </a>
-                </li>
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="{{ route('managers.index') }}">
+                            <i class="fas fa-users"></i>
+                            <span class="nav-link-inner--text">Лига</span>
+                        </a>
+                    </li>
+                @endauth
                 <li class="nav-item">
                     <a class="nav-link nav-link-icon" href="{{ route('fixtures.index') }}">
                         <i class="fas fa-futbol"></i>
                         <span class="nav-link-inner--text">Матчи</span>
                     </a>
                 </li>
+            </ul>
+
+            <ul class="navbar-nav align-items-lg-center ml-lg-auto">
+                @auth
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="{{ route('home') }}">
+                            <i class="fas fa-user"></i>
+                            <span class="nav-link-inner--text">{{ auth()->user()->name }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span class="nav-link-inner--text">Выйти</span>
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link nav-link-icon" href="{{ route('login') }}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span class="nav-link-inner--text">Войти</span>
+                        </a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Manager;
 use App\Services\FPL\FPLService;
+use Hash;
 
 class ImportManagersCommand extends FPLImportCommand
 {
@@ -27,6 +28,8 @@ class ImportManagersCommand extends FPLImportCommand
                 'command_name' => $manager['entry_name'],
                 // 'total_points' => $manager['total'], // вычисляем из пиков, потому что тут значение обновляется позже
                 'telegram_username' => $this->mapManagerTelegram($manager['player_name']),
+
+                'password' => Hash::make(Manager::DEFAULT_PASSWORD),
             ]);
 
             $this->importedInc();
