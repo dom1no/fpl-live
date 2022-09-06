@@ -15,6 +15,7 @@ return new class extends Migration
             $table->integer('total_points')->default(0)->index();
             $table->integer('fpl_id')->unsigned()->index();
             $table->string('telegram_username')->nullable();
+            $table->string('telegram_chat_id')->nullable();
             $table->string('password');
             $table->rememberToken();
 

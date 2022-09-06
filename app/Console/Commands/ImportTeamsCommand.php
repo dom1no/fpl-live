@@ -14,6 +14,11 @@ class ImportTeamsCommand extends FPLImportCommand
         return 'teams';
     }
 
+    public function signatureArgs(): ?string
+    {
+        return '{--shirts}';
+    }
+
     protected function import(FPLService $FPLService): void
     {
         $data = $FPLService->getBootstrapStatic();
@@ -28,7 +33,9 @@ class ImportTeamsCommand extends FPLImportCommand
                 'short_name' => $teamData['short_name'],
             ]);
 
-            $this->downloadShirts($team, $teamData);
+            if ($this->option('shirts')) {
+                $this->downloadShirts($team, $teamData);
+            }
 
             $this->importedInc();
             $this->advanceProgressBar();

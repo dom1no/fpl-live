@@ -28,6 +28,7 @@ class ImportManagersCommand extends FPLImportCommand
                 'command_name' => $manager['entry_name'],
                 // 'total_points' => $manager['total'], // вычисляем из пиков, потому что тут значение обновляется позже
                 'telegram_username' => $this->mapManagerTelegram($manager['player_name']),
+                'telegram_chat_id' => Manager::DEFAULT_TELEGRAM_CHAT_ID, // TODO
 
                 'password' => Hash::make(Manager::DEFAULT_PASSWORD),
             ]);
@@ -40,8 +41,17 @@ class ImportManagersCommand extends FPLImportCommand
     private function mapManagerTelegram(string $name): ?string
     {
         return match ($name) {
-            'Maxim Kuprov' => '119785472',
-            default => '119785472', //TODO
+            'Maxim Kuprov' => 'Maksim_Kuprov',
+            'Alex Yarm' => 'AlexeyYarm',
+            'Denis Malkov' => 'mr_malkov',
+            'Rail Fahrutdinov' => 'rail_ka1',
+            'Nikita Karpasov' => 'Karpasoff',
+            'Anton Kozlov' => 'whoooopss',
+            'Daniel Yegorowski' => 'danegogo',
+            'Ilya Dengin' => 'denginis',
+            'Vlad Cheredov' => '',
+            'Bulatelli Khamiev' => '',
+            default => null,
         };
     }
 }

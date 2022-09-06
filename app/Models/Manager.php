@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Manager extends Authenticatable
 {
     public const DEFAULT_PASSWORD = 'qwerty';
+    public const DEFAULT_TELEGRAM_CHAT_ID = '119785472';
 
     use Notifiable;
 
@@ -18,6 +19,7 @@ class Manager extends Authenticatable
         'total_points',
         'fpl_id',
         'telegram_username',
+        'telegram_chat_id',
         'password',
     ];
 
@@ -48,7 +50,7 @@ class Manager extends Authenticatable
 
     public function routeNotificationForTelegram(): ?string
     {
-        return $this->telegram_username;
+        return $this->telegram_chat_id;
     }
 
     public function isAdmin(): bool
