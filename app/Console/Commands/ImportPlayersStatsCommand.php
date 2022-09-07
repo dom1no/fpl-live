@@ -99,7 +99,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
 
         foreach ($playerPoints as $playerPoint) {
             if ($this->option('current')) {
-                 $playerPoint = $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
+                $playerPoint = $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek);
             } else {
                 $playerPoint = PlayerPoint::withoutEvents(fn () => $this->upsertPlayerPoint($playerPoint, $playerId, $gameweek));
             }
@@ -108,7 +108,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         }
 
         PlayerPoint::whereKey($existedPointsIds->diff($importedPointsIds))
-            ->each(fn(PlayerPoint $point) => $point->delete());
+            ->each(fn (PlayerPoint $point) => $point->delete());
     }
 
     private function upsertPlayerPoint(array $playerPoint, int $playerId, Gameweek $gameweek): PlayerPoint

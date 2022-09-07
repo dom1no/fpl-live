@@ -2,14 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Console\Commands\ImportFixturesCommand;
-use App\Console\Commands\ImportPlayersStatsCommand;
 use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Player;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\View\View;
 
 class FixtureController extends Controller
@@ -18,7 +14,7 @@ class FixtureController extends Controller
     {
         $gameweeks = Gameweek::query()
             ->with([
-                'fixtures' => fn($q) => $q->orderBy('kickoff_time'),
+                'fixtures' => fn ($q) => $q->orderBy('kickoff_time'),
                 'fixtures.teams',
             ])
             ->get();

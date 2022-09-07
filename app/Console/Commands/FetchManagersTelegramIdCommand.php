@@ -27,14 +27,14 @@ class FetchManagersTelegramIdCommand extends Command
             ->get();
 
         $isOk = $updates['ok'] ?? false;
-        if (!$isOk) {
+        if (! $isOk) {
             return;
         }
 
         foreach ($updates['result'] as $update) {
             $telegramUsername = $update['message']['from']['username'] ?? null;
             $telegramChatId = $update['message']['from']['id'] ?? null;
-            if (!$telegramUsername || !$telegramChatId) {
+            if (! $telegramUsername || ! $telegramChatId) {
                 continue;
             }
 

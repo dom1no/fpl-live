@@ -44,7 +44,7 @@ class PlayerActionNotification extends Notification
                 $this->getFixtureScoreText(),
                 $this->getPlayerPointsText(),
 
-                "",
+                '',
                 "`{$manager->name}`", // TODO: удалить, после выката для всех
             ]));
     }
@@ -114,7 +114,7 @@ class PlayerActionNotification extends Notification
 
     protected function getActionDiffPoints(): int
     {
-        if (!$this->playerPoint->exists) {
+        if (! $this->playerPoint->exists) {
             return -$this->playerPoint->getOriginal('points', 0);
         }
 

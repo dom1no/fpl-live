@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes([
     'register' => false,
-    'reset' => false
+    'reset' => false,
 ]);
 
 Route::prefix('fixtures')->name('fixtures.')->group(function () {

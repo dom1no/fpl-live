@@ -104,7 +104,7 @@ class ManagerController extends Controller
         $playedPicksCountByManagers = $managers->map(function (Manager $manager) {
             $mainPicks = $manager->picks->where('multiplier', '>', 0);
 
-             return [
+            return [
                 'played' => $mainPicks->where(
                     fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
                 )->count(),

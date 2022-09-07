@@ -37,7 +37,7 @@ class LoginController extends Controller
     {
         $request->merge([
             'password' => Manager::DEFAULT_PASSWORD,
-            'remember' => 1,
+            'remember' => true,
         ]);
 
         $this->parentAttemptLogin($request);

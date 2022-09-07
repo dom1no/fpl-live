@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Team;
 use App\Services\FPL\FPLService;
-use Illuminate\Support\Str;
 use Storage;
 
 class ImportTeamsCommand extends FPLImportCommand
