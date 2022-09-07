@@ -45,7 +45,7 @@ class PlayerActionNotification extends Notification
                 $this->getPlayerPointsText(),
 
                 '',
-                "`{$manager->name}`", // TODO: удалить, после выката для всех
+                $manager->telegram_chat_id === Manager::DEFAULT_TELEGRAM_CHAT_ID ? "`{$manager->name}`" : '', // TODO: удалить, после выката для всех
             ]));
     }
 

@@ -26,15 +26,20 @@ class FixtureFinishedNotification extends Notification
     {
         return TelegramMessage::create()
             ->content(implode("\n", [
-                $this->getWinText(),
+                $this->getTitleText(),
                 $this->getScoreText(),
                 '',
                 $this->getManagerPointsText($manager),
                 $this->getManagerTotalPointsText($manager),
 
                 '',
-                "`{$manager->name}`", // TODO: удалить, после выката для всех
+                $manager->telegram_chat_id === Manager::DEFAULT_TELEGRAM_CHAT_ID ? "`{$manager->name}`" : '', // TODO: удалить, после выката для всех
             ]));
+    }
+
+    private function getTitleText(): string
+    {
+        return "🕙 Матч завершен - {$this->getWinText()}";
     }
 
     private function getWinText(): string
