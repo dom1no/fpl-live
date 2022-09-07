@@ -7,6 +7,7 @@ use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Manager;
 use App\Models\ManagerPick;
+use App\Models\ManagerPointsHistory;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Models\PlayerStats;
@@ -46,7 +47,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                 }
 
                 $this->updateManagersPicksPoints($gameweek);
-
+                $this->updateManagersPointsHistory($gameweek);
                 $this->calcFixturesLiveMinutes($gameweek);
 
                 $this->advanceProgressBar();
@@ -183,16 +184,30 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         }
     }
 
-    private function updateManagersTotalPoints(): void
+    private function updateManagersPointsHistory(Gameweek $gameweek): void
     {
-        Manager::withSum('picks as total_picks_points', 'points')
+        Manager::query()
+            ->with('pointsHistory')
+            ->withSum([
+                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
+            ], 'points')
             ->withCount([
-                'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
+                'transfers as gameweek_paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ], 'is_free')
-            ->each(function (Manager $manager) {
-                $manager->update([
-                    'total_points' => $manager->total_picks_points - ($manager->total_paid_transfers_count * 4),
-                ]);
+            ->each(function (Manager $manager) use ($gameweek) {
+                $previousPointsHistory = $manager->pointsHistory
+                    ->sortByDesc('gameweek_id')
+                    ->firstWhere('gameweek_id', '<', $gameweek->id);
+                $currentPointsHistory = $manager->pointsHistory
+                    ->firstWhere('gameweek_id', $gameweek->id)
+                    ?: new ManagerPointsHistory(['manager_id' => $manager->id, 'gameweek_id' => $gameweek->id]);
+
+                $currentPointsHistory->fill([
+                    'gameweek_points' => $manager->gameweek_points,
+                    'total_points' => ($previousPointsHistory->total_points ?? 0)
+                        + $manager->gameweek_points
+                        - $manager->gameweek_paid_transfers_count,
+                ])->save();
             });
     }
 
@@ -211,6 +226,20 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                     ->max('minutes');
 
                 $fixture->update(['minutes' => $maxFixturePlayerMinutes]);
+            });
+    }
+
+    private function updateManagersTotalPoints(): void
+    {
+        Manager::query()
+            ->withSum('picks as total_picks_points', 'points')
+            ->withCount([
+                'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
+            ], 'is_free')
+            ->each(function (Manager $manager) {
+                $manager->update([
+                    'total_points' => $manager->total_picks_points - ($manager->total_paid_transfers_count * 4),
+                ]);
             });
     }
 }

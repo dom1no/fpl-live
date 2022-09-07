@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('gameweek_id')->constrained();
 
             $table->string('action');
+            $table->unique(['player_id', 'gameweek_id', 'action']);
             $table->integer('value');
             $table->integer('points');
 

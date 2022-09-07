@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,6 +47,17 @@ class Manager extends Authenticatable
     public function chips(): HasMany
     {
         return $this->hasMany(ManagerChip::class);
+    }
+
+    public function pointsHistory(): HasMany
+    {
+        return $this->hasMany(ManagerPointsHistory::class);
+    }
+
+    /** use with condition */
+    public function gameweekPointsHistory(): HasOne
+    {
+        return $this->hasOne(ManagerPointsHistory::class);
     }
 
     public function routeNotificationForTelegram(): ?string

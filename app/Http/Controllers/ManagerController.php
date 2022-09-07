@@ -2,66 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Gameweek;
 use App\Models\Manager;
 use App\Models\ManagerPick;
+use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 // TODO: убрать дублирование
 class ManagerController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $gameweek = Gameweek::getCurrent();
+        $gameweek = $request->gameweek();
 
         $managers = Manager::query()->with([
             'chips' => fn ($q) => $q->forGameweek($gameweek),
+            'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ])
-            ->withSum([
-                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
-            ], 'points')
-            ->orderByDesc('total_points')
             ->get()
+            ->sortByDesc('gameweekPointsHistory.total_points')
             ->keyBy('id');
 
         return view('managers.index', compact('managers', 'gameweek'));
     }
 
-    public function show(Manager $manager): View
+    public function show(Request $request, Manager $manager): View
     {
-        $gameweek = Gameweek::getCurrent();
+        $gameweek = $request->gameweek();
 
         $manager
             ->load([
-                'picks' => fn ($q) => $q->forGameweek($gameweek),
+                'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
                 'picks.player.team',
                 'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
                 'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
-                'chips',
-                'transfers' => fn ($q) => $q->orderByDesc('gameweek_id'),
+                'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
+                'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
+            ]);
+
+        $managers = Manager::select('id')
+            ->with([
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
-            ->loadSum([
-                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
-            ], 'points');
+            ->get();
 
         $managerPositions = [
-            $gameweek->id => Manager::select('id')
-                    ->withSum([
-                        'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
-                    ], 'points')
-                    ->get()
-                    ->sortByDesc('gameweek_points')
+            $gameweek->id => $managers
+                    ->sortByDesc('gameweekPointsHistory.gameweek_points')
                     ->pluck('id')
                     ->search($manager->id) + 1,
-            'total' => Manager::orderByDesc('total_points')
+            'total' => $managers
+                    ->sortByDesc('gameweekPointsHistory.total_points')
                     ->pluck('id')
                     ->search($manager->id) + 1,
         ];
@@ -80,9 +79,9 @@ class ManagerController extends Controller
         return view('managers.show', compact('manager', 'gameweek', 'managerPositions', 'playedPicksCount'));
     }
 
-    public function detailList(): View
+    public function detailList(Request $request): View
     {
-        $gameweek = Gameweek::getCurrent();
+        $gameweek = $request->gameweek();
 
         $managers = Manager::query()->with([
             'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
@@ -90,15 +89,13 @@ class ManagerController extends Controller
             'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
             'picks.player.team.fixtures.teams',
             'chips' => fn ($q) => $q->forGameweek($gameweek),
+            'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
         ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ])
-            ->withSum([
-                'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
-            ], 'points')
-            ->orderByDesc('total_points')
             ->get()
+            ->sortByDesc('gameweekPointsHistory.total_points')
             ->keyBy('id');
 
         $playedPicksCountByManagers = $managers->map(function (Manager $manager) {

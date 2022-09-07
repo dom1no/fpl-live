@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Player;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class FixtureController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $gameweeks = Gameweek::query()
-            ->with([
-                'fixtures' => fn ($q) => $q->orderBy('kickoff_time'),
-                'fixtures.teams',
-            ])
+        $gameweek = $request->gameweek();
+
+        $fixtures = Fixture::forGameweek($gameweek)
+            ->with('teams')
             ->get();
 
-        return view('fixtures.index', compact('gameweeks'));
+        return view('fixtures.index', compact('gameweek', 'fixtures'));
     }
 
     public function show(Fixture $fixture): View

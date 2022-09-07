@@ -44,4 +44,16 @@ class Gameweek extends Model
                 ->orWhere('is_current', true);
         });
     }
+
+    public function previousId(): ?int
+    {
+        return static::orderByDesc('id')->where('id', '<', $this->id)->value('id');
+    }
+
+    public function nextId(bool $canViewFeature = false): ?int
+    {
+        return static::orderBy('id')->where('id', '>', $this->id)
+            ->unless($canViewFeature, fn($q) => $q->finishedOrCurrent())
+            ->value('id');
+    }
 }

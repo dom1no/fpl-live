@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('command_name');
             $table->integer('total_points')->default(0)->index();
-            $table->integer('fpl_id')->unsigned()->index();
+            $table->integer('fpl_id')->unsigned()->unique();
             $table->string('telegram_username')->nullable();
             $table->string('telegram_chat_id')->nullable();
             $table->string('password');

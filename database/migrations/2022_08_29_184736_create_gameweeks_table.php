@@ -16,7 +16,7 @@ return new class extends Migration
             $table->boolean('is_previous');
             $table->boolean('is_current');
             $table->boolean('is_next');
-            $table->integer('fpl_id')->unsigned()->index();
+            $table->integer('fpl_id')->unsigned()->unique();
 
             $table->timestamps();
         });

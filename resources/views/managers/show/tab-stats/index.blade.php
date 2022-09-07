@@ -10,15 +10,15 @@
     <tr>
         <td style="max-width: 45vw;">Очки</td>
         <td>
-            {{ $manager->gameweek_points }}
+            {{ $manager->gameweekPointsHistory->gameweek_points }}
             @if ($transfersCost = $manager->paid_transfers_count * 4)
                 <span class="opacity-7">
-                                (-{{ $transfersCost }})
-                            </span>
+                    (-{{ $transfersCost }})
+                </span>
             @endif
         </td>
         <td>
-            {{ $manager->total_points }}
+            {{ $manager->gameweekPointsHistory->total_points }}
         </td>
     </tr>
     <tr>

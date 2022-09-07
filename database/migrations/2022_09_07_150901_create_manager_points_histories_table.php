@@ -8,16 +8,15 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('manager_auto_subs', function (Blueprint $table) {
+        Schema::create('manager_points_histories', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('manager_id')->constrained();
             $table->foreignId('gameweek_id')->constrained();
+            $table->unique(['manager_id', 'gameweek_id']);
 
-            $table->foreignId('player_out_id')->constrained('players');
-            $table->unique(['manager_id', 'gameweek_id', 'player_out_id']);
-            $table->foreignId('player_in_id')->constrained('players');
-            $table->unique(['manager_id', 'gameweek_id', 'player_in_id']);
+            $table->integer('gameweek_points');
+            $table->integer('total_points');
 
             $table->timestamps();
         });
@@ -25,6 +24,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('manager_auto_subs');
+        Schema::dropIfExists('manager_points_histories');
     }
 };

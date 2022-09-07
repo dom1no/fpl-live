@@ -42,7 +42,7 @@
                     @endforeach
                 </td>
                 <td>
-                    {{ $manager->gameweek_points }}
+                    {{ $manager->gameweekPointsHistory->gameweek_points }}
                     @if ($transfersCost = $manager->paid_transfers_count * 4)
                         <span class="opacity-7">
                             (-{{ $transfersCost }})
@@ -50,7 +50,7 @@
                     @endif
                 </td>
                 <td>
-                    {{ $manager->total_points }}
+                    {{ $manager->gameweekPointsHistory->total_points }}
                 </td>
                 <td>
                     @php($playedPicksCount = $playedPicksCountByManagers->get($manager->id))

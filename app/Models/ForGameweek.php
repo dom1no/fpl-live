@@ -21,4 +21,9 @@ trait ForGameweek
     {
         $query->where('gameweek_id', Gameweek::getCurrent()->id);
     }
+
+    public function scopeWithoutNextGameweeks(Builder $query, Gameweek $gameweek): void
+    {
+        $query->where('gameweek_id', '<=', $gameweek->id);
+    }
 }

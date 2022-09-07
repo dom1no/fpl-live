@@ -13,11 +13,12 @@ return new class extends Migration
             $table->foreignId('manager_id')->constrained();
             $table->foreignId('player_id')->constrained();
             $table->foreignId('gameweek_id')->constrained();
+            $table->unique(['manager_id', 'gameweek_id', 'player_id']);
 
             $table->boolean('is_captain')->default(false);
             $table->boolean('is_vice_captain')->default(false);
             $table->tinyInteger('multiplier');
-            $table->tinyInteger('position');
+            $table->tinyInteger('position')->unsigned();
 
             $table->integer('points')->nullable();
             $table->integer('clean_points')->nullable();

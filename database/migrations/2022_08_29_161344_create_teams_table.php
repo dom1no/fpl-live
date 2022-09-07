@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('short_name', 3);
-            $table->integer('fpl_id')->unsigned()->index();
+            $table->integer('fpl_id')->unsigned()->unique();
 
             $table->timestamps();
         });

@@ -39,6 +39,7 @@ class Player extends Model
         return $this->hasMany(PlayerStats::class);
     }
 
+    /** use with condition */
     public function gameweekStats(): HasOne
     {
         return $this->hasOne(PlayerStats::class);

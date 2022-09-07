@@ -13,9 +13,9 @@ return new class extends Migration
             $table->string('name');
             $table->string('full_name');
             $table->string('position', 3);
-            $table->float('price')->index();
+            $table->float('price');
             $table->foreignId('team_id')->constrained();
-            $table->integer('fpl_id')->unsigned()->index();
+            $table->integer('fpl_id')->unsigned()->unique();
 
             $table->timestamps();
         });

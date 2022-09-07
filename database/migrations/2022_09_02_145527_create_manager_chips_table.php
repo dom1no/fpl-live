@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreignId('manager_id')->constrained();
             $table->foreignId('gameweek_id')->constrained();
             $table->string('type');
+            $table->unique(['manager_id', 'gameweek_id', 'type']);
 
             $table->timestamps();
         });
