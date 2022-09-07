@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fixture;
-use App\Models\Gameweek;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;

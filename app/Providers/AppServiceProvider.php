@@ -12,7 +12,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Request::macro('gameweek', function () {
             $gameweekId = request()->gameweek;
-            if (!$gameweekId) {
+            if (! $gameweekId) {
                 return Gameweek::getCurrent();
             }
 
