@@ -38,6 +38,10 @@
     color: #964b00 !important;
 }
 
+.text-autosize-element {
+    white-space: nowrap !important;
+}
+
 .table-responsive .pitch {
     width: 100vw;
 }
