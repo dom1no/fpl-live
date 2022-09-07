@@ -9,12 +9,12 @@
         <button type="button" class="pitch-row-unit-element-shirt">
             @include('managers.show.tab-players.pitch.element-shirt')
 
-            <div class="pitch-row-unit-element-data @if($fixture->isFinished()) font-weight-bold @endif">
+            <div @class(['pitch-row-unit-element-data', 'font-weight-bold' => $fixture->isFinished()])>
                 <div class="pitch-row-unit-element-name text-autosize-container">
                     <span class="text-autosize-element">{{ $pick->player->name }}</span>
                 </div>
 
-                <div class="pitch-row-unit-element-value text-dark font-weight-bold">
+                <div class="pitch-row-unit-element-value text-dark">
                     @include('managers.components.pick-points', [
                         'showIcon' => false,
                     ])

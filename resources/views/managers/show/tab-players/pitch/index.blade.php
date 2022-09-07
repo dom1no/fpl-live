@@ -1,3 +1,7 @@
+@push('css')
+    <link type="text/css" href="{{ asset('css') }}/pitch.css?v=1.0.2" rel="stylesheet">
+@endpush
+
 <div data-testid="pitch" class="pitch">
     @foreach($mainPicks->groupBy('player.position.value') as $picks)
         <div class="pitch-row pitch-row-main">

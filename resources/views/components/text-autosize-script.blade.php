@@ -8,9 +8,9 @@
             });
 
             function resizeByWidth(el) {
-                let containerWidth = el.width();
+                let containerWidth = el.outerWidth();
                 let elementWidth = el.find('.text-autosize-element').toArray().reduce((n, el) => n + $(el).width(), 0)
-                console.log(containerWidth, elementWidth);
+                console.log(containerWidth, elementWidth, el.text());
 
                 if (elementWidth > containerWidth) {
                     let fontsize = el.css('font-size');

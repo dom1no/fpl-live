@@ -76,7 +76,7 @@
                                 'pick-cell',
                                 'border-left' => $loop->first,
                                 'font-weight-bold' => $fixture->isFinished(),
-                                'opacity-7' => $pick->multiplier == 0,
+                                'text-muted' => $pick->multiplier == 0,
                                 'bg-lighter' => $manager->isNot($me) && $myPicks->contains('player_id', $pick->player_id),
                             ])>
                             {{ $player->name }}
