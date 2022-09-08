@@ -12,15 +12,18 @@
             <th scope="col" class="text-center" data-toggle="tooltip" data-placement="top" title="Стоимость основы/всего">
                 @svg('phosphor-currency-gbp-bold')
             </th>
-            <th colspan="2" class="border">Вратари</th>
+            <th colspan="1" class="border">Вратарь</th>
             <th colspan="5" class="border">Защита</th>
             <th colspan="5" class="border">Полузащита</th>
             <th colspan="3" class="border">Нападение</th>
+            <th colspan="4" class="border">Запас</th>
         </tr>
         </thead>
         <tbody>
-        @php($me = $managers->firstWhere('id', auth()->id()))
-        @php($myPicks = $me->picks)
+        @php
+            $me = $managers->firstWhere('id', auth()->id());
+            $myPicks = $me->picks;
+        @endphp
 
         @foreach($managers as $manager)
             <tr @class([
@@ -53,10 +56,12 @@
                     {{ $manager->gameweekPointsHistory->total_points }}
                 </td>
                 <td>
-                    @php($playedPicksCount = $playedPicksCountByManagers->get($manager->id))
+                    @php
+                        $playedPicksCount = $playedPicksCountByManagers->get($manager->id);
+                    @endphp
 
                     {{ $playedPicksCount['played'] }}
-                    @if($playedPicksCount['playing'])
+                    @if ($playedPicksCount['playing'])
                         /{{ $playedPicksCount['playing'] }}
                     @endif
                 </td>
@@ -65,10 +70,16 @@
                     /
                     {{ price_formatted($manager->picks->sum('player.price')) }}
                 </td>
-                @foreach($manager->picks->groupBy('player.position.value') as $positionPicks)
+                @php
+                    [$mainPicks, $benchPicks] = $manager->picks->partition('position', '<=', 11);
+                @endphp
+
+                @foreach($mainPicks->groupBy('player.position.value') as $positionPicks)
                     @foreach($positionPicks->sortBy('player_id')->sortByDesc('player.price') as $pick)
-                        @php($player = $pick->player)
-                        @php($fixture = $player->team->fixtures->first())
+                        @php
+                            $player = $pick->player;
+                            $fixture = $player->team->fixtures->first();
+                        @endphp
 
                         <td
                             data-player-id="{{ $pick->player_id }}"
@@ -76,11 +87,10 @@
                                 'pick-cell',
                                 'border-left' => $loop->first,
                                 'font-weight-bold' => $fixture->isFinished(),
-                                'text-muted' => $pick->multiplier == 0,
                                 'bg-lighter' => $manager->isNot($me) && $myPicks->contains('player_id', $pick->player_id),
                             ])>
                             {{ $player->name }}
-                            @include('managers.components.pick-points', ['showCleanPoints' => $pick->multiplier == 0])
+                            @include('managers.components.pick-points')
                             @if ($pick->is_captain)
                                 <i class="fas fa-copyright"></i>
                             @endif
@@ -89,7 +99,36 @@
                                 {{ $player->team->name }}
                             </span>
                         </td>
+
+                        @if (!$loop->parent->first && $loop->last && $emptySlots = $pick->player->position->playersCountInTeam() - $loop->iteration)
+                            @for ($i = 0; $i < $emptySlots; $i++)
+                                <td class="pick-cell">-</td>
+                            @endfor
+                        @endif
                     @endforeach
+                @endforeach
+
+                @foreach($benchPicks as $pick)
+                    @php
+                        $player = $pick->player;
+                        $fixture = $player->team->fixtures->first();
+                    @endphp
+
+                    <td
+                        data-player-id="{{ $pick->player_id }}"
+                        @class([
+                            'pick-cell',
+                            'border-left' => $loop->first,
+                            'font-weight-bold' => $fixture->isFinished(),
+                            'bg-lighter' => $manager->isNot($me) && $myPicks->contains('player_id', $pick->player_id),
+                        ])>
+                        {{ $player->name }}
+                        @include('managers.components.pick-points', ['showCleanPoints' => true])
+                        <br>
+                        <span class="font-weight-normal opacity-6">
+                            {{ $player->team->name }}
+                        </span>
+                    </td>
                 @endforeach
             </tr>
         @endforeach
@@ -100,11 +139,11 @@
 @push('js')
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.pick-cell').click(function (e) {
+            $('.pick-cell[data-player-id]').click(function (e) {
                 el = $(e.currentTarget);
                 let playerId = el.attr('data-player-id');
 
-                $('td[data-player-id]').removeClass('bg-lighter').addClass('bg-white');
+                $('td.pick-cell').removeClass('bg-lighter').addClass('bg-white');
                 $(`td[data-player-id="${playerId}"]`).addClass('bg-lighter');
             })
         });

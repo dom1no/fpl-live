@@ -29,4 +29,13 @@ enum PlayerPosition: string
             self::FORWARD => 'Нападение',
         };
     }
+
+    public function playersCountInTeam(): string
+    {
+        return match ($this) {
+            self::GOALKEEPER => 2,
+            self::DEFENDER, self::MIDFIELDER => 5,
+            self::FORWARD => 3,
+        };
+    }
 }
