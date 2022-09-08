@@ -259,7 +259,7 @@
 @media (min-width: 38.125em) {
     .pitch-row-unit-element-points-icon {
         right: 9px;
-        height: 29px;
+        height: 20px;
         width: 20px;
         top: 35%;
     }
@@ -277,6 +277,33 @@
 .pitch-row-unit-element-points-icon.text-success {
     color: #66ff33 !important;
     /*color: #097527 !important;*/
+}
+
+.pitch-row-unit-element-autosub-icon {
+    position: absolute;
+    top: 31%;
+    right: 50px;
+    height: 16px;
+    width: 16px;
+    filter: brightness(85%);
+}
+
+@media (min-width: 38.125em) {
+    .pitch-row-unit-element-autosub-icon {
+        right: 85px;
+        height: 20px;
+        width: 20px;
+        top: 35%;
+    }
+}
+
+@media (min-width: 64em) {
+    .pitch-row-unit-element-autosub-icon {
+        right: 100px;
+        height: 22px;
+        width: 22px;
+        top: 38%;
+    }
 }
 
 .pitch-bench {

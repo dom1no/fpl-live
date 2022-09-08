@@ -103,7 +103,6 @@
                     </li>
                 @else
                     <li class="nav-item">
-                        <div class="dropdown-divider"></div>
                         <a class="nav-link nav-link-icon" href="{{ route('login') }}">
                             <i class="fas fa-sign-in-alt"></i>
                             <span class="nav-link-inner--text">Войти</span>
