@@ -15,10 +15,8 @@ return new class extends Migration
             $table->foreignId('gameweek_id')->constrained();
 
             $table->foreignId('player_out_id')->constrained('players');
-            $table->unique(['manager_id', 'gameweek_id', 'player_out_id']);
             $table->float('player_out_cost')->unsigned();
             $table->foreignId('player_in_id')->constrained('players');
-            $table->unique(['manager_id', 'gameweek_id', 'player_in_id']);
             $table->float('player_in_cost')->unsigned();
             $table->boolean('is_free');
             $table->dateTime('happened_at');
