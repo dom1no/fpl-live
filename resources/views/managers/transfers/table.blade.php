@@ -28,11 +28,11 @@
                     </span>
                     @endforeach
                 </td>
-                <td style="width: 30%">
+                <td style="width: 30%; min-width: 150px;" class="px-1">
                     <dl class="mb-0 row">
-                        @foreach($manager->transfers as $transfer)
+                        @foreach($manager->transfers->sortByDesc('playerOut.price') as $transfer)
                             <dt class="col-3 col-sm-2">{{ $transfer->playerOut->points->sum('points') }}</dt>
-                            <dd class="col-9 col-sm-10">{{ $transfer->playerOut->name }}</dd>
+                            <dd class="col-9 col-sm-10 pl-1">{{ $transfer->playerOut->name }}</dd>
                         @endforeach
                         @if ($manager->transfers->isNotEmpty())
                             <dd class="col-12">
@@ -41,17 +41,17 @@
                             <dt class="col-3 col-sm-2">
                                 {{ $manager->transfers->sum(fn($t) => $t->playerOut->points->sum('points')) }}
                             </dt>
-                            <dd class="col-9 col-sm-10 font-weight-bold">
+                            <dd class="col-9 col-sm-10 pl-1 font-weight-bold">
                                 Всего
                             </dd>
                         @endif
                     </dl>
                 </td>
-                <td style="width: 30%">
+                <td style="width: 30%; min-width: 150px;" class="px-1">
                     <dl class="mb-0 row">
-                        @foreach($manager->transfers as $transfer)
+                        @foreach($manager->transfers->sortByDesc('playerIn.price') as $transfer)
                             <dt class="col-3 col-sm-2">{{ $transfer->playerIn->points->sum('points') }}</dt>
-                            <dd class="col-9 col-sm-10">{{ $transfer->playerIn->name }}</dd>
+                            <dd class="col-9 col-sm-10 pl-1">{{ $transfer->playerIn->name }}</dd>
                         @endforeach
                         @if ($manager->transfers->isNotEmpty())
                             <dd class="col-12">
@@ -60,7 +60,7 @@
                             <dt class="col-3 col-sm-2">
                                 {{ $manager->transfers->sum(fn($t) => $t->playerIn->points->sum('points')) }}
                             </dt>
-                            <dd class="col-9 col-sm-10 font-weight-bold">
+                            <dd class="col-9 col-sm-10 pl-1 font-weight-bold">
                                 Всего
                             </dd>
                         @endif
