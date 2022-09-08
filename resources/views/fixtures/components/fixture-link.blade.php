@@ -1,6 +1,8 @@
-@php($player ??= optional())
-@php($homeTeam = $fixture->homeTeam)
-@php($awayTeam = $fixture->awayTeam)
+@php
+    $player ??= optional();
+    $homeTeam = $fixture->homeTeam;
+    $awayTeam = $fixture->awayTeam;
+@endphp
 <a href="{{ route('fixtures.show', $fixture) }}" @class([$linkClass ?? null])>
     <span @class(['d-inline-block', 'text-underline' => $homeTeam->id == $player->team_id])>
         {{ ($showShortNames ?? false) ? $homeTeam->short_name : $homeTeam->name }}

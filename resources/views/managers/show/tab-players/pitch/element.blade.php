@@ -1,8 +1,10 @@
 @php use App\Models\Enums\PlayerPosition; @endphp
 
-@php($team = $pick->player->team)
-@php($fixture = $team->fixtures->first())
-@php($isGKP = $pick->player->position === PlayerPosition::GOALKEEPER)
+@php
+    $team = $pick->player->team;
+    $fixture = $team->fixtures->first();
+    $isGKP = $pick->player->position === PlayerPosition::GOALKEEPER;
+@endphp
 
 <div class="pitch-row-unit-element-wrapper">
     <div class="pitch-row-unit-element">

@@ -1,5 +1,7 @@
-@php($player = $pick->player)
-@php($fixture = $player->team->fixtures->first())
+@php
+    $player = $pick->player;
+    $fixture = $player->team->fixtures->first();
+@endphp
 
 <tr @class(['font-weight-bold' => $fixture->isFinished()])>
     <td>
