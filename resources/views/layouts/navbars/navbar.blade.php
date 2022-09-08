@@ -54,6 +54,11 @@
                                     <span class="nav-link-inner--text">Составы лиги</span>
                                 </a>
                             </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('managers.transfers') }}">
+                                    <span class="nav-link-inner--text">Трансферы</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endif

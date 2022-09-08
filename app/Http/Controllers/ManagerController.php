@@ -14,10 +14,11 @@ class ManagerController extends Controller
     {
         $gameweek = $request->gameweek();
 
-        $managers = Manager::query()->with([
-            'chips' => fn ($q) => $q->forGameweek($gameweek),
-            'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
-        ])
+        $managers = Manager::query()
+            ->with([
+                'chips' => fn ($q) => $q->forGameweek($gameweek),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
+            ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ])
@@ -42,6 +43,8 @@ class ManagerController extends Controller
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
+                'transfers.playerOut',
+                'transfers.playerIn',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadCount([
@@ -83,14 +86,15 @@ class ManagerController extends Controller
     {
         $gameweek = $request->gameweek();
 
-        $managers = Manager::query()->with([
-            'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-            'picks.player.team',
-            'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
-            'picks.player.team.fixtures.teams',
-            'chips' => fn ($q) => $q->forGameweek($gameweek),
-            'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
-        ])
+        $managers = Manager::query()
+            ->with([
+                'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
+                'picks.player.team',
+                'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
+                'picks.player.team.fixtures.teams',
+                'chips' => fn ($q) => $q->forGameweek($gameweek),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
+            ])
             ->withCount([
                 'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ])
@@ -112,5 +116,23 @@ class ManagerController extends Controller
         });
 
         return view('managers.detail-list', compact('managers', 'gameweek', 'playedPicksCountByManagers'));
+    }
+
+    public function transfers(Request $request): View
+    {
+        $gameweek = $request->gameweek();
+
+        $managers = Manager::query()
+            ->with([
+                'transfers' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
+                'chips' => fn ($q) => $q->forGameweek($gameweek),
+            ])
+            ->get()
+            ->sortByDesc('gameweekPointsHistory.total_points');
+
+        return view('managers.transfers', compact('managers', 'gameweek'));
     }
 }

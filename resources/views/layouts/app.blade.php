@@ -7,7 +7,9 @@
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        @if (!app()->isLocal())
+            <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+        @endif
 
         <title>{{ config('app.name', 'Argon Dashboard') }}</title>
         <!-- Favicon -->
