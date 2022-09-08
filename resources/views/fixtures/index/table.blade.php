@@ -15,13 +15,7 @@
                     <span class="d-block d-md-none font-weight-normal">
                         {{ $fixture->kickoff_time->format('H:i') }}
                     </span>
-                    @if ($fixture->isInProgress())
-                        {{ $fixture->minutes }}'
-                    @elseif($fixture->isFeature())
-                        Не начался
-                    @else
-                        Завершен
-                    @endif
+                    {{ $fixture->status_text }}
                 </td>
                 <td class="pl-5 d-none d-md-table-cell">
                     {{ $fixture->kickoff_time->format('H:i') }}

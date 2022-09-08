@@ -1,5 +1,5 @@
 <div class="nav-wrapper">
-    <ul class="nav nav-pills nav-fill text-center" id="tabs-fixture" role="tablist">
+    <ul class="nav nav-pills nav-fill text-center nav-persistent" id="tabs-fixture" role="tablist">
         <li class="nav-item col-12 col-md-3 @auth offset-md-2 @else offset-md-3 @endauth">
             <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-players-tab" data-toggle="tab"
                href="#tabs-players" role="tab" aria-controls="tabs-players" aria-selected="true">

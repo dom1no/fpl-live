@@ -27,14 +27,19 @@
         <td>{{ $managerPositions['total'] }}</td>
     </tr>
     <tr>
-        <td style="max-width: 45vw;" class="text-break">Трансферы (платные)</td>
+        <td style="max-width: 45vw;" class="text-break">Трансферы/платные</td>
         <td>
-            {{ $manager->transfers->where('gameweek_id', $gameweek->id)->count() }}
-            ({{ $manager->transfers->where('is_free', false)->where('gameweek_id', $gameweek->id)->count() }})
+            @php($gameweekTransfers = $manager->transfers->where('gameweek_id', $gameweek->id))
+            {{ $gameweekTransfers->count() }}
+            @if ($gameweekTransfers->count())
+                / {{ $gameweekTransfers->where('is_free', false)->count() }}
+            @endif
         </td>
         <td>
             {{ $manager->transfers->count() }}
-            ({{ $manager->transfers->where('is_free', false)->count() }})
+            @if ($manager->transfers->count())
+                / {{ $manager->transfers->where('is_free', false)->count() }}
+            @endif
         </td>
     </tr>
     <tr>
@@ -61,11 +66,11 @@
         </td>
     </tr>
     <tr>
-        <td style="max-width: 45vw;" class="text-break">Сыграло (играет) игроков</td>
+        <td style="max-width: 45vw;" class="text-break">Сыграло/играет игроков</td>
         <td>
             {{ $playedPicksCount['played'] }}
             @if ($playedPicksCount['playing'])
-                ({{ $playedPicksCount['playing'] }})
+                / {{ $playedPicksCount['playing'] }}
             @endif
         </td>
         <td>-</td>

@@ -34,4 +34,4 @@
     </div>
 </div>
 
-@include('components.text-autosize-script')
+@include('components.scripts.text-autosize')

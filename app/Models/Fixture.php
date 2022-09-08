@@ -65,4 +65,17 @@ class Fixture extends Model
     {
         return $this->home_team->pivot->score . ':' . $this->away_team->pivot->score;
     }
+
+    public function getStatusTextAttribute(): string
+    {
+        if ($this->isFeature()) {
+            return 'Не начался';
+        }
+
+        if ($this->isInProgress()) {
+            return $this->minutes . '\'';
+        }
+
+        return 'Завершен';
+    }
 }
