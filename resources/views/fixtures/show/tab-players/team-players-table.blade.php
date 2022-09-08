@@ -15,7 +15,7 @@
     @foreach($players as $player)
         @php($playerStats = $player->gameweekStats ?? optional())
         <tr data-toggle="collapse" data-target="#player-points-explain-{{ $player->id }}"
-            @class(['accordion-toggle', 'bg-light' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])>
+            @class(['accordion-toggle', 'bg-translucent-secondary' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])>
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)
@@ -64,7 +64,7 @@
             </td>
             @auth
                 <td class="pl-3 pr-1">
-                    <ul class="pl-2 pr-0">
+                    <ul class="pl-2 pr-0 mb-0">
                         @foreach($player->managerPicks->sortByDesc('multiplier') as $pick)
                             <li @class(['text-light' => $pick->multiplier == 0])">
                                 {{ $pick->manager->name }}
