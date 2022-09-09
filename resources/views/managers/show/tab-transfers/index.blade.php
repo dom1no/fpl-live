@@ -1,6 +1,6 @@
 @php use App\Models\Enums\ChipType; @endphp
 
-<table class="table">
+<table class="table align-items-center">
     <thead>
     <tr>
         <th>Ушел</th>
@@ -31,7 +31,7 @@
                     @php($playerOut = $transfer->playerOut)
                     {{ $playerOut->name }}
                     <br>
-                    <span class="text-muted">
+                    <span class="text-muted text-xs">
                         {{ $playerOut->team->name }}
                     </span>
                 </td>
@@ -39,7 +39,7 @@
                     @php($playerIn = $transfer->playerIn)
                     {{ $playerIn->name }}
                     <br>
-                    <span class="text-muted">
+                    <span class="text-muted text-xs">
                         {{ $playerIn->team->name }}
                     </span>
                 </td>
