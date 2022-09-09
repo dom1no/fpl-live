@@ -32,7 +32,7 @@
     </div>
     @auth
         <div class="tab-pane fade" id="tabs-managers" role="tabpanel" aria-labelledby="tabs-managers-tab">
-            @include('fixtures.show.tab-managers')
+            @include('fixtures.show.tab-managers.index')
         </div>
     @endauth
     <div class="tab-pane fade" id="tabs-info" role="tabpanel" aria-labelledby="tabs-info-tab">

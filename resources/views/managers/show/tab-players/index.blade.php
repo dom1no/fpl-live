@@ -29,6 +29,6 @@
     </div>
     <div class="tab-pane fade" id="tabs-squad-table-view" role="tabpanel"
          aria-labelledby="tabs-squad-table-view-tab">
-        @include('managers.show.tab-players.players-table')
+        @include('managers.show.tab-players.table.index')
     </div>
 </div>

@@ -1,4 +1,5 @@
-@php use App\Models\Enums\ChipType; @endphp
+@php use App\Models\Enums\ChipType;use App\Models\ManagerPick; @endphp
+
 <div class="table-responsive">
     <table class="table align-items-center">
         <thead class="thead-light">
@@ -29,42 +30,10 @@
                     @endforeach
                 </td>
                 <td style="width: 30%; min-width: 150px;" class="px-1">
-                    <dl class="mb-0 row">
-                        @foreach($manager->transfers->sortByDesc('playerOut.price') as $transfer)
-                            <dt class="col-3 col-sm-2">{{ $transfer->playerOut->points->sum('points') }}</dt>
-                            <dd class="col-9 col-sm-10 pl-1">{{ $transfer->playerOut->name }}</dd>
-                        @endforeach
-                        @if ($manager->transfers->isNotEmpty())
-                            <dd class="col-12">
-                                <hr class="my-2">
-                            </dd>
-                            <dt class="col-3 col-sm-2">
-                                {{ $manager->transfers->sum(fn($t) => $t->playerOut->points->sum('points')) }}
-                            </dt>
-                            <dd class="col-9 col-sm-10 pl-1 font-weight-bold">
-                                Всего
-                            </dd>
-                        @endif
-                    </dl>
+                    @include('managers.transfers.players-list', ['isIn' => false])
                 </td>
                 <td style="width: 30%; min-width: 150px;" class="px-1">
-                    <dl class="mb-0 row">
-                        @foreach($manager->transfers->sortByDesc('playerIn.price') as $transfer)
-                            <dt class="col-3 col-sm-2">{{ $transfer->playerIn->points->sum('points') }}</dt>
-                            <dd class="col-9 col-sm-10 pl-1">{{ $transfer->playerIn->name }}</dd>
-                        @endforeach
-                        @if ($manager->transfers->isNotEmpty())
-                            <dd class="col-12">
-                                <hr class="my-2">
-                            </dd>
-                            <dt class="col-3 col-sm-2">
-                                {{ $manager->transfers->sum(fn($t) => $t->playerIn->points->sum('points')) }}
-                            </dt>
-                            <dd class="col-9 col-sm-10 pl-1 font-weight-bold">
-                                Всего
-                            </dd>
-                        @endif
-                    </dl>
+                    @include('managers.transfers.players-list', ['isIn' => true])
                 </td>
                 <td>
                     {{ $manager->gameweekPointsHistory->gameweek_points }}
@@ -82,3 +51,4 @@
         </tbody>
     </table>
 </div>
+

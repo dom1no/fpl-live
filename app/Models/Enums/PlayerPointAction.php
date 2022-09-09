@@ -34,7 +34,7 @@ enum PlayerPointAction: string
             self::SAVES => 'Сейвы',
             self::BONUS => 'Бонусы',
             self::CLEAN_SHEETS => 'Сухой матч',
-            self::PREDICTION_BONUS => 'Бонусы (предполагаемые)',
+            self::PREDICTION_BONUS => 'Бонусы (live)',
         };
     }
 }

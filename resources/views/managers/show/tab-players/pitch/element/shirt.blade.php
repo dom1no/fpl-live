@@ -10,5 +10,5 @@
                 {{ Storage::disk('shirts')->url($team->getFileShirtName(110, 'png', $isGKP)) }} 110w,
                 {{ Storage::disk('shirts')->url($team->getFileShirtName(220, 'png', $isGKP)) }} 220w,
                 " sizes="(min-width: 1024px) 55px, (min-width: 610px) 44px, 33px" alt="Spurs"
-         class="pitch-row-unit-element-shirt-img">
+         class="pitch-row-unit-element-btn-img">
 </picture>

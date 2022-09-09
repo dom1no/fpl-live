@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Fixture;
+use App\Models\ManagerPick;
 use App\Models\Player;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -38,8 +39,12 @@ class FixtureController extends Controller
         $managersPicks = $players->pluck('managerPicks')
             ->collapse()
             ->groupBy('manager_id')
-            ->map(function (Collection $picks) use ($fixture) {
+            ->map(function (Collection $picks) use ($fixture, $players) {
                 $picks->points_sum = $fixture->isFeature() ? 0 : $picks->sum('points');
+
+                $picks->each(
+                    fn (ManagerPick $pick) => $pick->setRelation('player', $players->get($pick->player_id))
+                );
 
                 return $picks;
             })

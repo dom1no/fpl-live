@@ -74,17 +74,17 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a class="dropdown-item" href="{{ route('home') }}">
-                                    Профиль
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="{{ route('home') }}#tab-tabs-stats">
-                                    Статистика
+                                    Состав
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="{{ route('home') }}#tab-tabs-my-fixtures">
                                     Матчи
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="{{ route('home') }}#tab-tabs-stats">
+                                    Статистика
                                 </a>
                             </li>
                             <li>

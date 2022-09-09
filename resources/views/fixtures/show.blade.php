@@ -11,4 +11,6 @@
     </div>
 
     @include('fixtures.show.tabs')
+
+    @each('components.player-modal', $players, 'player')
 @endsection

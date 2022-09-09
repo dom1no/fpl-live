@@ -14,8 +14,9 @@
     <tbody>
     @foreach($players as $player)
         @php($playerStats = $player->gameweekStats ?? optional())
-        <tr data-toggle="collapse" data-target="#player-points-explain-{{ $player->id }}"
-            @class(['accordion-toggle', 'bg-translucent-secondary' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])>
+        <tr @class(['accordion-toggle', 'pointer', 'bg-translucent-secondary' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])
+            data-toggle="modal" data-target="#player-{{ $player->id }}"
+        >
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)
@@ -49,18 +50,6 @@
                         (+{{ $bonus->points }})
                     </span>
                 @endif
-
-                @if($player->points->isNotEmpty() && $playerStats->minutes > 0)
-                    <div class="dropup d-none d-md-inline-block">
-                        <div class="badge badge-sm badge-pill badge-primary badge-icon" href="javascript:;" role="button"
-                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-question"></i>
-                        </div>
-                        <div class="dropdown-menu">
-                            @include('fixtures.components.player-points-explain-list')
-                        </div>
-                    </div>
-                @endif
             </td>
             @auth
                 <td class="pl-3 pr-1">
@@ -78,11 +67,6 @@
             @endauth
             <td class="d-none d-md-table-cell">
                 {{ $playerStats->bps ?: '-' }}
-            </td>
-        </tr>
-        <tr class="collapse d-print-block d-md-none" id="player-points-explain-{{ $player->id }}">
-            <td colspan="100%" class="p-0">
-                @include('fixtures.components.player-points-explain-list')
             </td>
         </tr>
     @endforeach

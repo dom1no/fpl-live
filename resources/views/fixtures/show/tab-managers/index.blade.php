@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-10 offset-sm-1">
-        <div class="card">
+        <div class="card shadow">
             <div class="card-body p-0">
                 <table class="table align-items-center">
                     <thead class="thead-light">
@@ -17,20 +17,9 @@
                             <td class="pl-4 pr-2 text-truncate" style="max-width: 40vw;">{{ $manager->name }}</td>
                             <td class="px-2">{{ $managerPicks->points_sum }}</td>
                             <td class="pl-3 pr-1">
-                                <ul class="pl-2 pr-0">
-                                    @foreach($managerPicks->sortByDesc('points') as $pick)
-                                        @php($player = $players->get($pick->player_id))
-                                        <li class="@if($pick->multiplier == 0)text-light @endif">
-                                            {{ $player->name }}
-                                            @if ($pick->is_captain)
-                                                <i class="fas fa-copyright"></i>
-                                            @endif
-                                            @if(!$fixture->isFeature())
-                                                ({{ $pick->points }})
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
+                                @include('components.picks-list', [
+                                    'picks' => $managerPicks,
+                                ])
                             </td>
                         </tr>
                     @endforeach

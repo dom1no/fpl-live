@@ -1,4 +1,10 @@
 @media (max-width: 576px) {
+    .display-2 {
+        font-size: 2.1875rem;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
     .display-3 {
         font-size: 1.6275rem;
         font-weight: 600;
@@ -12,6 +18,10 @@
     .card {
         margin-right: -15px;
         margin-left: -15px;
+    }
+
+    .card.shadow {
+        border: none;
     }
 
     .card-header {
@@ -62,4 +72,49 @@ td.clickable > a {
     display: block;
     width: 100%;
     height: 100%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+/* Picks list */
+.picks-list {
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    list-style: none;
+}
+
+.picks-list li {
+    margin-bottom: .5rem;
+}
+
+.picks-list .picks-list-points {
+    font-weight: 600;
+    display: inline-block;
+    min-width: 2rem;
+    padding-right: 0.5rem;
+}
+
+@media (min-width: 768px) {
+    .picks-list .picks-list-points {
+        padding-right: 1rem !important;
+    }
+}
+
+.picks-list.rtl li {
+    text-align: right !important;
+}
+
+.picks-list.rtl .picks-list-points {
+    padding-right: 0 !important;
+    padding-left: 0.75rem !important;
+    float: right !important;
+}
+
+@media (min-width: 768px) {
+    .picks-list.rtl .picks-list-points {
+        padding-left: 1.25rem !important;
+    }
 }

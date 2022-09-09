@@ -1,4 +1,4 @@
-<div class="card fixture-team-card">
+<div class="card fixture-team-card shadow">
     <div class="card-header">
         <h2>{{ $team->name }}</h2>
     </div>
@@ -17,7 +17,7 @@
                         data-target="#collapse-bench-team-{{ $team->id }}"
                         aria-expanded="false"
                         aria-controls="collapseExample">
-                    Запас
+                    Не играли
                     <i class="ni ni-bold-down"></i>
                 </button>
             </h3>

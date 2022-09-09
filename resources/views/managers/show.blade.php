@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            @include('managers.show.card')
+            @include('managers.show.index')
         </div>
     </div>
 @endsection

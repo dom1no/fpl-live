@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-sm-10 offset-sm-1">
-        <div class="card">
+        <div class="card shadow">
             <div class="card-body p-0">
                 <table class="table">
                     <thead class="thead-light">
@@ -10,31 +10,31 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'goals_scored',
                         'statsName' => 'Голы',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'assists',
                         'statsName' => 'Голевые передачи',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'own_goals',
                         'statsName' => 'Автоголы',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'yellow_cards',
                         'statsName' => 'Желтые карточки',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'red_cards',
                         'statsName' => 'Красные карточки',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'saves',
                         'statsName' => 'Сейвы',
                     ])
-                    @include('fixtures.show.tab-info.stats-team-players', [
+                    @include('fixtures.show.tab-info.stats-players', [
                         'statsKey' => 'bonus',
                         'statsName' => 'Бонусы',
                     ])

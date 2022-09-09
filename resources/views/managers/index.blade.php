@@ -5,7 +5,7 @@
 
     <div class="row">
         <div class="col-sm-12">
-            <div class="card">
+            <div class="card shadow">
                 @include('managers.index.table')
             </div>
         </div>
