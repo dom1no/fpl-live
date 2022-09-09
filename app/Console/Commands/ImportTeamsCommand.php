@@ -13,7 +13,7 @@ class ImportTeamsCommand extends FPLImportCommand
         return 'teams';
     }
 
-    public function signatureArgs(): ?string
+    public function signatureArgs(): string
     {
         return '{--shirts}';
     }

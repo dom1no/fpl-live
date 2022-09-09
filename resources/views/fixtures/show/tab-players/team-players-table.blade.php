@@ -35,7 +35,7 @@
                     <i class="fas fa-futbol text-danger"></i>
                 @endfor
                 <br>
-                <span class="opacity-7">
+                <span class="opacity-7 text-xs">
                     {{ $player->position->value }}
                 </span>
                 <span class="d-block d-md-none opacity-7 text-xs">

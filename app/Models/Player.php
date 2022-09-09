@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Storage;
 
 class Player extends Model
 {
@@ -49,4 +50,23 @@ class Player extends Model
     {
         return $this->hasMany(PlayerPoint::class);
     }
+
+    public function getFilePhotoName(): string
+    {
+        return "photo_{$this->id}.png";
+    }
+
+    public function getPhotoUrl(): string
+    {
+        $disk = Storage::disk('player-photos');
+
+        $fileName = $this->getFilePhotoName();
+
+        if (!$disk->exists($fileName)) {
+            return $this->team->getShirtUrl(110, 'png', $this->position === PlayerPosition::GOALKEEPER);
+        }
+
+        return $disk->url($fileName);
+    }
+
 }

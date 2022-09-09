@@ -30,6 +30,7 @@ class FixtureController extends Controller
                 'points' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks.manager',
+                'team',
             ])
             ->withSum(['points as points_sum' => fn ($q) => $q->forGameweek($fixture->gameweek)], 'points')
             ->get()

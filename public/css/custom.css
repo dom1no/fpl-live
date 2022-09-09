@@ -78,6 +78,18 @@ td.clickable > a {
     cursor: pointer;
 }
 
+
+.player-photo {
+    width: 6rem;
+}
+
+@media (min-width: 768px) {
+    .player-photo {
+        width: 8rem !important;
+    }
+}
+
+
 /* Picks list */
 .picks-list {
     margin-bottom: 0;

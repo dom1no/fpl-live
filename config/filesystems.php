@@ -63,6 +63,14 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+
+        'player-photos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/player-photos'),
+            'url' => env('APP_URL') . '/storage/player-photos',
+            'visibility' => 'public',
+            'throw' => false,
+        ],
     ],
 
     /*

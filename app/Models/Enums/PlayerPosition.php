@@ -24,9 +24,9 @@ enum PlayerPosition: string
     {
         return match ($this) {
             self::GOALKEEPER => 'Вратарь',
-            self::DEFENDER => 'Защита',
-            self::MIDFIELDER => 'Полузащита',
-            self::FORWARD => 'Нападение',
+            self::DEFENDER => 'Защитник',
+            self::MIDFIELDER => 'Полузащитник',
+            self::FORWARD => 'Нападающий',
         };
     }
 

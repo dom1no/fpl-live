@@ -128,6 +128,8 @@ class ManagerController extends Controller
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerIn.team',
+                'transfers.playerOut.team',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])

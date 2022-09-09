@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
+use Storage;
 
 class Team extends Model
 {
@@ -28,5 +29,10 @@ class Team extends Model
     public function getFileShirtName(int $width, string $ext, bool $isGKP = false): string
     {
         return 'shirt_' . Str::lower($this->short_name) . ($isGKP ? '_gkp' : '') . "-{$width}.{$ext}";
+    }
+
+    public function getShirtUrl(int $width, string $ext, bool $isGKP = false): string
+    {
+        return Storage::disk('shirts')->url($this->getFileShirtName($width, $ext, $isGKP));
     }
 }
