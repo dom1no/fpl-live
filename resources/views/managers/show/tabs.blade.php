@@ -11,7 +11,7 @@
             <a class="nav-link mb-sm-3 mb-md-0" id="tabs-my-fixtures-tab" data-toggle="tab"
                href="#tabs-my-fixtures" role="tab" aria-controls="tabs-my-fixtures" aria-selected="true">
                 <i class="fas fa-futbol"></i>
-                Мои матчи
+                Матчи
             </a>
         </li>
         <li class="nav-item col-12 col-md-3">
