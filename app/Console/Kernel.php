@@ -10,7 +10,7 @@ use App\Console\Commands\ImportManagersPicksCommand;
 use App\Console\Commands\ImportManagersTransfersCommand;
 use App\Console\Commands\ImportPlayersCommand;
 use App\Console\Commands\ImportPlayersStatsCommand;
-use App\Notifications\UpcomingGameweekDeadlineNotification;
+use App\Console\Commands\UpcomingGameweekDeadlineNotifyCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -35,7 +35,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(FetchManagersTelegramIdCommand::class)->everyTenMinutes();
 
-        $schedule->command(UpcomingGameweekDeadlineNotification::class)->everyThirtyMinutes();
+        $schedule->command(UpcomingGameweekDeadlineNotifyCommand::class)->everyThirtyMinutes();
     }
 
     protected function commands(): void
