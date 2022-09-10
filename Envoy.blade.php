@@ -10,6 +10,7 @@
 
     cd {{ $projectPath }}
 
+    php artisan optimize:clear
     git reset --hard HEAD
     git checkout main
     git pull origin main
