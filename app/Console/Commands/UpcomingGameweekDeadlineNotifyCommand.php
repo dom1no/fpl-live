@@ -24,6 +24,10 @@ class UpcomingGameweekDeadlineNotifyCommand extends Command
             ])
             ->first();
 
+        if (! $upcomingGameweek) {
+            return;
+        }
+
         Notification::send(Manager::all(), new UpcomingGameweekDeadlineNotification($upcomingGameweek));
     }
 }
