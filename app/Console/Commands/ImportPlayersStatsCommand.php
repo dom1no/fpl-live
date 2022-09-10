@@ -42,13 +42,14 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                 $stats = $FPLService->getPlayersStatsByGameweek($gameweek);
                 $this->importStats($stats, $gameweek);
 
+                $this->calcFixturesLiveMinutes($gameweek);
+
                 if ($gameweek->is_current) {
                     $this->upsertPredictedBonusPoints($gameweek);
                 }
 
                 $this->updateManagersPicksPoints($gameweek);
                 $this->updateManagersPointsHistory($gameweek);
-                $this->calcFixturesLiveMinutes($gameweek);
 
                 $this->advanceProgressBar();
             });
