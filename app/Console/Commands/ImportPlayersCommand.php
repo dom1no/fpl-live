@@ -63,7 +63,7 @@ class ImportPlayersCommand extends FPLImportCommand
         $fplPhotoName = Str::of($playerData['photo'])->prepend('p')->replace('jpg', 'png');
 
         $image = $this->downloadPhotoImg($fplPhotoName);
-        if (!$image) {
+        if (! $image) {
             return;
         }
 

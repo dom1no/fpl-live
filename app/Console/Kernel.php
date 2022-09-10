@@ -2,7 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\FetchManagersTelegramIdCommand;
 use App\Console\Commands\ImportFixturesCommand;
 use App\Console\Commands\ImportGameweeksCommand;
 use App\Console\Commands\ImportManagersChipsCommand;
@@ -32,8 +31,6 @@ class Kernel extends ConsoleKernel
 
         // $schedule->command(ImportTeamsCommand::class)->daily();
         // $schedule->command(ImportManagersCommand::class)->daily();
-
-        $schedule->command(FetchManagersTelegramIdCommand::class)->everyTenMinutes();
 
         $schedule->command(UpcomingGameweekDeadlineNotifyCommand::class)->everyThirtyMinutes();
     }

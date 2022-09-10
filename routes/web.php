@@ -3,6 +3,7 @@
 use App\Http\Controllers\FixtureController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\TelegramController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,4 +36,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/detail-list', [ManagerController::class, 'detailList'])->name('detail-list');
         Route::get('/transfers', [ManagerController::class, 'transfers'])->name('transfers');
     });
+});
+
+Route::prefix('telegram')->name('telegram.')->group(function () {
+    Route::post('webhook', [TelegramController::class, 'webhook'])->name('webhook');
 });

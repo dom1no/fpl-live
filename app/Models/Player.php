@@ -62,11 +62,10 @@ class Player extends Model
 
         $fileName = $this->getFilePhotoName();
 
-        if (!$disk->exists($fileName)) {
+        if (! $disk->exists($fileName)) {
             return $this->team->getShirtUrl(110, 'png', $this->position === PlayerPosition::GOALKEEPER);
         }
 
         return $disk->url($fileName);
     }
-
 }
