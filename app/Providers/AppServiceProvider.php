@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\Gameweek;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Opcodes\LogViewer\Facades\LogViewer;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,6 +18,10 @@ class AppServiceProvider extends ServiceProvider
             }
 
             return Gameweek::findOrFail($gameweekId);
+        });
+
+        LogViewer::auth(function ($request) {
+            return $request->user() && $request->user()->isAdmin();
         });
     }
 }
