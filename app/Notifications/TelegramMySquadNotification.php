@@ -51,7 +51,7 @@ class TelegramMySquadNotification extends Notification
         $message = $picks->map(function (ManagerPick $pick) {
             $message = '';
 
-            if ($pick->position === 12) {
+            if ($pick->position == 12) {
                 $message = "\n_Запас_: \n";
             }
 
