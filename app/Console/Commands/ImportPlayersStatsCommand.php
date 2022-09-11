@@ -207,7 +207,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                     'gameweek_points' => $manager->gameweek_points ?: 0,
                     'total_points' => ($previousPointsHistory->total_points ?? 0)
                         + $manager->gameweek_points
-                        - $manager->gameweek_paid_transfers_count,
+                        - ($manager->gameweek_paid_transfers_count * 4),
                 ])->save();
             });
     }
