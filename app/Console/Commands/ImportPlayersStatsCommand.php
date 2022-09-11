@@ -63,7 +63,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
             $playerId = $this->players->get($playerData['id']);
 
             $this->upsertPlayerStats($playerData['stats'], $playerId, $gameweek);
-            $this->syncPlayerPoints(head($playerData['explain'])['stats'], $playerId, $gameweek);
+            $this->syncPlayerPoints(head($playerData['explain'])['stats'] ?? [], $playerId, $gameweek);
 
             $this->importedInc();
         }
@@ -204,7 +204,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                     ?: new ManagerPointsHistory(['manager_id' => $manager->id, 'gameweek_id' => $gameweek->id]);
 
                 $currentPointsHistory->fill([
-                    'gameweek_points' => $manager->gameweek_points,
+                    'gameweek_points' => $manager->gameweek_points ?: 0,
                     'total_points' => ($previousPointsHistory->total_points ?? 0)
                         + $manager->gameweek_points
                         - $manager->gameweek_paid_transfers_count,
