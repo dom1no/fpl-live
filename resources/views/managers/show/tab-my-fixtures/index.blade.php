@@ -1,5 +1,5 @@
 @php
-    $fixtures = $manager->picks->pluck('player.team.fixtures.0', 'id')->unique();
+    $fixtures = $manager->picks->pluck('player.team.fixtures.0', 'id')->unique()->filter();
     $picksByFixture = $manager->picks->groupBy('player.team.fixtures.0.id');
 @endphp
 

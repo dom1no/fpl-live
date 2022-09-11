@@ -3,7 +3,7 @@
 @php
     $player = $pick->player;
     $team = $player->team;
-    $fixture = $team->fixtures->first();
+    $fixture = $team->fixtures->first() ?: optional();
     $isGKP = $player->position === PlayerPosition::GOALKEEPER;
 @endphp
 

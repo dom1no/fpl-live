@@ -1,6 +1,6 @@
 @php
     $player = $pick->player;
-    $fixture = $player->team->fixtures->first();
+    $fixture = $player->team->fixtures->first() ?: optional();
 @endphp
 
 <tr @class(['font-weight-bold' => $fixture->isFinished()])>

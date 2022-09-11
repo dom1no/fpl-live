@@ -63,7 +63,7 @@ class Fixture extends Model
 
     public function getScoreFormattedAttribute(): string
     {
-        return $this->home_team->pivot->score . ':' . $this->away_team->pivot->score;
+        return ($this->home_team->pivot->score ?: 0) . ':' . ($this->away_team->pivot->score ?: 0);
     }
 
     public function getStatusTextAttribute(): string

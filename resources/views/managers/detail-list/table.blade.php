@@ -78,7 +78,7 @@
                     @foreach($positionPicks->sortBy('player_id')->sortByDesc('player.price') as $pick)
                         @php
                             $player = $pick->player;
-                            $fixture = $player->team->fixtures->first();
+                            $fixture = $player->team->fixtures->first() ?: optional();
                         @endphp
 
                         <td
@@ -111,7 +111,7 @@
                 @foreach($benchPicks as $pick)
                     @php
                         $player = $pick->player;
-                        $fixture = $player->team->fixtures->first();
+                        $fixture = $player->team->fixtures->first() ?: optional();
                     @endphp
 
                     <td
