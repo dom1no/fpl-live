@@ -35,6 +35,6 @@ class TelegramWelcomeNotification extends Notification
 
         $urlToAutoLogin = MagicLink::create($action)->url;
 
-        return "Твой профиль готов: [FPL]({$urlToAutoLogin})";
+        return "Твой профиль готов: [Перейти]({$urlToAutoLogin})";
     }
 }
