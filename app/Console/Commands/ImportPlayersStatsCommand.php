@@ -109,8 +109,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
             $importedPointsIds[] = $playerPoint->id;
         }
 
-        PlayerPoint::whereKey($existedPointsIds->diff($importedPointsIds))
-            ->each(fn (PlayerPoint $point) => $point->delete());
+        PlayerPoint::findMany($existedPointsIds->diff($importedPointsIds))->each->delete();
     }
 
     private function upsertPlayerPoint(array $playerPoint, int $playerId, Gameweek $gameweek): PlayerPoint
@@ -192,9 +191,6 @@ class ImportPlayersStatsCommand extends FPLImportCommand
             ->withSum([
                 'picks as gameweek_points' => fn ($q) => $q->forGameweek($gameweek),
             ], 'points')
-            ->withCount([
-                'transfers as gameweek_paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ], 'is_free')
             ->each(function (Manager $manager) use ($gameweek) {
                 $previousPointsHistory = $manager->pointsHistory
                     ->sortByDesc('gameweek_id')
@@ -204,10 +200,10 @@ class ImportPlayersStatsCommand extends FPLImportCommand
                     ?: new ManagerPointsHistory(['manager_id' => $manager->id, 'gameweek_id' => $gameweek->id]);
 
                 $currentPointsHistory->fill([
-                    'gameweek_points' => $manager->gameweek_points ?: 0,
+                    'points' => $manager->gameweek_points ?: 0,
                     'total_points' => ($previousPointsHistory->total_points ?? 0)
                         + $manager->gameweek_points
-                        - ($manager->gameweek_paid_transfers_count * 4),
+                        - $currentPointsHistory->transfers_cost,
                 ])->save();
             });
     }
@@ -232,14 +228,12 @@ class ImportPlayersStatsCommand extends FPLImportCommand
 
     private function updateManagersTotalPoints(): void
     {
-        Manager::query()
-            ->withSum('picks as total_picks_points', 'points')
-            ->withCount([
-                'transfers as total_paid_transfers_count' => fn ($q) => $q->where('is_free', false),
-            ], 'is_free')
+        Manager::with([
+            'gameweekPointsHistory' => fn ($q) => $q->latest(),
+        ])
             ->each(function (Manager $manager) {
                 $manager->update([
-                    'total_points' => $manager->total_picks_points - ($manager->total_paid_transfers_count * 4),
+                    'total_points' => $manager->gameweekPointsHistory->total_points,
                 ]);
             });
     }

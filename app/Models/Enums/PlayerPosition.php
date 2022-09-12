@@ -38,4 +38,14 @@ enum PlayerPosition: string
             self::FORWARD => 3,
         };
     }
+
+    public function sortValue(): int
+    {
+        return match ($this) {
+            self::GOALKEEPER => 1,
+            self::DEFENDER => 2,
+            self::MIDFIELDER => 3,
+            self::FORWARD => 4,
+        };
+    }
 }

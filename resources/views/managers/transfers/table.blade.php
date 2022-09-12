@@ -36,8 +36,8 @@
                     @include('managers.transfers.players-list', ['isIn' => true])
                 </td>
                 <td>
-                    {{ $manager->gameweekPointsHistory->gameweek_points }}
-                    @if ($transfersCost = $manager->paid_transfers_count * 4)
+                    {{ $manager->gameweekPointsHistory->points }}
+                    @if ($transfersCost = $manager->gameweekPointsHistory->transfers_cost)
                         <span class="opacity-7">
                         (-{{ $transfersCost }})
                     </span>

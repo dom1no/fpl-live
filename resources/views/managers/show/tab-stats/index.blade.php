@@ -10,8 +10,8 @@
     <tr>
         <td style="max-width: 45vw;">Очки</td>
         <td>
-            {{ $manager->gameweekPointsHistory->gameweek_points }}
-            @if ($transfersCost = $manager->paid_transfers_count * 4)
+            {{ $manager->gameweekPointsHistory->points }}
+            @if ($transfersCost = $manager->gameweekPointsHistory->transfers_cost)
                 <span class="opacity-7">
                     (-{{ $transfersCost }})
                 </span>
@@ -32,13 +32,13 @@
             @php($gameweekTransfers = $manager->transfers->where('gameweek_id', $gameweek->id))
             {{ $gameweekTransfers->count() }}
             @if ($gameweekTransfers->count())
-                / {{ $gameweekTransfers->where('is_free', false)->count() }}
+                / {{ $manager->gameweekPointsHistory->paid_transfers_count }}
             @endif
         </td>
         <td>
             {{ $manager->transfers->count() }}
             @if ($manager->transfers->count())
-                / {{ $manager->transfers->where('is_free', false)->count() }}
+                / {{ $manager->total_transfers_cost / 4 }}
             @endif
         </td>
     </tr>

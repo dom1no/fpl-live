@@ -15,8 +15,9 @@ return new class extends Migration
             $table->foreignId('gameweek_id')->constrained();
             $table->unique(['manager_id', 'gameweek_id']);
 
-            $table->integer('gameweek_points');
-            $table->integer('total_points');
+            $table->integer('points')->default(0);
+            $table->integer('transfers_cost')->default(0);
+            $table->integer('total_points')->default(0);
 
             $table->timestamps();
         });

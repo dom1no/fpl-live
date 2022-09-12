@@ -12,12 +12,18 @@ class ManagerPointsHistory extends Model
     protected $fillable = [
         'manager_id',
         'gameweek_id',
-        'gameweek_points',
+        'points',
+        'transfers_cost',
         'total_points',
     ];
 
     public function manager(): BelongsTo
     {
         return $this->belongsTo(Manager::class);
+    }
+
+    public function getPaidTransfersCountAttribute(): int
+    {
+        return $this->transfers_cost / 4;
     }
 }

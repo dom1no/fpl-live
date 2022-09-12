@@ -16,12 +16,7 @@ class ManagerTransfer extends Model
         'player_out_cost',
         'player_in_id',
         'player_in_cost',
-        'is_free',
         'happened_at',
-    ];
-
-    protected $casts = [
-        'is_free' => 'bool',
     ];
 
     protected $dates = [

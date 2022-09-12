@@ -18,7 +18,6 @@ return new class extends Migration
             $table->float('player_out_cost')->unsigned();
             $table->foreignId('player_in_id')->constrained('players');
             $table->float('player_in_cost')->unsigned();
-            $table->boolean('is_free');
             $table->dateTime('happened_at');
 
             $table->timestamps();

@@ -22,22 +22,28 @@
                 @endif
             </td>
             <td class="text-right py-2">
-                Платных: {{ $gameweekTransfers->where('is_free', false)->count() }}
+                Платных: {{ $manager->gameweekPointsHistory->paid_transfers_count }}
             </td>
         </tr>
-        @foreach($gameweekTransfers as $transfer)
+        @foreach($gameweekTransfers->sortBy(fn ($transfer) => $transfer->playerOut->position->sortValue()) as $transfer)
             <tr>
-                <td>
-                    @php($playerOut = $transfer->playerOut)
+                @php($playerOut = $transfer->playerOut)
+                <td class="pointer" data-toggle="modal" data-target="#player-{{ $playerOut->id }}">
                     {{ $playerOut->name }}
+                    <span class="text-muted text-xs">
+                        {{ price_formatted($transfer->player_out_cost) }}
+                    </span>
                     <br>
                     <span class="text-muted text-xs">
                         {{ $playerOut->team->name }}
                     </span>
                 </td>
-                <td>
-                    @php($playerIn = $transfer->playerIn)
+                @php($playerIn = $transfer->playerIn)
+                <td class="pointer" data-toggle="modal" data-target="#player-{{ $playerIn->id }}">
                     {{ $playerIn->name }}
+                    <span class="text-muted text-xs">
+                        {{ price_formatted($transfer->player_in_cost) }}
+                    </span>
                     <br>
                     <span class="text-muted text-xs">
                         {{ $playerIn->team->name }}
@@ -51,3 +57,5 @@
     @endforeach
     </tbody>
 </table>
+
+@each('components.player-modal', $manager->transfers->pluck('playerIn')->merge($manager->transfers->pluck('playerOut')), 'player')

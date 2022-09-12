@@ -19,9 +19,6 @@ class ManagerController extends Controller
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
-            ->withCount([
-                'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ])
             ->get()
             ->sortByDesc('gameweekPointsHistory.total_points')
             ->keyBy('id');
@@ -44,13 +41,11 @@ class ManagerController extends Controller
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
-                'transfers.playerOut',
-                'transfers.playerIn',
+                'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
-            ->loadCount([
-                'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
-            ]);
+            ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
 
         $managers = Manager::select('id')
             ->with([
@@ -60,7 +55,7 @@ class ManagerController extends Controller
 
         $managerPositions = [
             $gameweek->id => $managers
-                    ->sortByDesc('gameweekPointsHistory.gameweek_points')
+                    ->sortByDesc('gameweekPointsHistory.points')
                     ->pluck('id')
                     ->search($manager->id) + 1,
             'total' => $managers
@@ -95,9 +90,6 @@ class ManagerController extends Controller
                 'picks.player.team.fixtures.teams',
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
-            ])
-            ->withCount([
-                'transfers as paid_transfers_count' => fn ($q) => $q->forGameweek($gameweek)->where('is_free', false),
             ])
             ->get()
             ->sortByDesc('gameweekPointsHistory.total_points')

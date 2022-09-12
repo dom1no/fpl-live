@@ -5,7 +5,7 @@
 
 <tr @class(['font-weight-bold' => $fixture->isFinished()])>
     <td>
-        <span data-toggle="modal" data-target="#player-{{ $player->id }}" style="cursor: pointer;">
+        <span data-toggle="modal" data-target="#player-{{ $player->id }}" class="pointer">
             {{ $player->name }}
             @if ($pick->is_captain)
                 <i class="fas fa-copyright"></i>

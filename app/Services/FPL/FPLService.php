@@ -58,7 +58,7 @@ class FPLService
         return collect($data);
     }
 
-    public function getManagerGameweekStats(Manager $manager): Collection
+    public function getManagerGameweeksStats(Manager $manager): Collection
     {
         $data = $this->fpl->send(new ManagerHistory($manager->fpl_id))->json();
 
