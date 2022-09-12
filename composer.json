@@ -33,7 +33,7 @@
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^6.1",
         "nunomaduro/larastan": "^2.1",
-        "phpunit/phpunit": "^9.5",
+        "pestphp/pest-plugin-laravel": "^1.2",
         "spatie/laravel-ignition": "^1.0",
         "spatie/laravel-ray": "^1.30"
     },
@@ -84,7 +84,7 @@
             "php artisan ide-helper:generate",
             "php artisan ide-helper:meta"
         ],
-        "phpunit": "./vendor/bin/phpunit",
+        "test": "./vendor/bin/pest",
         "lint": "./vendor/bin/pint --test",
         "lint-fix": "./vendor/bin/pint",
         "larastan": "./vendor/bin/phpstan analyse",
