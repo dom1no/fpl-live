@@ -25,7 +25,7 @@ class FixtureFactory extends Factory
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 
-            'gameweek_id' => fn() => Gameweek::factory(),
+            'gameweek_id' => fn () => Gameweek::factory(),
         ];
     }
 

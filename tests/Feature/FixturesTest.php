@@ -53,4 +53,3 @@ it('cannot view a fixture show page', function () {
         ->assertSeeText($homeTeam->name)
         ->assertSeeText($awayTeam->name);
 });
-
