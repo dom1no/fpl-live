@@ -68,7 +68,9 @@ class TelegramMySquadNotification extends Notification
     {
         $pickName = $pick->player->name . ($pick->is_captain ? '©️' : '');
 
-        return "{$pickName} - " . ($pick->multiplier == 0 ? $pick->clean_points : $pick->points);
+        $points = $pick->multiplier == 0 ? $pick->clean_points : $pick->points;
+
+        return "{$pickName} - " . ($points ?: 0);
     }
 
     private function getTotalPointsText(Collection $picks): string
