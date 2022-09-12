@@ -17,7 +17,11 @@ pest:
     - cp .env.example .env
     - composer install
     - php artisan key:generate
-    - composer test
+    - composer test -- --do-not-cache-result --log-junit pest-report.xml
+  artifacts:
+    when: always
+    reports:
+      junit: pest-report.xml
 
 deploy:
   stage: deploy
