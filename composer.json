@@ -20,7 +20,8 @@
         "nerdroid23/blade-icomoon": "^1.0",
         "opcodesio/log-viewer": "^1.3",
         "owenvoke/blade-fontawesome": "^2.0",
-        "sammyjo20/saloon-laravel": "^1.5"
+        "sammyjo20/saloon-laravel": "^1.5",
+        "sentry/sentry-laravel": "^2.13"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",
