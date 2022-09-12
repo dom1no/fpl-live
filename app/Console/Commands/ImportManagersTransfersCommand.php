@@ -75,7 +75,7 @@ class ImportManagersTransfersCommand extends FPLImportCommand
         $result = collect();
 
         foreach ($transfers as $k => $transfer) {
-            if (!$transfer = $transfers->get($k)) {
+            if (! $transfer = $transfers->get($k)) {
                 continue;
             }
 
