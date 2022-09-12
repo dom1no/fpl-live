@@ -49,9 +49,10 @@ class ManagerPick extends Model
     {
         return match (true) {
             $this->clean_points >= 10 => 'icomoon-fire',
-            $this->clean_points >= 7 => 'phosphor-fire-fill',
-            $this->clean_points >= 3 => 'jam-chevron-circle-up',
-            $this->clean_points >= 0 => 'jam-minus-circle',
+            $this->clean_points >= 8 => 'phosphor-fire-fill',
+            $this->clean_points >= 5 => 'phosphor-caret-double-up-bold',
+            $this->clean_points >= 3 => 'phosphor-caret-up-bold',
+            $this->clean_points >= 0 => 'phosphor-minus-bold',
             default => 'fas-poop',
         };
     }
@@ -60,7 +61,7 @@ class ManagerPick extends Model
     {
         return match (true) {
             $this->clean_points >= 10 => 'danger',
-            $this->clean_points >= 7 => 'warning',
+            $this->clean_points >= 8 => 'warning',
             $this->clean_points >= 3 => 'primary',
             $this->clean_points >= 0 => 'gray',
             default => 'brown',

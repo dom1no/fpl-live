@@ -12,7 +12,7 @@
             'multiplier' => 1,
             'clean_points' => $player->points->sum('points'),
         ]);
-        $player->name .= ' - ' . price_formatted($cost);
+        $player->price = $cost;
         $pick->setRelation('player', $player);
 
         return $pick;
@@ -23,6 +23,7 @@
     'picks' => $mapToPicks,
     'sortBy' => 'player.price',
     'showCleanPoints' => true,
+    'showPrice' => true,
     'withTotal' => true,
 ])
 

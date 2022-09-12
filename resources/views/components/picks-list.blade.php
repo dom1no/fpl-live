@@ -20,6 +20,12 @@
                 @if ($pick->is_captain)
                     <i class="fas fa-copyright"></i>
                 @endif
+
+                @if ($showPrice ?? false)
+                    <span class="text-muted text-xs">
+                        {{ price_formatted($pick->player->price) }}
+                    </span>
+                @endif
             </span>
         </li>
     @endforeach
