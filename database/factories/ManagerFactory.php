@@ -17,7 +17,7 @@ class ManagerFactory extends Factory
             'name' => fake()->name(),
             'command_name' => fake()->word(),
             'total_points' => fake()->randomNumber(),
-            'fpl_id' => fake()->randomNumber(),
+            'fpl_id' => fake()->unique()->randomNumber(),
             'password' => Hash::make('qwerty'),
             'remember_token' => Str::random(10),
         ];

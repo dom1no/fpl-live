@@ -13,9 +13,9 @@ class TeamFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'short_name' => $this->faker->name(),
-            'fpl_id' => $this->faker->randomNumber(),
+            'name' => fake()->name(),
+            'short_name' => fake()->name(),
+            'fpl_id' => fake()->unique()->randomNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

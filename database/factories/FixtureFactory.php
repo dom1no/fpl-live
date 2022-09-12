@@ -16,12 +16,12 @@ class FixtureFactory extends Factory
     {
         return [
             'kickoff_time' => Carbon::now(),
-            'is_started' => $this->faker->boolean(),
-            'is_finished' => $this->faker->boolean(),
-            'is_finished_provisional' => $this->faker->boolean(),
-            'is_bonuses_added' => $this->faker->boolean(),
-            'minutes' => $this->faker->randomNumber(),
-            'fpl_id' => $this->faker->randomNumber(),
+            'is_started' => fake()->boolean(),
+            'is_finished' => fake()->boolean(),
+            'is_finished_provisional' => fake()->boolean(),
+            'is_bonuses_added' => fake()->boolean(),
+            'minutes' => fake()->randomNumber(),
+            'fpl_id' => fake()->unique()->randomNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
 

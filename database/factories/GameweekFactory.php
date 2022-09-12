@@ -13,13 +13,13 @@ class GameweekFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
+            'name' => fake()->name(),
             'deadline_at' => Carbon::now()->addDay(),
-            'is_finished' => $this->faker->boolean(),
-            'is_previous' => $this->faker->boolean(),
-            'is_current' => $this->faker->boolean(),
-            'is_next' => $this->faker->boolean(),
-            'fpl_id' => $this->faker->randomNumber(),
+            'is_finished' => fake()->boolean(),
+            'is_previous' => fake()->boolean(),
+            'is_current' => fake()->boolean(),
+            'is_next' => fake()->boolean(),
+            'fpl_id' => fake()->unique()->randomNumber(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];
