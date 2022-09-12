@@ -16,6 +16,7 @@
     git pull origin main
 
     {{ $composer }} install --no-dev --prefer-dist --no-scripts -o -n
+    {{ $composer }} du
 
     php artisan migrate --force
 
