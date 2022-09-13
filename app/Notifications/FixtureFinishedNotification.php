@@ -48,7 +48,7 @@ class FixtureFinishedNotification extends Notification
             return '*Ничья!*';
         }
 
-        if ($this->fixture->home_team->pivot->score == $this->fixture->away_team->pivot->score) {
+        if ($this->fixture->home_team->pivot->score > $this->fixture->away_team->pivot->score) {
             $winner = $this->fixture->home_team;
         } else {
             $winner = $this->fixture->away_team;
@@ -67,15 +67,21 @@ class FixtureFinishedNotification extends Notification
 
     private function getManagerPointsText(Manager $manager): string
     {
-        return $manager->picks->map(function (ManagerPick $pick) {
-            $isCaptain = $pick->is_captain;
+        return $manager->picks
+            ->sortBy('points')
+            ->map(function (ManagerPick $pick) {
+                $isCaptain = $pick->is_captain;
+                $points = $pick->multiplier > 0 ? $pick->points : $pick->clean_points;
 
-            return "{$pick->player->name} ({$pick->player->team->name}): {$pick->points} " . ($isCaptain ? '©️' : '');
-        })->implode("\n");
+                $pickText = "{$pick->player->name} ({$pick->player->team->name}): {$points} " . ($isCaptain ? '©️' : '');
+
+                return $pick->multiplier > 0 ? $pickText : "_{$pickText}_";
+            })
+            ->implode("\n");
     }
 
     private function getManagerTotalPointsText(Manager $manager): string
     {
-        return "*Всего очков: {$manager->picks->sum('points')}*";
+        return "*Всего: {$manager->picks->sum('points')}*";
     }
 }

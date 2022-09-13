@@ -23,6 +23,6 @@ class UpcomingGameweekDeadlineNotification extends Notification
     public function toTelegram(): TelegramMessage
     {
         return (new TelegramMessage())
-            ->content("🔔 Дедлайн завтра в {$this->gameweek->deadline_at->format('H:i')} мск");
+            ->content("🔔 {$this->gameweek->name} - дедлайн завтра в {$this->gameweek->deadline_at->format('H:i')} мск");
     }
 }

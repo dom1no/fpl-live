@@ -51,7 +51,7 @@ class ImportFixturesCommand extends FPLImportCommand
             ], [
                 'gameweek_id' => $gameweek->id,
                 'kickoff_time' => Carbon::parse($fixtureData['kickoff_time'])->addHours(3),
-                'is_started' => $fixtureData['started'],
+                'is_started' => $fixtureData['id'] == 71 ? 1 : $fixtureData['started'],
                 'is_finished' => $fixtureData['finished'],
                 'is_finished_provisional' => $fixtureData['finished_provisional'],
                 'is_bonuses_added' => ! empty($fixtureBonusStats['a'] ?? false) || ! empty($fixtureBonusStats['h'] ?? false),
