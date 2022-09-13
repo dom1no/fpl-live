@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('fixture_team', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('fixture_id')->constrained();
-            $table->foreignId('team_id')->constrained();
+            $table->foreignId('fixture_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->unique(['fixture_id', 'team_id']);
 
             $table->boolean('is_home')->default(false);

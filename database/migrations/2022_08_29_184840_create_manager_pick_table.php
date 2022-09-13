@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('manager_pick', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('manager_id')->constrained();
+            $table->foreignId('manager_id')->constrained()->cascadeOnDelete();
             $table->foreignId('player_id')->constrained();
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
             $table->unique(['manager_id', 'gameweek_id', 'player_id']);
 
             $table->boolean('is_captain')->default(false);

@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('player_points', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('player_id')->constrained();
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('player_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
 
             $table->string('action');
             $table->unique(['player_id', 'gameweek_id', 'action']);

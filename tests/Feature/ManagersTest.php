@@ -3,7 +3,7 @@
 use App\Models\Gameweek;
 use App\Models\Manager;
 
-beforeEach(fn() => Manager::factory()->times(3)->create());
+beforeEach(fn () => Manager::factory()->times(3)->create());
 
 it('can view a managers page', function () {
     $response = $this

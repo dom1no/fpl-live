@@ -105,15 +105,15 @@ class ImportManagersTransfersCommand extends FPLImportCommand
 
     private function updateManagerTransfersCost(Collection $gameweeksStats, Manager $manager): void
     {
-        $gameweekStats = $gameweeksStats->sortBy('event_id')->last();
+        foreach ($gameweeksStats as $gameweekStats) {
+            $managerPointsHistory = ManagerPointsHistory::firstOrNew([
+                'manager_id' => $manager->id,
+                'gameweek_id' => $this->gameweeks->get($gameweekStats['event']),
+            ]);
 
-        $managerPointsHistory = ManagerPointsHistory::firstOrNew([
-            'manager_id' => $manager->id,
-            'gameweek_id' => $this->gameweeks->get($gameweekStats['event']),
-        ]);
-
-        $managerPointsHistory->fill([
-            'transfers_cost' => $gameweekStats['event_transfers_cost'],
-        ])->save();
+            $managerPointsHistory->fill([
+                'transfers_cost' => $gameweekStats['event_transfers_cost'],
+            ])->save();
+        }
     }
 }

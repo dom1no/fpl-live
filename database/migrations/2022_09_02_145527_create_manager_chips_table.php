@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('manager_chips', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('manager_id')->constrained();
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('manager_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
             $table->string('type');
             $table->unique(['manager_id', 'gameweek_id', 'type']);
 

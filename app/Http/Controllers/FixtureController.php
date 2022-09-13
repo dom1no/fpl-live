@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use App\Models\ManagerPick;
 use App\Models\Player;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\View\View;
 
 class FixtureController extends Controller
 {

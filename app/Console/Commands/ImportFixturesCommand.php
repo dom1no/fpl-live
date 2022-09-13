@@ -40,6 +40,9 @@ class ImportFixturesCommand extends FPLImportCommand
 
     private function importFixtures(Collection $fixturesData, Gameweek $gameweek): void
     {
+        $existedFixturesIds = Fixture::where('gameweek_id', $gameweek->id)->pluck('id');
+        $importedFixturesIds = [];
+
         foreach ($fixturesData as $fixtureData) {
             $fixtureBonusStats = collect($fixtureData['stats'])->firstWhere('identifier', 'bonus') ?? [];
 
@@ -66,7 +69,10 @@ class ImportFixturesCommand extends FPLImportCommand
                 ],
             ]);
 
+            $importedFixturesIds[] = $fixture->id;
             $this->importedInc();
         }
+
+        Fixture::findMany($existedFixturesIds->diff($importedFixturesIds))->each->delete();
     }
 }

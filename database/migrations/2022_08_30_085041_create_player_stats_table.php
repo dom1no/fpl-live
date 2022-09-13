@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('player_stats', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('player_id')->constrained();
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('player_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
             $table->unique(['player_id', 'gameweek_id']);
 
             $table->integer('minutes')->unsigned()->default(0);

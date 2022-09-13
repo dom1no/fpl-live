@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('manager_transfers', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('manager_id')->constrained();
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('manager_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
 
             $table->foreignId('player_out_id')->constrained('players');
             $table->float('player_out_cost')->unsigned();

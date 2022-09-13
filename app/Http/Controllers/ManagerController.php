@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Manager;
 use App\Models\ManagerPick;
-use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 // TODO: убрать дублирование
 class ManagerController extends Controller

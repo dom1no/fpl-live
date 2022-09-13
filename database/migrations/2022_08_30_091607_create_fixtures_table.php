@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('fixtures', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignId('gameweek_id')->constrained();
+            $table->foreignId('gameweek_id')->constrained()->cascadeOnDelete();
             $table->dateTime('kickoff_time');
             $table->boolean('is_started')->default(false);
             $table->boolean('is_finished')->default(false);

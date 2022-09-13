@@ -16,7 +16,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 uses(TestCase::class, RefreshDatabase::class)
-    ->beforeEach(fn() => Gameweek::factory()->current()->create())
+    ->beforeEach(fn () => Gameweek::factory()->current()->create())
     ->in('Feature');
 
 /*
