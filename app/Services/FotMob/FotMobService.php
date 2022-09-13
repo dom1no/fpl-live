@@ -3,8 +3,10 @@
 namespace App\Services\FotMob;
 
 use App\Models\Fixture;
+use App\Models\Team;
 use App\Services\FotMob\Requests\GetLeagueInfo;
 use App\Services\FotMob\Requests\GetMatchDetails;
+use App\Services\FotMob\Requests\GetTeam;
 use Illuminate\Support\Collection;
 
 class FotMobService
@@ -34,9 +36,18 @@ class FotMobService
         );
     }
 
-    public function getMatchDetails(Fixture $fixture): array
+    public function getMatchStats(Fixture $fixture): Collection
     {
         $response = $this->fotMob->send(new GetMatchDetails($fixture->fot_mob_id))->json();
+
+        return collect(
+            $response['content']['stats']['stats']
+        );
+    }
+
+    public function getTeam(Team $team): array
+    {
+        $response = $this->fotMob->send(new GetTeam($team->fot_mob_id))->json();
 
         return $response;
     }

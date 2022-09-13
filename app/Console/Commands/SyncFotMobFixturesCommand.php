@@ -54,13 +54,9 @@ class SyncFotMobFixturesCommand extends Command
         }
 
         $fotMobService = app(FotMobService::class);
-        $matchDetails = $fotMobService->getMatchDetails($fixture);
+        $matchStats = $fotMobService->getMatchStats($fixture);
 
-        $stats = collect(
-            $matchDetails['content']['stats']['stats']
-        );
-
-        $xgStats = $stats->firstWhere('title', 'EXPECTED GOALS (xG)');
+        $xgStats = $matchStats->firstWhere('title', 'EXPECTED GOALS (xG)');
         if (!$xgStats) {
             return;
         }
