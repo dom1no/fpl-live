@@ -9,11 +9,19 @@
 
             function resizeByWidth(el) {
                 let containerWidth = el.outerWidth();
-                let elementWidth = el.find('.text-autosize-element').toArray().reduce((n, el) => n + $(el).width(), 0)
-                console.log(containerWidth, elementWidth, el.text());
 
-                if (elementWidth > containerWidth) {
+                let elements = el.find('.text-autosize-element');
+                if (elements.length === 0) {
+                    elements = el.children();
+                }
+
+                let overflowElements = elements.toArray().filter(el => el.scrollWidth > el.clientWidth)
+                let scrollWidth = el.get(0).scrollWidth;
+                console.log(containerWidth, scrollWidth, overflowElements, el.text());
+
+                if (scrollWidth > containerWidth || overflowElements.length > 0) {
                     let fontsize = el.css('font-size');
+                    console.log(parseFloat(fontsize) - 1, parseFloat(fontsize))
                     el.css('fontSize', parseFloat(fontsize) - 1);
                     resizeByWidth(el);
                 }

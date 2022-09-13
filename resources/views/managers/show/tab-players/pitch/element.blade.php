@@ -18,7 +18,7 @@
 
             <div class="pitch-row-unit-element-data">
                 <div class="pitch-row-unit-element-name text-autosize-container">
-                    <span class="text-autosize-element">{{ $player->name }}</span>
+                    <span>{{ $player->name }}</span>
                 </div>
 
                 <div class="pitch-row-unit-element-value text-dark">

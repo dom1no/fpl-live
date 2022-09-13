@@ -8,17 +8,25 @@
         </tr>
         @foreach($dayFixtures as $fixture)
             <tr @class(['font-weight-bold' => $fixture->isFinished()])>
-                <td>
-                    @include('fixtures.components.fixture-link')
+                <td class="text-center px-2">
+                    @if ($fixture->isFeature())
+                        <span class="d-block d-md-none">
+                            {{ $fixture->kickoff_time->format('H:i') }}
+                        </span>
+                    @else
+                        <span class="d-block d-md-none text-muted">
+                            {{ $fixture->status_text }}
+                        </span>
+                    @endif
+
+                    @include('fixtures.components.fixture-link', ['linkClass' => 'fixture-title-centered text-lg'])
+
+{{--                    <span class="d-block text-muted text-xs">0.21 xG 1.44</span>--}}
                 </td>
-                <td>
-                    <span class="d-block d-md-none font-weight-normal">
-                        {{ $fixture->kickoff_time->format('H:i') }}
-                    </span>
-                    {{ $fixture->status_text }}
-                </td>
-                <td class="pl-5 d-none d-md-table-cell">
+                <td class="d-none d-md-table-cell text-center">
                     {{ $fixture->kickoff_time->format('H:i') }}
+                    <br>
+                    {{ $fixture->status_text }}
                 </td>
             </tr>
         @endforeach

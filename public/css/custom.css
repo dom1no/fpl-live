@@ -53,7 +53,7 @@
     color: #964b00 !important;
 }
 
-.text-autosize-element {
+.text-autosize-container {
     white-space: nowrap !important;
 }
 
@@ -134,4 +134,29 @@ td.clickable > a {
     .picks-list.rtl .picks-list-points {
         padding-left: 1.25rem !important;
     }
+}
+
+
+.fixture-title-centered {
+    width: 100%;
+}
+
+.fixture-title-centered > .fixture-title-home, .fixture-title-centered > .fixture-title-away {
+    display: inline-block !important;
+    width: 40%;
+}
+
+.fixture-title-centered > .fixture-title-home {
+    padding-right: 0.25rem;
+    text-align: right;
+}
+
+.fixture-title-centered > .fixture-title-away {
+    padding-left: 0.25rem;
+    text-align: left;
+}
+
+.fixture-title-centered > .fixture-title-score {
+    display: inline-block !important;
+    min-width: 2rem;
 }

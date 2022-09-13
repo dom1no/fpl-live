@@ -152,7 +152,7 @@
 }
 
 .pitch-row-unit-element-name {
-    padding: 3px;
+    padding: 3px 2px;
     background-color: rgb(55, 0, 60);
     color: white;
     text-overflow: ellipsis;
