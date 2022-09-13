@@ -6,6 +6,7 @@ use App\Models\Manager;
 use App\Notifications\TelegramMySquadNotification;
 use App\Notifications\TelegramWelcomeNotification;
 use App\Services\TelegramService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -18,12 +19,13 @@ class TelegramController extends Controller
         $this->telegramService = $telegramService;
     }
 
-    public function webhook(Request $request, TelegramService $telegramService)
+    public function webhook(Request $request, TelegramService $telegramService): JsonResponse
     {
         $message = $request->message;
         if (! $message) {
-            return;
+            return response()->json();
         }
+
         logs('single')->info('telegram', [$message]);
 
         $this->handleStartMessage($message);
@@ -31,11 +33,13 @@ class TelegramController extends Controller
         $manager = $telegramService->findManager($message);
 
         $this->handleMySquadMessage($message, $manager);
+
+        return response()->json();
     }
 
     private function handleStartMessage(array $message): void
     {
-        if ($message['text'] !== '/start') {
+        if (! Str::of($message['text'])->is('/start')) {
             return;
         }
 

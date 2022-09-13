@@ -24,7 +24,7 @@ Auth::routes([
 
 Route::prefix('fixtures')->name('fixtures.')->group(function () {
     Route::get('/', [FixtureController::class, 'index'])->name('index');
-    Route::get('/{fixture}', [FixtureController::class, 'show'])->name('show');
+    Route::get('/{fixture}/show', [FixtureController::class, 'show'])->name('show');
 });
 
 Route::middleware('auth')->group(function () {
@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('managers')->name('managers.')->group(function () {
         Route::get('/', [ManagerController::class, 'index'])->name('index');
-        Route::get('/{manager}', [ManagerController::class, 'show'])->name('show');
+        Route::get('/{manager}/show', [ManagerController::class, 'show'])->name('show');
         Route::get('/detail-list', [ManagerController::class, 'detailList'])->name('detail-list');
         Route::get('/transfers', [ManagerController::class, 'transfers'])->name('transfers');
     });

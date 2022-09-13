@@ -37,7 +37,6 @@ it('cannot login with a non-existent name', function () {
     ]);
 
     $this->assertGuest();
-
     $response->assertSessionHasErrors(['name']);
 });
 

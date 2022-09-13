@@ -11,10 +11,14 @@
 |
 */
 
+use App\Models\Gameweek;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-uses(TestCase::class, RefreshDatabase::class)->in('Feature');
+uses(TestCase::class, RefreshDatabase::class)
+    ->beforeEach(fn() => Gameweek::factory()->current()->create())
+    ->in('Feature');
+
 /*
 |--------------------------------------------------------------------------
 | Expectations
