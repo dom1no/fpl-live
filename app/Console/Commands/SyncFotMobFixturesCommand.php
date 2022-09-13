@@ -26,7 +26,7 @@ class SyncFotMobFixturesCommand extends Command
                     'fot_mob_id' => $this->mapFotMobId($fixture),
                 ]);
 
-                if ($this->option('stats') && (!$this->option('current') || $fixture->gameweek->is_current)) {
+                if ($this->option('stats') && (! $this->option('current') || $fixture->gameweek->is_current)) {
                     $this->importStats($fixture);
                 }
             });
@@ -57,12 +57,12 @@ class SyncFotMobFixturesCommand extends Command
         $matchStats = $fotMobService->getMatchStats($fixture);
 
         $xgStats = $matchStats->firstWhere('title', 'EXPECTED GOALS (xG)');
-        if (!$xgStats) {
+        if (! $xgStats) {
             return;
         }
 
         $xgData = collect($xgStats['stats'])->where('title', 'Expected goals (xG)')->firstWhere('type', 'text');
-        if (!$xgData) {
+        if (! $xgData) {
             return;
         }
 

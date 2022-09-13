@@ -86,4 +86,13 @@ class Fixture extends Model
 
         return 'Завершен';
     }
+
+    public function getFotMobLinkAttribute(): ?string
+    {
+        if (! $this->fot_mob_id) {
+            return null;
+        }
+
+        return config('services.fot-mob.host') . "/match/{$this->fot_mob_id}";
+    }
 }

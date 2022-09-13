@@ -45,21 +45,21 @@ class SyncFotMobPlayersCommand extends Command
             $squad = $squad->keyBy(fn (array $playerData) => Str::ascii($playerData['name']));
 
             $playerData = $squad->pull($playerFullName);
-            if (!$playerData) {
+            if (! $playerData) {
                 $playerData = $squad->pull($playerName);
             }
 
-            if (!$playerData) {
-                $playerDataKey = $squad->search(fn(array $playerData, string $playerDataName) => Str::of($playerDataName)->contains($playerName));
+            if (! $playerData) {
+                $playerDataKey = $squad->search(fn (array $playerData, string $playerDataName) => Str::of($playerDataName)->contains($playerName));
                 $playerData = $playerDataKey !== false ? $squad->pull($playerDataKey) : null;
             }
 
-            if (!$playerData) {
-                $playerDataKey = $squad->search(fn(array $playerData, string $playerDataName) => Str::of($playerFullName)->contains($playerDataName));
+            if (! $playerData) {
+                $playerDataKey = $squad->search(fn (array $playerData, string $playerDataName) => Str::of($playerFullName)->contains($playerDataName));
                 $playerData = $playerDataKey !== false ? $squad->pull($playerDataKey) : null;
             }
 
-            if (!$playerData) {
+            if (! $playerData) {
                 return;
             }
 

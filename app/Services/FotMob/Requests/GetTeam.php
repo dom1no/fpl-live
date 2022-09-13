@@ -8,7 +8,9 @@ class GetTeam extends Request
 {
     protected ?string $method = Saloon::GET;
 
-    public function __construct(protected int $teamId) {}
+    public function __construct(protected int $teamId)
+    {
+    }
 
     public function defineEndpoint(): string
     {

@@ -1,6 +1,15 @@
-<div class="nav-wrapper">
+@php
+    $countTabs = 4;
+    if (auth()->guest()) {
+        $countTabs--;
+    }
+    if (! $fixture->fot_mob_link) {
+        $countTabs--;
+    }
+@endphp
+<div class="nav-wrapper @if($countTabs === 4) offset-md-1 col-md-10 @endif">
     <ul class="nav nav-pills nav-fill text-center nav-persistent" id="tabs-fixture" role="tablist">
-        <li class="nav-item col-12 col-md-3 @auth offset-md-2 @else offset-md-3 @endauth">
+        <li class="nav-item col-12 col-md-3 offset-md-{{ $countTabs === 4 ? 0 : ($countTabs === 3 ? 2 : 3) }}">
             <a class="nav-link mb-sm-3 mb-md-0 active" id="tabs-players-tab" data-toggle="tab"
                href="#tabs-players" role="tab" aria-controls="tabs-players" aria-selected="true">
                 <i class="fas fa-users"></i>
@@ -23,6 +32,15 @@
                 Матч
             </a>
         </li>
+        @if ($fixture->fot_mob_link)
+            <li class="nav-item col-12 col-md-3">
+                <a class="nav-link mb-sm-3 mb-md-0" href="{{ $fixture->fot_mob_link }}" target="_blank">
+                    <i class="fas fa-chart-bar"></i>
+                    FotMob.com
+                    <i class="fas fa-external-link-alt"></i>
+                </a>
+            </li>
+        @endif
     </ul>
 </div>
 

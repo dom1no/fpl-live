@@ -8,7 +8,9 @@ class GetMatchDetails extends Request
 {
     protected ?string $method = Saloon::GET;
 
-    public function __construct(protected int $matchId) {}
+    public function __construct(protected int $matchId)
+    {
+    }
 
     public function defineEndpoint(): string
     {
