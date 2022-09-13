@@ -9,6 +9,7 @@ use App\Console\Commands\ImportManagersPicksCommand;
 use App\Console\Commands\ImportManagersTransfersCommand;
 use App\Console\Commands\ImportPlayersCommand;
 use App\Console\Commands\ImportPlayersStatsCommand;
+use App\Console\Commands\SyncFotMobFixturesCommand;
 use App\Console\Commands\UpcomingGameweekDeadlineNotifyCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -33,6 +34,9 @@ class Kernel extends ConsoleKernel
         // $schedule->command(ImportManagersCommand::class)->daily();
 
         $schedule->command(UpcomingGameweekDeadlineNotifyCommand::class)->everyThirtyMinutes();
+
+        $schedule->command(SyncFotMobFixturesCommand::class)->daily();
+        $schedule->command(SyncFotMobFixturesCommand::class, ['--stats', '--current'])->everyTenMinutes();
     }
 
     protected function commands(): void

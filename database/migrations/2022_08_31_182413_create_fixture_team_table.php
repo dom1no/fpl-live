@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unique(['fixture_id', 'team_id', 'is_home']);
 
             $table->integer('score')->unsigned()->nullable();
+            $table->double('xg')->unsigned()->nullable();
         });
     }
 

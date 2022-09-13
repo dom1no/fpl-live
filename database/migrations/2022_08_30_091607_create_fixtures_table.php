@@ -19,6 +19,7 @@ return new class extends Migration
             $table->boolean('is_bonuses_added')->default(false);
             $table->integer('minutes')->unsigned()->default(0);
             $table->integer('fpl_id')->unsigned()->unique();
+            $table->integer('fot_mob_id')->unsigned()->nullable()->unique();
 
             $table->timestamps();
         });

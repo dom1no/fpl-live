@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('short_name', 3);
             $table->integer('fpl_id')->unsigned()->unique();
+            $table->integer('fot_mob_id')->unsigned()->nullable()->unique();
 
             $table->timestamps();
         });

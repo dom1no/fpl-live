@@ -20,6 +20,7 @@ class Fixture extends Model
         'is_bonuses_added',
         'minutes',
         'fpl_id',
+        'fot_mob_id',
     ];
 
     protected $dates = [
@@ -35,7 +36,7 @@ class Fixture extends Model
 
     public function teams(): BelongsToMany
     {
-        return $this->belongsToMany(Team::class)->withPivot('is_home', 'score');
+        return $this->belongsToMany(Team::class)->withPivot('is_home', 'score', 'xg');
     }
 
     public function isFeature(): bool

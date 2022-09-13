@@ -17,6 +17,7 @@ class Team extends Model
         'name',
         'short_name',
         'fpl_id',
+        'fot_mob_id',
     ];
 
     public function players(): HasMany
@@ -26,7 +27,7 @@ class Team extends Model
 
     public function fixtures(): BelongsToMany
     {
-        return $this->belongsToMany(Fixture::class)->withPivot('is_home', 'score');
+        return $this->belongsToMany(Fixture::class)->withPivot('is_home', 'score', 'xg');
     }
 
     public function getFileShirtName(int $width, string $ext, bool $isGKP = false): string

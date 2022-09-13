@@ -18,6 +18,7 @@ class Player extends Model
         'price',
         'team_id',
         'fpl_id',
+        'fot_mob_id',
     ];
 
     protected $casts = [

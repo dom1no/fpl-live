@@ -16,6 +16,7 @@ return new class extends Migration
             $table->float('price');
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
             $table->integer('fpl_id')->unsigned()->unique();
+            $table->integer('fot_mob_id')->unsigned()->nullable()->unique();
 
             $table->timestamps();
         });

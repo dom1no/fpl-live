@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('is_current');
             $table->boolean('is_next');
             $table->integer('fpl_id')->unsigned()->unique();
+            $table->integer('fot_mob_id')->unsigned()->nullable()->unique();
 
             $table->timestamps();
         });

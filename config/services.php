@@ -34,4 +34,8 @@ return [
     'telegram-bot-api' => [
         'token' => env('TELEGRAM_BOT_TOKEN', ''),
     ],
+
+    'fot-mob' => [
+        'host' => env('FOT_MOB_HOST', 'https://www.fotmob.com/'),
+    ],
 ];
