@@ -43,6 +43,8 @@ class ManagerController extends Controller
                 'transfers.gameweek',
                 'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerOut.team',
+                'transfers.playerIn.team',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
