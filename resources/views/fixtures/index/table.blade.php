@@ -21,7 +21,11 @@
 
                     @include('fixtures.components.fixture-link', ['linkClass' => 'fixture-title-centered text-lg'])
 
-{{--                    <span class="d-block text-muted text-xs">0.21 xG 1.44</span>--}}
+                    @if (!$fixture->isFeature())
+                        <span class="d-block text-muted text-xs">
+                            {{ $fixture->xg_formatted }}
+                        </span>
+                    @endif
                 </td>
                 <td class="d-none d-md-table-cell text-center">
                     {{ $fixture->kickoff_time->format('H:i') }}

@@ -7,6 +7,12 @@
     </div>
 
     @if (!$fixture->isFeature())
+        <span class="d-block text-muted text-xs">
+            {{ $fixture->xg_formatted }}
+        </span>
+   @endif
+
+    @if (!$fixture->isFeature())
         <span class="text-sm">
             {{ $fixture->status_text }}
         </span>

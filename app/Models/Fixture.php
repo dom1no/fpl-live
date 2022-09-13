@@ -69,6 +69,11 @@ class Fixture extends Model
         return ($this->home_team->pivot->score ?: 0) . ':' . ($this->away_team->pivot->score ?: 0);
     }
 
+    public function getXGFormattedAttribute(): string
+    {
+        return double_formatted($this->home_team->pivot->xg) . ' xG ' . double_formatted($this->away_team->pivot->xg);
+    }
+
     public function getStatusTextAttribute(): string
     {
         if ($this->isFeature()) {
