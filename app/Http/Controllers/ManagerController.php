@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fixture;
 use App\Models\Manager;
 use App\Models\ManagerPick;
+use App\Models\ManagerTransfer;
+use App\Models\Team;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
@@ -33,21 +36,29 @@ class ManagerController extends Controller
         $manager
             ->load([
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-                'picks.player.points' => fn ($q) => $q->forGameweek($gameweek),
-                'picks.player.team',
-                'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
-                'picks.player.team.fixtures.teams', // TODO: оптимизировать, чтобы подгружать только соперника
+                'picks.player.points',// => fn ($q) => $q->forGameweek($gameweek),
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
                 'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerOut.team',
-                'transfers.playerIn.team',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
+
+        $teams = Team::with('fixtures.teams:id', 'fixtures.gameweek')
+            ->get()
+            ->keyBy('id');
+
+        $manager->picks->each(function (ManagerPick $pick) use ($teams) {
+            $pick->player->setRelation('team', $teams->get($pick->player->team_id));
+        });
+
+        $manager->transfers->each(function (ManagerTransfer $transfer) use ($teams) {
+            $transfer->playerOut->setRelation('team', $teams->get($transfer->playerOut->team_id));
+            $transfer->playerIn->setRelation('team', $teams->get($transfer->playerIn->team_id));
+        });
 
         $managers = Manager::select('id')
             ->with([
@@ -89,7 +100,6 @@ class ManagerController extends Controller
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
                 'picks.player.team',
                 'picks.player.team.fixtures' => fn ($q) => $q->forGameweek($gameweek),
-                'picks.player.team.fixtures.teams',
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
@@ -122,13 +132,22 @@ class ManagerController extends Controller
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerIn.team',
-                'transfers.playerOut.team',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->get()
             ->sortByDesc('gameweekPointsHistory.total_points');
+
+        $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
+            ->get()
+            ->keyBy('id');
+
+        $managers->each(function (Manager $manager) use ($teams) {
+            $manager->transfers->each(function (ManagerTransfer $transfer) use ($teams) {
+                $transfer->playerOut->setRelation('team', $teams->get($transfer->playerOut->team_id));
+                $transfer->playerIn->setRelation('team', $teams->get($transfer->playerIn->team_id));
+            });
+        });
 
         return view('managers.transfers', compact('managers', 'gameweek'));
     }

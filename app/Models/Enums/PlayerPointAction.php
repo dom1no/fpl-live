@@ -37,4 +37,23 @@ enum PlayerPointAction: string
             self::PREDICTION_BONUS => 'Бонусы (live)',
         };
     }
+
+    public function sortValue(): int
+    {
+        return match ($this) {
+            self::MINUTES => 1,
+            self::GOALS_SCORED => 2,
+            self::ASSISTS => 3,
+            self::SAVES => 4,
+            self::PENALTIES_SAVED => 5,
+            self::CLEAN_SHEETS => 6,
+            self::YELLOW_CARDS => 7,
+            self::RED_CARDS => 8,
+            self::GOALS_CONCEDED => 9,
+            self::OWN_GOALS => 10,
+            self::PENALTIES_MISSED => 11,
+            self::BONUS => 12,
+            self::PREDICTION_BONUS => 13,
+        };
+    }
 }

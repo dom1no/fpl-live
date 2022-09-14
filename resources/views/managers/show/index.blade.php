@@ -2,4 +2,4 @@
 
 @include('managers.show.tabs')
 
-@each('components.player-modal', $manager->picks->pluck('player'), 'player')
+@each('components.player-modal.index', $manager->picks->pluck('player'), 'player')

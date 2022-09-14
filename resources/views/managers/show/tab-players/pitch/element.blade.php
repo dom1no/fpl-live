@@ -1,9 +1,10 @@
 @php use App\Models\Enums\PlayerPosition; @endphp
 
 @php
+    $gameweek ??= request()->gameweek();
     $player = $pick->player;
     $team = $player->team;
-    $fixture = $team->fixtures->first() ?: optional();
+    $fixture = $player->team->fixtures->firstWhere('gameweek_id', $gameweek->id) ?: optional();
     $isGKP = $player->position === PlayerPosition::GOALKEEPER;
 @endphp
 

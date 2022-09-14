@@ -13,7 +13,10 @@
     </thead>
     <tbody>
     @foreach($players as $player)
-        @php($playerStats = $player->gameweekStats ?? optional())
+        @php
+            $playerStats = $player->gameweekStats ?? optional();
+            $playerPoints = $player->points->where('gameweek_id', $fixture->gameweek_id);
+        @endphp
         <tr @class(['accordion-toggle', 'pointer', 'bg-translucent-secondary' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])
             data-toggle="modal" data-target="#player-{{ $player->id }}"
         >
@@ -45,7 +48,7 @@
             <td class="px-2">
                 {{ $player->points_sum ?: '-' }}
 
-                @if ($bonus = $player->points->whereIn('action', [PlayerPointAction::BONUS, PlayerPointAction::PREDICTION_BONUS])->first())
+                @if ($bonus = $playerPoints->whereIn('action', [PlayerPointAction::BONUS, PlayerPointAction::PREDICTION_BONUS])->first())
                     <span class="opacity-{{ $bonus->action === PlayerPointAction::PREDICTION_BONUS ? '5' : '7' }}">
                         (+{{ $bonus->points }})
                     </span>

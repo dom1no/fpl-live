@@ -58,4 +58,4 @@
     </tbody>
 </table>
 
-@each('components.player-modal', $manager->transfers->pluck('playerIn')->merge($manager->transfers->pluck('playerOut')), 'player')
+@each('components.player-modal.index', $manager->transfers->pluck('playerIn')->merge($manager->transfers->pluck('playerOut')), 'player')

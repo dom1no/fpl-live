@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Gameweek;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
 
@@ -12,12 +13,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Request::macro('gameweek', function () {
-            $gameweekId = request()->gameweek;
-            if (! $gameweekId) {
-                return Gameweek::getCurrent();
+            $gameweekId = $this->gameweek;
+
+            if ($gameweekId instanceof Gameweek) {
+                return $gameweekId;
             }
 
-            return Gameweek::findOrFail($gameweekId);
+            $gameweek = $gameweekId
+                ? Gameweek::findOrFail($gameweekId)
+                : Gameweek::getCurrent();
+            $this->merge(['gameweek' => $gameweek]);
+
+            return $gameweek;
         });
 
         LogViewer::auth(function ($request) {

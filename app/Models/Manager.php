@@ -59,7 +59,10 @@ class Manager extends Authenticatable
     /** use with condition */
     public function gameweekPointsHistory(): HasOne
     {
-        return $this->hasOne(ManagerPointsHistory::class)->withDefault(['points' => 0, 'total_points' => 0]);
+        return $this->hasOne(ManagerPointsHistory::class)->withDefault([
+            'points' => 0,
+            'total_points' => 0
+        ]);
     }
 
     public function routeNotificationForTelegram(): ?string

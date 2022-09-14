@@ -158,5 +158,9 @@ td.clickable > a {
 
 .fixture-title-centered > .fixture-title-score {
     display: inline-block !important;
+    text-align: center;
+}
+
+.fixture-title-centered.display-3 > .fixture-title-score {
     min-width: 2rem;
 }

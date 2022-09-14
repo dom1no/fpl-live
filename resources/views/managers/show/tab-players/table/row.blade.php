@@ -1,6 +1,7 @@
 @php
+    $gameweek ??= request()->gameweek();
     $player = $pick->player;
-    $fixture = $player->team->fixtures->first() ?: optional();
+    $fixture = $player->team->fixtures->firstWhere('gameweek_id', $gameweek->id) ?: optional();
 @endphp
 
 <tr @class(['font-weight-bold' => $fixture->isFinished()])>

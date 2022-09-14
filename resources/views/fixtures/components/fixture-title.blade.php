@@ -1,5 +1,7 @@
 @php
     $player ??= optional();
+    $homeTeam = $fixture->homeTeam;
+    $awayTeam = $fixture->awayTeam;
 @endphp
 
 <span @class(['fixture-title-home', 'text-underline' => $homeTeam->id == $player->team_id])>

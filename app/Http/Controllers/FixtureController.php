@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use App\Models\ManagerPick;
 use App\Models\Player;
+use App\Models\Team;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -27,15 +28,22 @@ class FixtureController extends Controller
         $players = Player::whereIn('team_id', $fixture->teams->pluck('id'))
             ->with([
                 'gameweekStats' => fn ($q) => $q->forGameweek($fixture->gameweek),
-                'points' => fn ($q) => $q->forGameweek($fixture->gameweek),
+                'points',
                 'managerPicks' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks.manager',
-                'team',
             ])
             ->withSum(['points as points_sum' => fn ($q) => $q->forGameweek($fixture->gameweek)], 'points')
             ->get()
             ->sortByDesc('points_sum')
             ->keyBy('id');
+
+        $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
+            ->get()
+            ->keyBy('id');
+
+        $players->each(function (Player $player) use ($teams) {
+            $player->setRelation('team', $teams->get($player->team_id));
+        });
 
         $managersPicks = $players->pluck('managerPicks')
             ->collapse()

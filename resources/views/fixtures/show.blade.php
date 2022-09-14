@@ -12,5 +12,7 @@
 
     @include('fixtures.show.tabs')
 
-    @each('components.player-modal', $players, 'player')
+    @foreach($players as $player)
+        @include('components.player-modal.index', ['currentFixture' => $fixture])
+    @endforeach
 @endsection

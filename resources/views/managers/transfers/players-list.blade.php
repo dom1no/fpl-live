@@ -27,4 +27,4 @@
     'withTotal' => true,
 ])
 
-@each('components.player-modal', $players, 'player')
+@each('components.player-modal.index', $players, 'player')
