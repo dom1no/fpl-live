@@ -42,9 +42,11 @@ class ManagerController extends Controller
                 'transfers.gameweek',
                 'transfers.playerOut.points',
                 'transfers.playerIn.points',
-                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
+                'pointsHistory' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderBy('gameweek_id'),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
+
+        $manager->setRelation('gameweekPointsHistory', $manager->pointsHistory->firstWhere('gameweek_id', $gameweek->id));
 
         $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
             ->get()

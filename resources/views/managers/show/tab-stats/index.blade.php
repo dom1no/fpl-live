@@ -77,3 +77,5 @@
     </tr>
     </tbody>
 </table>
+
+@include('managers.show.tab-stats.points-chart')
