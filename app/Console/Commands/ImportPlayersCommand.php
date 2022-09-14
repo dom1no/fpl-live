@@ -56,7 +56,7 @@ class ImportPlayersCommand extends FPLImportCommand
         $localPhotoName = $player->getFilePhotoName();
 
         $disk = Storage::disk('player-photos');
-        if (!$this->option('force') && $disk->exists($localPhotoName)) {
+        if (! $this->option('force') && $disk->exists($localPhotoName)) {
             return;
         }
 

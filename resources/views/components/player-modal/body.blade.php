@@ -36,3 +36,18 @@
         @include('components.player-modal.future-fixtures', ['fixtures' => $futureFixture])
     </div>
 </div>
+
+@once
+    @push('js')
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('.player-modal').on('shown.bs.modal', function () {
+                    let activeFixture = $(this).find('.focused');
+                    if (activeFixture.length > 0) {
+                        activeFixture.get(0).scrollIntoView();
+                    }
+                });
+            });
+        </script>
+    @endpush
+@endonce

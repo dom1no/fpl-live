@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Fixture;
 use App\Models\Manager;
 use App\Models\ManagerPick;
 use App\Models\ManagerTransfer;
@@ -36,7 +35,7 @@ class ManagerController extends Controller
         $manager
             ->load([
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-                'picks.player.points',// => fn ($q) => $q->forGameweek($gameweek),
+                'picks.player.points', // => fn ($q) => $q->forGameweek($gameweek),
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
@@ -47,7 +46,7 @@ class ManagerController extends Controller
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
 
-        $teams = Team::with('fixtures.teams:id', 'fixtures.gameweek')
+        $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
             ->get()
             ->keyBy('id');
 

@@ -61,7 +61,7 @@ class Manager extends Authenticatable
     {
         return $this->hasOne(ManagerPointsHistory::class)->withDefault([
             'points' => 0,
-            'total_points' => 0
+            'total_points' => 0,
         ]);
     }
 

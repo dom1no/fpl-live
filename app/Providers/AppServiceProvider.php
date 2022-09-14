@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Models\Gameweek;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
 
