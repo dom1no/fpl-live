@@ -35,13 +35,13 @@ class ManagerController extends Controller
         $manager
             ->load([
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-                'picks.player.points', // => fn ($q) => $q->forGameweek($gameweek),
+                'picks.player.points',
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
-                'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerOut.points',
+                'transfers.playerIn.points',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
@@ -129,8 +129,8 @@ class ManagerController extends Controller
         $managers = Manager::query()
             ->with([
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerOut.points',
+                'transfers.playerIn.points',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])
