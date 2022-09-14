@@ -74,6 +74,7 @@ class ImportManagersTransfersCommand extends FPLImportCommand
     {
         $result = collect();
 
+        $tt = collect($transfers);
         foreach ($transfers as $k => $transfer) {
             if (! $transfer = $transfers->get($k)) {
                 continue;
@@ -94,13 +95,10 @@ class ImportManagersTransfersCommand extends FPLImportCommand
                 $transitiveTransfer['element_out'] = $transfer['element_out'];
                 $transitiveTransfer['element_out_cost'] = $transfer['element_out_cost'];
                 $transfers->put($transitiveTransferKey, $transitiveTransfer);
-                continue;
             }
-
-            $result->push($transfer);
         }
 
-        return collect($result);
+        return $transfers;
     }
 
     private function updateManagerTransfersCost(Collection $gameweeksStats, Manager $manager): void
