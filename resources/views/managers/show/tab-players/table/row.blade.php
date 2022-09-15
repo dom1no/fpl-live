@@ -17,14 +17,7 @@
             @if ($manager->autoSubs->contains('player_in_id', $pick->player_id))
                 <i class="fas fa-exchange-alt text-success"></i>
             @endif
-            @if ($player->isNotOk())
-                @svg($player->status->icon(), [
-                    'class' => 'pb-1 text-' . $player->status->color($player),
-                    'data-toggle' => 'tooltip',
-                    'data-title' => $player->status_text,
-                    'width' => 16,
-                ])
-            @endif
+            @include('components.player-status-icon', ['class' => 'pb-1'])
 
             <br>
             <span class="text-muted">

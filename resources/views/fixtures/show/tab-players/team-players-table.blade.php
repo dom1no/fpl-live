@@ -22,13 +22,8 @@
         >
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}
-                @if ($player->isNotOk() && $fixture->kickoff_time->greaterThan($player->status_at))
-                    @svg($player->status->icon(), [
-                        'class' => 'pb-1 text-' . $player->status->color($player),
-                        'data-toggle' => 'tooltip',
-                        'data-title' => $player->status_text,
-                        'width' => 16,
-                    ])
+                @if ($fixture->kickoff_time->greaterThan($player->status_at))
+                    @include('components.player-status-icon', ['class' => 'pb-1'])
                 @endif
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)
                     <i class="fas fa-futbol"></i>
