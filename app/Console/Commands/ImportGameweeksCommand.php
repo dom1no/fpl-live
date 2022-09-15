@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Gameweek;
 use App\Services\FPL\FPLService;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 class ImportGameweeksCommand extends FPLImportCommand
@@ -25,7 +24,7 @@ class ImportGameweeksCommand extends FPLImportCommand
                 'fpl_id' => $playerData['id'],
             ], [
                 'name' => Str::replace('Gameweek', 'Тур', $playerData['name']),
-                'deadline_at' => Carbon::parse($playerData['deadline_time_epoch'])->addHours(3),
+                'deadline_at' => $this->parseDate($playerData['deadline_time']),
                 'is_finished' => $playerData['finished'],
                 'is_previous' => $playerData['is_previous'],
                 'is_current' => $playerData['is_current'],

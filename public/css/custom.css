@@ -53,6 +53,22 @@
     color: #964b00 !important;
 }
 
+.text-orange-light {
+    color: #ffab1b !important;
+}
+
+.bg-orange-light {
+    background-color: #ffab1b !important;
+}
+
+.alert-orange-light {
+    background-color: #ffab1b !important;
+}
+
+.alert-yellow {
+    background-color: #ffd600 !important;
+}
+
 .text-autosize-container {
     white-space: nowrap !important;
 }

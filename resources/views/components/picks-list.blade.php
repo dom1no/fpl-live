@@ -17,6 +17,15 @@
             <span>
                 {{ $player->name }}
 
+                @if ($player->isNotOk())
+                    @svg($player->status->icon(), [
+                        'class' => 'pb-1 text-' . $player->status->color($player),
+                        'data-toggle' => 'tooltip',
+                        'data-title' => $player->status_text,
+                        'width' => 16,
+                    ])
+                @endif
+
                 @if ($pick->is_captain)
                     <i class="fas fa-copyright"></i>
                 @endif

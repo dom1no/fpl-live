@@ -6,7 +6,6 @@
     [$futureFixture, $pastFixtures] = $player->team->fixtures->partition(fn(Fixture $fixture) => $fixture->isFeature());
 @endphp
 
-
 <div class="nav-wrapper">
     <ul class="nav nav-pills nav-fill text-center nav-persistent" role="tablist">
         <li class="nav-item col-12 col-md-6">

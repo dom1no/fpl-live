@@ -7,7 +7,7 @@
                     <tr>
                         <th scope="col" class="pl-4 pr-2">Менеджер</th>
                         <th scope="col" class="px-2">Очки</th>
-                        <th scope="col" class="pl-3 pr-1">За кого</th>
+                        <th scope="col" class="pl-3 pr-1">Игроки</th>
                     </tr>
                     </thead>
                     <tbody>

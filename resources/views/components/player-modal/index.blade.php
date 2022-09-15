@@ -6,7 +6,7 @@
                     <div class="modal-header px-3 pt-3 pb-0">
                         @include('components.player-modal.head')
                     </div>
-                    <div class="modal-body px-0 py-2">
+                    <div class="modal-body px-0 pb-2 pt-0">
                         @include('components.player-modal.body')
                     </div>
                 </div>

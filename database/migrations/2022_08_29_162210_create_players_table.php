@@ -15,6 +15,11 @@ return new class extends Migration
             $table->string('position', 3);
             $table->float('price');
             $table->foreignId('team_id')->constrained()->cascadeOnDelete();
+            $table->string('status');
+            $table->string('status_comment')->nullable();
+            $table->timestamp('status_at')->nullable();
+            $table->integer('chance_of_playing')->nullable();
+            $table->date('returned_at')->nullable();
             $table->integer('fpl_id')->unsigned()->unique();
             $table->integer('fot_mob_id')->unsigned()->nullable()->unique();
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 php artisan import:teams
-php artisan import:players
+php artisan import:players --photos --force
 php artisan import:gameweeks
 php artisan import:fixtures
 php artisan import:managers

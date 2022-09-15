@@ -6,6 +6,7 @@ use App\Console\Commands\Traits\HasImportedCount;
 use App\Console\Commands\Traits\HasMeasure;
 use App\Console\Commands\Traits\HasProgressBar;
 use App\Services\FPL\FPLService;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -50,4 +51,13 @@ abstract class FPLImportCommand extends Command
     }
 
     abstract protected function import(FPLService $FPLService): void;
+
+    protected function parseDate(?string $date): ?Carbon
+    {
+        if (! $date) {
+            return null;
+        }
+
+        return Carbon::parse($date)->addHours(3);
+    }
 }

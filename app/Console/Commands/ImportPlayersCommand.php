@@ -3,9 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Enums\PlayerPosition;
+use App\Models\Enums\PlayerStatus;
 use App\Models\Player;
 use App\Models\Team;
 use App\Services\FPL\FPLService;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Storage;
 
@@ -21,8 +23,6 @@ class ImportPlayersCommand extends FPLImportCommand
         return '{--photos} {--force}';
     }
 
-    // TODO: выгружать данные по травмам, фото, status
-    // status: a - все ок, i - травма (точно не сыграет), d - повреждение (возможно сыграет), u - ушел (аренда/трансфер)
     protected function import(FPLService $FPLService): void
     {
         $data = $FPLService->getBootstrapStatic();
@@ -32,6 +32,8 @@ class ImportPlayersCommand extends FPLImportCommand
         $teamsIds = Team::pluck('id', 'fpl_id');
 
         foreach ($playersData as $playerData) {
+            $parsedNews = $this->parseNews($playerData['news']);
+
             $player = Player::updateOrCreate([
                 'fpl_id' => $playerData['id'],
             ], [
@@ -40,6 +42,11 @@ class ImportPlayersCommand extends FPLImportCommand
                 'position' => PlayerPosition::findByFplId($playerData['element_type']),
                 'price' => $playerData['now_cost'] / 10,
                 'team_id' => $teamsIds->get($playerData['team']),
+                'status' => PlayerStatus::findByFplStatus($playerData['status']),
+                'status_comment' => $parsedNews['status_comment'] ?? null,
+                'status_at' => $this->parseDate($playerData['news_added']),
+                'chance_of_playing' => $parsedNews['chance_of_playing'] ?? null,
+                'returned_at' => $parsedNews['returned_at'] ?? null,
             ]);
 
             if ($this->option('photos')) {
@@ -49,6 +56,36 @@ class ImportPlayersCommand extends FPLImportCommand
             $this->importedInc();
             $this->advanceProgressBar();
         }
+    }
+
+    private function parseNews(string $news): ?array
+    {
+        if (! $news) {
+            return null;
+        }
+
+        $str = Str::of($news);
+
+        $statusComment = $str->before(' - ');
+        $chanceOfPlaying = $str->whenContains(
+            '% chance of playing',
+            fn ($str) => $str->between(' - ', '% chance of playing')->replaceMatches('/[^0-9]/', ''),
+            fn () => Str::of(''));
+
+        $returnDate = null;
+        if ($str->after(' - ')->startsWith('Expected back')) {
+            $returnDate = Carbon::parse($str->after(' - Expected back '));
+
+            if ($returnDate->isPast()) {
+                $returnDate->addYear();
+            }
+        }
+
+        return [
+            'status_comment' => $statusComment->toString(),
+            'chance_of_playing' => $chanceOfPlaying->isNotEmpty() ? (int) $chanceOfPlaying->toString() : null,
+            'returned_at' => $returnDate,
+        ];
     }
 
     private function downloadPhotos(Player $player, array $playerData): void

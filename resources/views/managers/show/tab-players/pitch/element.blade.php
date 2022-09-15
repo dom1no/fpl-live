@@ -18,7 +18,7 @@
             @include('managers.show.tab-players.pitch.element.shirt')
 
             <div class="pitch-row-unit-element-data">
-                <div class="pitch-row-unit-element-name text-autosize-container">
+                <div class="pitch-row-unit-element-name text-autosize-container {{ $player->isNotOk() ? "bg-{$player->status->color($player)} text-dark" : '' }}">
                     <span>{{ $player->name }}</span>
                 </div>
 
@@ -28,6 +28,19 @@
                     ])
                 </div>
             </div>
+            @includeWhen($pick->is_captain, 'managers.show.tab-players.pitch.element.captain-icon')
+            @includeWhen($pick->points > 0 || !$fixture->isFeature(), 'managers.show.tab-players.pitch.element.points-icon')
+            @includeWhen(
+                $manager->autoSubs->contains('player_out_id', $player->id),
+                'managers.show.tab-players.pitch.element.autosub-icon',
+                ['isOut' => true]
+            )
+            @includeWhen(
+                $manager->autoSubs->contains('player_in_id', $player->id),
+                'managers.show.tab-players.pitch.element.autosub-icon',
+                ['isIn' => true]
+            )
+            @includeWhen($player->isNotOk(), 'managers.show.tab-players.pitch.element.status-icon')
         </button>
 
         <div class="pitch-row-unit-element-fixture text-dark">
@@ -36,19 +49,6 @@
                 'linkClass' => 'text-dark',
             ])
         </div>
-
-        @includeWhen($pick->is_captain, 'managers.show.tab-players.pitch.element.captain-icon')
-        @includeWhen($pick->points > 0 || !$fixture->isFeature(), 'managers.show.tab-players.pitch.element.points-icon')
-        @includeWhen(
-            $manager->autoSubs->contains('player_out_id', $player->id),
-            'managers.show.tab-players.pitch.element.autosub-icon',
-            ['isOut' => true]
-        )
-        @includeWhen(
-            $manager->autoSubs->contains('player_in_id', $player->id),
-            'managers.show.tab-players.pitch.element.autosub-icon',
-            ['isIn' => true]
-        )
     </div>
 </div>
 

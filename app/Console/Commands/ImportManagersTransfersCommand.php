@@ -58,7 +58,7 @@ class ImportManagersTransfersCommand extends FPLImportCommand
                 ], [
                     'player_out_cost' => $transfer['element_out_cost'] / 10,
                     'player_in_cost' => $transfer['element_in_cost'] / 10,
-                    'happened_at' => Carbon::parse($transfer['time'])->addHours(3),
+                    'happened_at' => $this->parseDate($transfer['time']),
                 ]);
 
                 $importedTransfersIds[] = $transfer->id;
