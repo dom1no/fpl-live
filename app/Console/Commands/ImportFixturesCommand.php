@@ -6,7 +6,6 @@ use App\Models\Fixture;
 use App\Models\Gameweek;
 use App\Models\Team;
 use App\Services\FPL\FPLService;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class ImportFixturesCommand extends FPLImportCommand

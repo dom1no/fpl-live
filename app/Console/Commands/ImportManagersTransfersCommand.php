@@ -8,7 +8,6 @@ use App\Models\ManagerPointsHistory;
 use App\Models\ManagerTransfer;
 use App\Models\Player;
 use App\Services\FPL\FPLService;
-use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
 class ImportManagersTransfersCommand extends FPLImportCommand
