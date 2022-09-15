@@ -50,7 +50,7 @@
                     </span>
                 </td>
                 <td>
-                    {{ $playerOut->position->title() }}
+                    {{ $playerOut->position->value }}
                 </td>
             </tr>
         @endforeach
