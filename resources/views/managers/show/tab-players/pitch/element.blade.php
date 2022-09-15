@@ -29,7 +29,7 @@
                 </div>
             </div>
             @includeWhen($pick->is_captain, 'managers.show.tab-players.pitch.element.captain-icon')
-            @includeWhen($pick->points > 0 || !$fixture->isFeature(), 'managers.show.tab-players.pitch.element.points-icon')
+            @includeWhen($pick->points > 0 || $fixture->isFeature() === false, 'managers.show.tab-players.pitch.element.points-icon')
             @includeWhen(
                 $manager->autoSubs->contains('player_out_id', $player->id),
                 'managers.show.tab-players.pitch.element.autosub-icon',

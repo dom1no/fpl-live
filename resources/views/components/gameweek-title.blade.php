@@ -10,7 +10,7 @@
         <span class="d-none d-sm-inline-block">Предыдущий</span>
     </a>
 
-    <div class="display-3 text-center">
+    <div class="display-3 text-center" data-toggle="tooltip" data-title="Дедлайн: {{ $gameweek->deadline_at->format('d.m H:i') }}">
         {{ $gameweek->name }}
     </div>
 

@@ -64,7 +64,7 @@ class ManagerController extends Controller
         // TODO: оптимизировать
         $managers = Manager::select('id')
             ->with([
-                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek->is_next ? $gameweek->previousId() : $gameweek),
             ])
             ->get();
 
@@ -83,10 +83,10 @@ class ManagerController extends Controller
 
         $playedPicksCount = [
             'played' => $mainPicks->where(
-                fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isFinished(),
+                fn (ManagerPick $pick) => $pick->player->team->fixtures->where('gameweek_id', $gameweek->id)->first()?->isFinished(),
             )->count(),
             'playing' => $mainPicks->where(
-                fn (ManagerPick $pick) => $pick->player->team->fixtures->first()?->isInProgress()
+                fn (ManagerPick $pick) => $pick->player->team->fixtures->where('gameweek_id', $gameweek->id)->first()?->isInProgress()
             )->count(),
         ];
 

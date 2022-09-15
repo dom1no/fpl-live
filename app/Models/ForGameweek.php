@@ -12,9 +12,9 @@ trait ForGameweek
         return $this->belongsTo(Gameweek::class);
     }
 
-    public function scopeForGameweek(Builder $query, Gameweek $gameweek): void
+    public function scopeForGameweek(Builder $query, int|Gameweek $gameweek): void
     {
-        $query->where('gameweek_id', $gameweek->id);
+        $query->where('gameweek_id', is_int($gameweek) ? $gameweek : $gameweek->id);
     }
 
     public function scopeForCurrentGameweek(Builder $query): void
@@ -22,8 +22,8 @@ trait ForGameweek
         $query->where('gameweek_id', Gameweek::getCurrent()->id);
     }
 
-    public function scopeWithoutNextGameweeks(Builder $query, Gameweek $gameweek): void
+    public function scopeWithoutNextGameweeks(Builder $query, int|Gameweek $gameweek): void
     {
-        $query->where('gameweek_id', '<=', $gameweek->id);
+        $query->where('gameweek_id', '<=', is_int($gameweek) ? $gameweek : $gameweek->id);
     }
 }

@@ -1,4 +1,4 @@
-@if ($pick->points > 0 || !$fixture->isFeature())
+@if ($pick->points > 0 || $fixture->isFeature() === false)
     @if ($showCleanPoints ?? false)
         <span class="opacity-8">{{ $pick->clean_points ?: 0 }}</span>
     @else
