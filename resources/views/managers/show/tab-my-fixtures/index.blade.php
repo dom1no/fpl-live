@@ -1,6 +1,7 @@
 @php
-    $fixtures = $manager->picks->pluck('player.team.fixtures.0', 'id')->unique()->filter();
-    $picksByFixture = $manager->picks->groupBy('player.team.fixtures.0.id');
+    use App\Models\ManagerPick;
+    $fixtures = $manager->picks->mapWithKeys(fn (ManagerPick $pick) => [$pick->id => $pick->player->team->fixtures->firstWhere('gameweek_id', $gameweek->id)])->unique()->filter();
+    $picksByFixture = $manager->picks->groupBy(fn (ManagerPick $pick) => $pick->player->team->fixtures->firstWhere('gameweek_id', $gameweek->id)->id ?? null);
 @endphp
 
 <table class="table">
