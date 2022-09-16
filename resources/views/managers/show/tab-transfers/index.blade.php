@@ -5,22 +5,22 @@
     <tr>
         <th>Ушел</th>
         <th>Пришел</th>
-        <th>Позиция</th>
+        <th class="d-none d-sm-table-cell">Позиция</th>
     </tr>
     </thead>
     <tbody>
     @foreach($manager->transfers->groupBy('gameweek_id') as $gameweekTransfers)
         @php($gameweek = $gameweekTransfers->first()->gameweek)
         <tr class="font-weight-bold bg-secondary">
-            <td colspan="2" class="py-2">
+            <td colspan="100%" class="py-2">
                 {{ $gameweek->name }}
 
                 @include('managers.components.chips-badges', [
                     'chips' => $manager->chips->where('gameweek_id', $gameweek->id)->whereIn('type', [ChipType::WILDCARD, ChipType::FREE_HIT]),
                 ])
-            </td>
-            <td class="text-right py-2">
-                Платных: {{ $manager->gameweekPointsHistory->paid_transfers_count }}
+                <span class="float-right">
+                    Платных: {{ $manager->gameweekPointsHistory->paid_transfers_count }}
+                </span>
             </td>
         </tr>
         @foreach($gameweekTransfers->sortBy(fn ($transfer) => $transfer->playerOut->position->sortValue()) as $transfer)
@@ -47,7 +47,7 @@
                         {{ $playerIn->team->name }}
                     </span>
                 </td>
-                <td>
+                <td class="d-none d-sm-table-cell">
                     {{ $playerOut->position->value }}
                 </td>
             </tr>
