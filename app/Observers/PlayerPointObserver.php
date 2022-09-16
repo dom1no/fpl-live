@@ -5,8 +5,8 @@ namespace App\Observers;
 use App\Models\Manager;
 use App\Models\Player;
 use App\Models\PlayerPoint;
-use App\Notifications\PlayerActionNotification;
 use App\Notifications\PlayerActionCancelledNotification;
+use App\Notifications\PlayerActionNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 
