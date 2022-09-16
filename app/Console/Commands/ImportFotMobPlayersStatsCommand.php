@@ -54,6 +54,10 @@ class ImportFotMobPlayersStatsCommand extends Command
 
     private function upsertPlayerStats(array $playerData, Collection $players, Gameweek $gameweek, bool $isMain = false, bool $isBench = false): void
     {
+        if (! $playerId = $players->get($playerData['id'])) {
+            return;
+        }
+
         $playerTopStats = collect($playerData['stats'] ?? [])->firstWhere('title', 'Top stats');
         if (! $playerTopStats) {
             return;
@@ -63,7 +67,7 @@ class ImportFotMobPlayersStatsCommand extends Command
 
         PlayerStats::updateOrCreate([
             'gameweek_id' => $gameweek->id,
-            'player_id' => $players->get($playerData['id']),
+            'player_id' => $playerId,
         ], [
             'xg' => $playerStats['Expected goals (xG)'] ?? null,
             'xa' => $playerStats['Expected assists (xA)'] ?? null,
