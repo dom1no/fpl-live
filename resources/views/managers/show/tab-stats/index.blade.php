@@ -45,8 +45,9 @@
     <tr>
         <td style="max-width: 45vw;">Чипы</td>
         <td>
+
             @forelse($manager->chips->where('gameweek_id', $gameweek->id) as $chip)
-                <span class="badge badge-light mb-1 mb-sm-0">
+                <span class="badge badge-info mb-1 mb-sm-0">
                     {{ $chip->type->title() }}
                 </span>
                 @if (!$loop->last)
@@ -56,7 +57,7 @@
         </td>
         <td>
             @forelse($manager->chips as $chip)
-                <span class="badge badge-light mb-1 mb-sm-0">
+                <span class="badge badge-info mb-1 mb-sm-0">
                     {{ $chip->type->title() }}
                 </span>
                 @if (!$loop->last)

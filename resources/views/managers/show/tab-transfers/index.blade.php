@@ -15,11 +15,9 @@
             <td colspan="2" class="py-2">
                 {{ $gameweek->name }}
 
-                @if ($changeSquadChip = $manager->chips->where('gameweek_id', $gameweek->id)->whereIn('type', [ChipType::WILDCARD, ChipType::FREE_HIT])->first())
-                    <span class="badge badge-info">
-                        {{ $changeSquadChip->type->title() }}
-                    </span>
-                @endif
+                @include('managers.components.chips-badges', [
+                    'chips' => $manager->chips->where('gameweek_id', $gameweek->id)->whereIn('type', [ChipType::WILDCARD, ChipType::FREE_HIT]),
+                ])
             </td>
             <td class="text-right py-2">
                 Платных: {{ $manager->gameweekPointsHistory->paid_transfers_count }}
