@@ -14,6 +14,8 @@ return new class extends Migration
             $table->double('fot_mob_rating')->nullable();
             $table->boolean('is_main')->default(false);
             $table->boolean('is_bench')->default(false);
+            $table->integer('subbed_on')->nullable();
+            $table->integer('subbed_off')->nullable();
         });
     }
 
@@ -23,6 +25,10 @@ return new class extends Migration
             $table->dropColumn('xg');
             $table->dropColumn('xa');
             $table->dropColumn('fot_mob_rating');
+            $table->dropColumn('is_main');
+            $table->dropColumn('is_bench');
+            $table->dropColumn('subbed_on');
+            $table->dropColumn('subbed_off');
         });
     }
 };

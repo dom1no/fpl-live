@@ -26,7 +26,7 @@
                     @include('components.player-status-icon', ['class' => 'pb-1'])
                 @endif
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)
-                    <i class="fas fa-futbol"></i>
+                    <i class="fas fa-futbol text-success"></i>
                 @endfor
                 @for ($i = 0; $i < $playerStats->assists; $i++)
                     <i class="fab fa-adn"></i>
@@ -47,6 +47,16 @@
                 <span class="d-block d-md-none opacity-7 text-xs">
                     BPS: {{ $playerStats->bps ?: '-' }}
                 </span>
+                @if ($subbedOn = $playerStats->subbed_on)
+                    <span class="d-block opacity-8 text-xs">
+                        <i class="fas fa-exchange-alt text-success"> {{ $subbedOn }}'</i>
+                    </span>
+                @endif
+                @if ($subbedOff = $playerStats->subbed_off)
+                    <span class="d-block opacity-8 text-xs">
+                        <i class="fas fa-exchange-alt text-danger"> {{ $subbedOff }}'</i>
+                    </span>
+                @endif
             </td>
             <td class="px-2">
                 {{ $player->points_sum ?: '-' }}

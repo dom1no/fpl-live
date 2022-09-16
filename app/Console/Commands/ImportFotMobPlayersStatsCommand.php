@@ -72,6 +72,8 @@ class ImportFotMobPlayersStatsCommand extends Command
             'xg' => $playerStats['Expected goals (xG)'] ?? null,
             'xa' => $playerStats['Expected assists (xA)'] ?? null,
             'fot_mob_rating' => $playerStats['FotMob rating'] ?? null,
+            'subbed_on' => $playerData['timeSubbedOn'] ?? null,
+            'subbed_off' => $playerData['timeSubbedOff'] ?? null,
             'is_main' => $isMain,
             'is_bench' => $isBench,
         ]);

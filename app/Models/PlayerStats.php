@@ -35,6 +35,8 @@ class PlayerStats extends Model
         'fot_mob_rating',
         'is_main',
         'is_bench',
+        'subbed_on',
+        'subbed_off',
     ];
 
     public function player(): BelongsTo
