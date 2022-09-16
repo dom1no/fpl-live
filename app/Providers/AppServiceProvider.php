@@ -13,7 +13,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Request::macro('gameweek', function () {
             /** @var Request $this */
-
             $gameweekId = $this->get('gameweek');
 
             if ($gameweekId instanceof Gameweek) {

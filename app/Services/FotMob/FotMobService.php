@@ -41,7 +41,7 @@ class FotMobService
         $response = $this->fotMob->send(new GetMatchDetails($fixture->fot_mob_id))->json();
 
         return collect(
-            $response['content']['stats']['stats']
+            $response['content']['stats']['stats'] ?? [],
         );
     }
 
