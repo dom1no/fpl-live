@@ -34,8 +34,7 @@ class PlayerPointObserver
             }
 
             Notification::send(
-                // $managers,
-                Manager::first(),
+                $managers,
                 $notification,
             );
         }
