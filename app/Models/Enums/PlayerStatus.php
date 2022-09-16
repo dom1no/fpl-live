@@ -35,7 +35,7 @@ enum PlayerStatus: string
     {
         return match ($this) {
             self::OK => '',
-            self::MINOR_INJURY => match ($player->chance_of_playing) {
+            self::MINOR_INJURY => match ((int) $player->chance_of_playing) {
                 75 => 'yellow',
                 50 => 'orange-light',
                 25 => 'warning',
