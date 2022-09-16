@@ -30,7 +30,7 @@ enum PlayerPosition: string
         };
     }
 
-    public function playersCountInTeam(): string
+    public function playersCountInTeam(): int
     {
         return match ($this) {
             self::GOALKEEPER => 2,

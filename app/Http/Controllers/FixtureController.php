@@ -49,6 +49,7 @@ class FixtureController extends Controller
             ->collapse()
             ->groupBy('manager_id')
             ->map(function (Collection $picks) use ($fixture, $players) {
+                /** @phpstan-ignore-next-line */
                 $picks->points_sum = $fixture->isFeature() ? 0 : $picks->sum('points');
 
                 $picks->each(

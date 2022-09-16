@@ -65,7 +65,7 @@ class ImportTeamsCommand extends FPLImportCommand
         }
     }
 
-    private function downloadShirtImg(string $shirtName, string $width, string $ext): string|false
+    private function downloadShirtImg(string $shirtName, int $width, string $ext): string|false
     {
         $fileName = "{$shirtName}-{$width}.{$ext}";
 

@@ -12,7 +12,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Request::macro('gameweek', function () {
-            $gameweekId = $this->gameweek;
+            /** @var Request $this */
+
+            $gameweekId = $this->get('gameweek');
 
             if ($gameweekId instanceof Gameweek) {
                 return $gameweekId;

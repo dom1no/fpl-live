@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @property-read int|null $gameweek_points
+ */
 class Manager extends Authenticatable
 {
     public const DEFAULT_PASSWORD = 'qwerty';

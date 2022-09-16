@@ -7,6 +7,7 @@ use App\Models\Fixture;
 use App\Models\Manager;
 use App\Models\PlayerPoint;
 use Illuminate\Notifications\Notification;
+use LogicException;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class PlayerActionNotification extends Notification
@@ -68,6 +69,7 @@ class PlayerActionNotification extends Notification
             PlayerPointAction::OWN_GOALS => '🙃',
             PlayerPointAction::PENALTIES_MISSED => '❌',
             PlayerPointAction::PENALTIES_SAVED => '🧤',
+            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
 
@@ -88,6 +90,7 @@ class PlayerActionNotification extends Notification
             PlayerPointAction::OWN_GOALS => 'Автогол!',
             PlayerPointAction::PENALTIES_MISSED => '',
             PlayerPointAction::PENALTIES_SAVED => 'Сейв!',
+            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
 
@@ -101,6 +104,7 @@ class PlayerActionNotification extends Notification
             PlayerPointAction::OWN_GOALS => 'забил в свои ворота',
             PlayerPointAction::PENALTIES_MISSED => 'не забил пенальти!',
             PlayerPointAction::PENALTIES_SAVED => 'отбил пенальти!',
+            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
 

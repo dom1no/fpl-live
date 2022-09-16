@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\Enums\PlayerPointAction;
+use LogicException;
 
 class PlayerActionVarCancelledNotification extends PlayerActionNotification
 {
@@ -24,6 +25,7 @@ class PlayerActionVarCancelledNotification extends PlayerActionNotification
             PlayerPointAction::YELLOW_CARDS => 'Желтая карточка отменена - ',
             PlayerPointAction::OWN_GOALS => 'Автогол отменен!',
             PlayerPointAction::PENALTIES_MISSED, PlayerPointAction::PENALTIES_SAVED => 'Пенальти будет перебит!',
+            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
 
@@ -37,6 +39,7 @@ class PlayerActionVarCancelledNotification extends PlayerActionNotification
             PlayerPointAction::OWN_GOALS => 'забил в свои ворота',
             PlayerPointAction::PENALTIES_MISSED => 'не забил пенальти!',
             PlayerPointAction::PENALTIES_SAVED => 'отбил пенальти!',
+            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
 }

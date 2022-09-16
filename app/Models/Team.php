@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Storage;
 
+/**
+ * @property-read \Illuminate\Database\Eloquent\Relations\Pivot $pivot
+ */
 class Team extends Model
 {
     use HasFactory;
