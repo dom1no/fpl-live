@@ -24,7 +24,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(ImportGameweeksCommand::class)->everyTenMinutes()
             ->after(function () {
-                $this->call(ImportManagersPicksCommand::class, ['--current']);
+                $this->call(ImportManagersPicksCommand::class, ['--current' => true]);
                 $this->call(ImportManagersTransfersCommand::class);
                 $this->call(ImportManagersChipsCommand::class);
             });
