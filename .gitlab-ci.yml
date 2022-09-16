@@ -9,6 +9,7 @@ lint:
   script:
     - composer install
     - composer lint
+    - composer larastan
   allow_failure: true
 
 pest:
