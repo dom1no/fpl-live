@@ -45,6 +45,15 @@ class FotMobService
         );
     }
 
+    public function getMatchLineup(Fixture $fixture): Collection
+    {
+        $response = $this->fotMob->send(new GetMatchDetails($fixture->fot_mob_id))->json();
+
+        return collect(
+            $response['content']['lineup']['lineup'] ?? [],
+        );
+    }
+
     public function getTeam(Team $team): array
     {
         $response = $this->fotMob->send(new GetTeam($team->fot_mob_id))->json();

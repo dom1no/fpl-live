@@ -3,6 +3,7 @@
 namespace App\Console;
 
 use App\Console\Commands\ImportFixturesCommand;
+use App\Console\Commands\ImportFotMobPlayersStatsCommand;
 use App\Console\Commands\ImportGameweeksCommand;
 use App\Console\Commands\ImportManagersChipsCommand;
 use App\Console\Commands\ImportManagersPicksCommand;
@@ -36,10 +37,12 @@ class Kernel extends ConsoleKernel
 
         $schedule->command(UpcomingGameweekDeadlineNotifyCommand::class)->everyThirtyMinutes();
 
-        $schedule->command(SyncFotMobFixturesCommand::class)->daily();
-        $schedule->command(SyncFotMobFixturesCommand::class, ['--stats', '--current'])->everyTenMinutes();
+        $schedule->command(SyncFotMobFixturesCommand::class, ['--stats', '--current'])->everyMinute();
+        $schedule->command(ImportFotMobPlayersStatsCommand::class, ['--current'])->everyMinute();
 
+        $schedule->command(SyncFotMobFixturesCommand::class)->daily();
         $schedule->command(SyncFotMobPlayersCommand::class)->daily();
+        $schedule->command(ImportFotMobPlayersStatsCommand::class)->daily();
     }
 
     protected function commands(): void

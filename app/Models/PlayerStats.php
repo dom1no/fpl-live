@@ -30,6 +30,11 @@ class PlayerStats extends Model
         'creativity',
         'threat',
         'ict_index',
+        'xg',
+        'xa',
+        'fot_mob_rating',
+        'is_main',
+        'is_bench',
     ];
 
     public function player(): BelongsTo

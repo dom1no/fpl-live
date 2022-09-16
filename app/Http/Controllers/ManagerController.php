@@ -36,12 +36,15 @@ class ManagerController extends Controller
             ->load([
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
                 'picks.player.points',
+                'picks.player.stats',
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
                 'transfers.playerOut.points',
                 'transfers.playerIn.points',
+                'transfers.playerOut.stats',
+                'transfers.playerIn.stats',
                 'pointsHistory' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderBy('gameweek_id'),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
@@ -134,6 +137,8 @@ class ManagerController extends Controller
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerOut.points',
                 'transfers.playerIn.points',
+                'transfers.playerOut.stats',
+                'transfers.playerIn.stats',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])

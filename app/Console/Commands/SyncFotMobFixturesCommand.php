@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Fixture;
+use App\Models\Gameweek;
 use App\Services\FotMob\FotMobService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;

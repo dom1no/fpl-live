@@ -5,6 +5,7 @@
         @foreach($fixtures->sortByDesc('gameweek_id') as $fixture)
             @php
                 $points = $player->points->where('gameweek_id', $fixture->gameweek_id);
+                $stats = $player->stats->firstWhere('gameweek_id', $fixture->gameweek_id) ?: optional();
             @endphp
             <tr @class(['font-weight-bold' => $fixture->isFinished(), 'bg-light focused' => $fixture->is($currentFixture)])>
                 <td data-toggle="collapse" data-target="#player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}"
@@ -20,6 +21,28 @@
             </tr>
             <tr @class(['collapse', 'bg-white', 'show' => $fixture->is($currentFixture)]) id="player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}">
                 <td class="p-0">
+                    @if ($stats->minutes > 0)
+                        <table class="table bg-white m-0">
+                            @if ($rating = $stats->fot_mob_rating)
+                                <tr>
+                                    <td class="py-2">Рейтинг</td>
+                                    <td class="py-2 text-left">{{ double_formatted($rating) }}</td>
+                                </tr>
+                            @endif
+                            @if ($xG = $stats->xg)
+                                <tr>
+                                    <td class="py-2">xG</td>
+                                    <td class="py-2 text-left">{{ double_formatted($xG) }}</td>
+                                </tr>
+                            @endif
+                            @if ($xA = $stats->xa)
+                                <tr>
+                                    <td class="py-2">xA</td>
+                                    <td class="py-2 text-left">{{ double_formatted($xA) }}</td>
+                                </tr>
+                            @endif
+                        </table>
+                    @endif
                     <table class="table bg-white align-items-center m-0">
                         <thead class="thead-light py-1">
                         <tr>

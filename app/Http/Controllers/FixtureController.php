@@ -27,7 +27,7 @@ class FixtureController extends Controller
     {
         $players = Player::whereIn('team_id', $fixture->teams->pluck('id'))
             ->with([
-                'gameweekStats' => fn ($q) => $q->forGameweek($fixture->gameweek),
+                'stats',
                 'points',
                 'managerPicks' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks.manager',
@@ -41,8 +41,9 @@ class FixtureController extends Controller
             ->get()
             ->keyBy('id');
 
-        $players->each(function (Player $player) use ($teams) {
+        $players->each(function (Player $player) use ($teams, $fixture) {
             $player->setRelation('team', $teams->get($player->team_id));
+            $player->setRelation('gameweekStats', $player->stats->firstWhere('gameweek_id', $fixture->gameweek_id));
         });
 
         $managersPicks = $players->pluck('managerPicks')
