@@ -1,44 +1,68 @@
-## Информация
+## FPL Live
 
-Laravel skeleton starter pack. Для быстрого старта разработки.
+Проект интеграции с Fantasy Premier League. Дополнение недостающих функций, аналитики.
+Возможности:
+- Просматривать составы и таблицу лиги с live очками (во время матчей рассчитываются сразу)
+- Просматривать очки и статистику игроков в рамках матча
+- Получать уведомления в телеграмм-боте о действиях своих игроков во время матчей, начале и окончании матча, и другие
+- И все это без VPN :)
+
+## Основной стэк:
+- PHP 8.1
+- Laravel 9
+- MySQL 5.7/8
+- Laravel Pint
+- Pest
+
+### Также используется:
+- Laravel Sail (опционально)
+- Laravel Envoy
+- Blade Icons
+- Argon Dashboard Laravel
+- Saloon
+- Larastan
 
 ## Установка
 
-Клонируем репозиторий 
+1. Клонируем репозиторий 
 
-    git clone https://github.com/d3po13/laravel-skeleton.git
+    `git clone git@github.com:dom1no/fpl-live.git`
 
-или
+2. Переходим в папку проекта
 
-    git clone git@github.com:d3po13/laravel-skeleton.git
+    `cd fpl-live`
 
-Переходим в папку проекта
+3. Устанавливаем зависимости
 
-Устанавливаем зависимости
+    `composer install`
 
-    composer install
+4. Создаём .env файл 
 
-Создаём .env файл 
+   `composer run-script post-root-package-install`
 
-    composer run-script post-root-package-install
+5. Генерируем уникальный ключ приложения
 
-Генерируем уникальный ключ приложения
+    `composer run-script post-create-project-cmd`
 
-    composer run-script post-create-project-cmd
+6. Установка Laravel Sail или Laravel Valet(для Mac)
+   - Laravel Sail:
+     - Устанавливаем Laravel Sail
+     `php artisan sail:install`
+     - Запускаем проект через Laravel Sail
+     `vendor/bin/sail up -d`
+     - Проект доступен по адресу http://localhost
+   - Laravel Valet(для Mac)
+     - Устанавливаем Laravel Valet: [Инструкция](https://laravel.com/docs/9.x/valet)
+     - Запускаем проект через Laravel Valet: `valet link`
+     - Проект доступен по адресу: http://fpl-live.test
 
-Устанавливаем Laravel Sail
+7. Запускаем миграции
 
-    php artisan sail:install
+   `php artisan migrate`
 
-Запускаем проект через Laravel Sail
+8. Запускаем импорт данных (нужен VPN):
 
-    vendor/bin/sail up -d
-
-Проект доступен по адресу http://localhost
-
-Запускаем миграции
-
-    php artisan migrate
+    `sh init-data.sh`
 
 ## Линтеры
 
@@ -51,8 +75,7 @@ Laravel skeleton starter pack. Для быстрого старта разраб
   - `composer larastan` - статический анализ кода
   - Правила настраиваются в файле `phpstan.neon`
 
-## Дополнительно
+## Тесты
 
-[Решение возможных проблем](Troubleshooting.md)
-
-[Варианты аутентификации](Authentication.md)
+### Pest
+  - `composer test`
