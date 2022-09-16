@@ -5,22 +5,26 @@ namespace App\Notifications;
 use App\Models\Enums\PlayerPointAction;
 use LogicException;
 
-class PlayerActionVarCancelledNotification extends PlayerActionNotification
+class PlayerActionCancelledNotification extends PlayerActionNotification
 {
     protected function getActionFullText(): string
     {
-        return "{$this->getActionEmoji()} VAR - {$this->getActionTitleText()} {$this->getPlayerText()} {$this->getActionDiffPointText()}";
+        return "{$this->getActionEmoji()} {$this->getActionTitleText()} {$this->getPlayerText()} {$this->getActionDiffPointText()}";
     }
 
-    protected function getActionEmoji(): string
+    protected function getTitleText(): string
     {
-        return '🚫🖥';
+        return match ($this->playerPoint->action) {
+            PlayerPointAction::ASSISTS => '🚫',
+            default => '🚫🖥 ',
+        };
     }
 
     protected function getActionTitleText(): string
     {
         return match ($this->playerPoint->action) {
-            PlayerPointAction::GOALS_SCORED, PlayerPointAction::ASSISTS => 'Гол отменен!',
+            PlayerPointAction::GOALS_SCORED => 'Гол отменен!',
+            PlayerPointAction::ASSISTS => 'Голевая отменена!',
             PlayerPointAction::RED_CARDS => 'Красная карточка отменена!',
             PlayerPointAction::YELLOW_CARDS => 'Желтая карточка отменена - ',
             PlayerPointAction::OWN_GOALS => 'Автогол отменен!',

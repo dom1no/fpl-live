@@ -6,7 +6,7 @@ use App\Models\Manager;
 use App\Models\Player;
 use App\Models\PlayerPoint;
 use App\Notifications\PlayerActionNotification;
-use App\Notifications\PlayerActionVarCancelledNotification;
+use App\Notifications\PlayerActionCancelledNotification;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Notification;
 
@@ -30,7 +30,7 @@ class PlayerPointObserver
             if ($playerPoint->exists && $playerPoint->value - $playerPoint->getOriginal('value', 0) > 0) {
                 $notification = new PlayerActionNotification($playerPoint);
             } else {
-                $notification = new PlayerActionVarCancelledNotification($playerPoint);
+                $notification = new PlayerActionCancelledNotification($playerPoint);
             }
 
             Notification::send(
