@@ -22,14 +22,14 @@ class Kernel extends ConsoleKernel
         $schedule->command(ImportFixturesCommand::class, ['--current'])->everyMinute();
         $schedule->command(ImportPlayersStatsCommand::class, ['--current'])->everyMinute();
 
-        $schedule->command(ImportPlayersCommand::class)->hourly();
-
-        $schedule->command(ImportGameweeksCommand::class)->hourly()
+        $schedule->command(ImportGameweeksCommand::class)->everyTenMinutes()
             ->after(function () {
                 $this->call(ImportManagersPicksCommand::class, ['--current']);
                 $this->call(ImportManagersTransfersCommand::class);
                 $this->call(ImportManagersChipsCommand::class);
             });
+
+        $schedule->command(ImportPlayersCommand::class)->hourly();
 
         // $schedule->command(ImportTeamsCommand::class)->daily();
         // $schedule->command(ImportManagersCommand::class)->daily();
