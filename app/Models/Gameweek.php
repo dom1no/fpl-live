@@ -53,10 +53,15 @@ class Gameweek extends Model
         return static::orderByDesc('id')->where('id', '<', $this->id)->value('id');
     }
 
-    public function nextId(bool $canViewFeature = false): ?int
+    public function nextId(bool $canViewFeature = true): ?int
     {
         return static::orderBy('id')->where('id', '>', $this->id)
             ->unless($canViewFeature, fn ($q) => $q->finishedOrCurrent())
             ->value('id');
+    }
+
+    public function isFeature(): bool
+    {
+        return ! $this->is_finished && ! $this->is_current;
     }
 }

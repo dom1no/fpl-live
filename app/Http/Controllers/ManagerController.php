@@ -45,11 +45,10 @@ class ManagerController extends Controller
                 'transfers.playerIn.points',
                 'transfers.playerOut.stats',
                 'transfers.playerIn.stats',
-                'pointsHistory' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderBy('gameweek_id'),
+                'pointsHistory' => fn ($q) => $q->orderBy('gameweek_id'),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->loadSum('pointsHistory as total_transfers_cost', 'transfers_cost');
-
-        $manager->setRelation('gameweekPointsHistory', $manager->pointsHistory->firstWhere('gameweek_id', $gameweek->id) ?: optional());
 
         $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
             ->get()
@@ -65,9 +64,9 @@ class ManagerController extends Controller
         });
 
         // TODO: оптимизировать
-        $managers = Manager::select('id')
+        $managers = Manager::select('id', 'total_points')
             ->with([
-                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek->is_next ? $gameweek->previousId() : $gameweek),
+                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->get();
 

@@ -38,8 +38,13 @@ class ManagerPick extends Model
 
     public function scopeForGameweek(Builder $query, Gameweek $gameweek): void
     {
-        if ($gameweek->is_next) {
+        if ($gameweek->isFeature()) {
             $gameweek = Gameweek::getCurrent();
+
+            if (is_null($query->toBase()->columns)) {
+                $query->select();
+            }
+            $query->selectRaw('0 as points');
         }
 
         $this->baseScopeForGameweek($query, $gameweek);

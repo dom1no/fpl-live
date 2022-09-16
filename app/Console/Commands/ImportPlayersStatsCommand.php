@@ -229,7 +229,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
     private function updateManagersTotalPoints(): void
     {
         Manager::with([
-            'gameweekPointsHistory' => fn ($q) => $q->latest(),
+            'gameweekPointsHistory' => fn ($q) => $q->latest('gameweek_id'),
         ])
             ->each(function (Manager $manager) {
                 $manager->update([

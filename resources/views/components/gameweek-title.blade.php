@@ -1,6 +1,6 @@
 @php
     $previousGameweekId = $gameweek->previousId();
-    $nextGameweekId = $gameweek->nextId($canViewFeature ?? false);
+    $nextGameweekId = $gameweek->nextId();
 @endphp
 
 <div class="d-flex justify-content-between align-items-center mb-2 mb-md-3">

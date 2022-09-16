@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.gameweek-title', [
-        'canViewFeature' => true,
-    ])
+    @include('components.gameweek-title')
 
     <div class="row">
         <div class="col-sm">
