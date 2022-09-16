@@ -42,26 +42,28 @@
                         <span class="nav-link-inner--text">Матчи</span>
                     </a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link nav-link-icon dropdown-toggle" href="#" data-toggle="dropdown">
-                        <i class="fas fa-list"></i>
-                        Сводка
-                    </a>
-                    <ul class="dropdown-menu">
-                        @if (auth()->user() && auth()->user()->isAdmin())
-                        <li>
-                            <a class="dropdown-item" href="{{ route('managers.detail-list') }}">
-                                <span class="nav-link-inner--text">Составы лиги</span>
-                            </a>
-                        </li>
-                        @endif
-                        <li>
-                            <a class="dropdown-item" href="{{ route('managers.transfers') }}">
-                                <span class="nav-link-inner--text">Трансферы</span>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @auth
+                    <li class="nav-item dropdown">
+                        <a class="nav-link nav-link-icon dropdown-toggle" href="#" data-toggle="dropdown">
+                            <i class="fas fa-list"></i>
+                            Сводка
+                        </a>
+                        <ul class="dropdown-menu">
+                            @if (auth()->user()->isAdmin())
+                            <li>
+                                <a class="dropdown-item" href="{{ route('managers.detail-list') }}">
+                                    <span class="nav-link-inner--text">Составы лиги</span>
+                                </a>
+                            </li>
+                            @endif
+                            <li>
+                                <a class="dropdown-item" href="{{ route('managers.transfers') }}">
+                                    <span class="nav-link-inner--text">Трансферы</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endauth
             </ul>
 
             <ul class="navbar-nav align-items-lg-center ml-lg-auto">
