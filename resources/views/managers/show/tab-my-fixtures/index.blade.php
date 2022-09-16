@@ -6,7 +6,7 @@
 
 <table class="table">
     <tbody>
-    @foreach($fixtures as $fixture)
+    @foreach($fixtures->sortBy('kickoff_time') as $fixture)
         @php
             $fixturePicks = $picksByFixture->get($fixture->id)->sortByDesc('points');
             $homeTeamPicks = $fixturePicks->where('player.team_id', $fixture->homeTeam->id);
