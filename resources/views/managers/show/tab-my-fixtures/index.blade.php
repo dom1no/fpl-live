@@ -1,6 +1,6 @@
 @php
     use App\Models\ManagerPick;
-    $fixtures = $manager->picks->mapWithKeys(fn (ManagerPick $pick) => [$pick->id => $pick->player->team->fixtures->firstWhere('gameweek_id', $gameweek->id)])->unique()->filter();
+    $fixtures = $manager->picks->mapWithKeys(fn (ManagerPick $pick) => [$pick->id => $pick->player->team->fixtures->firstWhere('gameweek_id', $gameweek->id)])->unique('id')->filter();
     $picksByFixture = $manager->picks->groupBy(fn (ManagerPick $pick) => $pick->player->team->fixtures->firstWhere('gameweek_id', $gameweek->id)->id ?? null);
 @endphp
 

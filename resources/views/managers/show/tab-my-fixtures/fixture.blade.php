@@ -25,10 +25,12 @@
     <tbody class="bg-white">
     <tr>
         <td class="w-50 border-right">
-            @include('components.picks-list', ['picks' => $homeTeamPicks, 'rtl' => true])
+            @include('components.picks-list', ['picks' => $homeTeamPicks->where('multiplier', '>', 0), 'rtl' => true])
+            @include('components.picks-list', ['picks' => $homeTeamPicks->where('multiplier', 0), 'showCleanPoints' => true, 'rtl' => true])
         </td>
         <td class="w-50">
-            @include('components.picks-list', ['picks' => $awayTeamPicks])
+            @include('components.picks-list', ['picks' => $awayTeamPicks->where('multiplier', '>', 0)])
+            @include('components.picks-list', ['picks' => $awayTeamPicks->where('multiplier', 0), 'showCleanPoints' => true])
         </td>
     </tr>
     </tbody>
