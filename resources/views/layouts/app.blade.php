@@ -29,6 +29,7 @@
 
         <link type="text/css" href="{{ asset('css') }}/custom.css?v=1.0.2" rel="stylesheet">
 
+        @livewireStyles
         @stack('css')
     </head>
     <body class="{{ $class ?? '' }}">
@@ -49,6 +50,13 @@
         <!-- Argon JS -->
         <script src="{{ asset('argon') }}/js/argon.js?v=1.0.0"></script>
 
-        @stack('modals')
+        @livewire('player-modal')
+        @livewireScripts
+
+        <script type="text/javascript">
+            Livewire.on('showModal', modalId => {
+                $('#' + modalId).modal('show');
+            });
+        </script>
     </body>
 </html>

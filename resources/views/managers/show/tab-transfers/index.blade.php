@@ -26,7 +26,7 @@
         @foreach($gameweekTransfers->sortBy(fn ($transfer) => $transfer->playerOut->position->sortValue()) as $transfer)
             <tr>
                 @php($playerOut = $transfer->playerOut)
-                <td class="pointer" data-toggle="modal" data-target="#player-{{ $playerOut->id }}">
+                <td class="pointer" onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $playerOut->id]))'>
                     {{ $playerOut->name }}
                     <span class="text-muted text-xs">
                         {{ price_formatted($transfer->player_out_cost) }}
@@ -37,7 +37,7 @@
                     </span>
                 </td>
                 @php($playerIn = $transfer->playerIn)
-                <td class="pointer" data-toggle="modal" data-target="#player-{{ $playerIn->id }}">
+                <td class="pointer" onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $playerIn->id]))'>
                     {{ $playerIn->name }}
                     <span class="text-muted text-xs">
                         {{ price_formatted($transfer->player_in_cost) }}
@@ -55,5 +55,3 @@
     @endforeach
     </tbody>
 </table>
-
-@each('components.player-modal.index', $manager->transfers->pluck('playerIn')->merge($manager->transfers->pluck('playerOut')), 'player')

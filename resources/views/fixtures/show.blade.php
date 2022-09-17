@@ -11,8 +11,12 @@
     </div>
 
     @include('fixtures.show.tabs')
-
-    @foreach($players as $player)
-        @include('components.player-modal.index', ['currentFixture' => $fixture])
-    @endforeach
 @endsection
+
+@push('js')
+    <script type="text/javascript">
+        $(document).ready(() => {
+            Livewire.emitTo('player-modal', 'setCurrentFixture', @json(['fixture' => $fixture->id]))
+        })
+    </script>
+@endpush

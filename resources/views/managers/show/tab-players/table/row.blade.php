@@ -6,7 +6,7 @@
 
 <tr @class(['font-weight-bold' => $fixture->isFinished()])>
     <td>
-        <span data-toggle="modal" data-target="#player-{{ $player->id }}" class="pointer">
+        <span onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $player->id]))' class="pointer">
             {{ $player->name }}
             @if ($pick->is_captain)
                 <i class="fas fa-copyright"></i>
@@ -44,7 +44,4 @@
     <td>
         {{ price_formatted($player->price) }}
     </td>
-    {{--    <td>--}}
-    {{--        {{ round($pick->points / $player->price, 1) }}--}}
-    {{--    </td>--}}
 </tr>

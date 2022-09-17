@@ -37,12 +37,8 @@ class FixtureController extends Controller
             ->sortByDesc('points_sum')
             ->keyBy('id');
 
-        $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
-            ->get()
-            ->keyBy('id');
-
-        $players->each(function (Player $player) use ($teams, $fixture) {
-            $player->setRelation('team', $teams->get($player->team_id));
+        $players->each(function (Player $player) use ($fixture) {
+            $player->setRelation('team', $fixture->teams->get($player->team_id));
             $player->setRelation('gameweekStats', $player->stats->firstWhere('gameweek_id', $fixture->gameweek_id));
         });
 

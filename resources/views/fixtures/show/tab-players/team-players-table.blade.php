@@ -15,10 +15,10 @@
     @foreach($players as $player)
         @php
             $playerStats = $player->gameweekStats ?? optional();
-            $playerPoints = $player->points->where('gameweek_id', $fixture->gameweek_id);
+            $playerPoints = $player->points;
         @endphp
         <tr @class(['accordion-toggle', 'pointer', 'bg-translucent-secondary' => auth()->check() && $player->managerPicks->contains('manager_id', auth()->id())])
-            data-toggle="modal" data-target="#player-{{ $player->id }}"
+            onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $player->id]))'
         >
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}

@@ -11,7 +11,7 @@
 
         $pick = new ManagerPick([
             'multiplier' => 1,
-            'clean_points' => $player->points->where('gameweek_id', $gameweek->id)->sum('points'),
+            'clean_points' => $player->points->sum('points'),
         ]);
         $player->price = $cost;
         $pick->setRelation('player', $player);
@@ -27,5 +27,3 @@
     'showPrice' => true,
     'withTotal' => true,
 ])
-
-@each('components.player-modal.index', $players, 'player')

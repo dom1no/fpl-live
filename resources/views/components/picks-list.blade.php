@@ -10,7 +10,9 @@
             $totalPoints += $points;
         @endphp
 
-        <li @class(['pointer', 'text-light' => $pick->multiplier == 0]) data-toggle="modal" data-target="#player-{{ $player->id }}">
+        <li @class(['pointer', 'text-light' => $pick->multiplier == 0])
+            onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $player->id]))'
+        >
             <span class="picks-list-points">
                 {{ $points }}
             </span>

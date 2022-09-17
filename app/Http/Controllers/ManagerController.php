@@ -35,16 +35,13 @@ class ManagerController extends Controller
         $manager
             ->load([
                 'picks' => fn ($q) => $q->forGameweek($gameweek)->orderBy('position'),
-                'picks.player.points',
-                'picks.player.stats',
+                'picks.player.points' => fn ($q) => $q->forGameweek($gameweek),
                 'autoSubs' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
                 'transfers.playerOut.points',
                 'transfers.playerIn.points',
-                'transfers.playerOut.stats',
-                'transfers.playerIn.stats',
                 'pointsHistory' => fn ($q) => $q->orderBy('gameweek_id'),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
@@ -136,24 +133,11 @@ class ManagerController extends Controller
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
                 'transfers.playerOut.points',
                 'transfers.playerIn.points',
-                'transfers.playerOut.stats',
-                'transfers.playerIn.stats',
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])
             ->get()
             ->sortByDesc('gameweekPointsHistory.total_points');
-
-        $teams = Team::with('fixtures.teams', 'fixtures.gameweek')
-            ->get()
-            ->keyBy('id');
-
-        $managers->each(function (Manager $manager) use ($teams) {
-            $manager->transfers->each(function (ManagerTransfer $transfer) use ($teams) {
-                $transfer->playerOut->setRelation('team', $teams->get($transfer->playerOut->team_id));
-                $transfer->playerIn->setRelation('team', $teams->get($transfer->playerIn->team_id));
-            });
-        });
 
         return view('managers.transfers', compact('managers', 'gameweek'));
     }

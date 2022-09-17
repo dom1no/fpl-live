@@ -12,8 +12,7 @@
     <div @class(['pitch-row-unit-element', 'font-weight-bold' => $fixture->isFinished()])>
         <button type="button"
                 @class(['pitch-row-unit-element-btn', 'font-weight-bold' => $fixture->isFinished()])
-                data-toggle="modal"
-                data-target="#player-{{ $player->id }}"
+                onclick='Livewire.emitTo("player-modal", "show", @json(["player" => $player->id]))'
         >
             @include('managers.show.tab-players.pitch.element.shirt')
 
