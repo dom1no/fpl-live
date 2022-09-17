@@ -12,6 +12,6 @@
     };
 @endphp
 
-<span class="d-inline-block badge badge-pill badge-{{ $colorClass }} {{ $class ?? '' }} py-1">
+<span class="d-inline-block badge badge-pill badge-{{ $colorClass }} {{ $class ?? '' }} py-1 opacity-7">
     {{ $title }}
 </span>

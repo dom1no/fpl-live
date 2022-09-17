@@ -5,13 +5,13 @@
     $gameweek = request()->gameweek();
     $playerField = $isIn ? 'playerIn' : 'playerOut';
     $players = $manager->transfers->pluck($playerField);
-    $mapToPicks = $manager->transfers->map(function (ManagerTransfer $transfer) use ($playerField, $isIn, $gameweek) {
+    $mapToPicks = $manager->transfers->map(function (ManagerTransfer $transfer) use ($playerField, $isIn) {
         $player = $transfer->$playerField;
         $cost = $isIn ? $transfer->player_in_cost : $transfer->player_out_cost;
 
         $pick = new ManagerPick([
             'multiplier' => 1,
-            'clean_points' => $player->points->sum('points'),
+            'points' => $player->points->sum('points'),
         ]);
         $player->price = $cost;
         $pick->setRelation('player', $player);
@@ -21,9 +21,8 @@
 @endphp
 
 @include('components.picks-list', [
-    'picks' => $mapToPicks,
-    'sortBy' => 'player.price',
-    'showCleanPoints' => true,
+    'picks' => $mapToPicks->sortByDesc('player.price'),
+    'sorted' => false,
     'showPrice' => true,
     'withTotal' => true,
 ])

@@ -1,12 +1,18 @@
 @php
     $totalPoints = 0;
+    if ($sorted ?? true) {
+        [$mainPicks, $benchPicks] = $picks->partition('multiplier', '>', 0);
+        $picks = $mainPicks->sortByDesc('points')->merge(
+            $benchPicks->sortByDesc('clean_points')
+        );
+    }
 @endphp
 
 <ul @class(['picks-list', 'rtl' => $rtl ?? false])>
-    @foreach($picks->sortByDesc($sortBy ?? 'points') as $pick)
+    @foreach($picks as $pick)
         @php
             $player = $pick->player;
-            $points = ($showCleanPoints ?? false) ? $pick->clean_points : $pick->points;
+            $points = $pick->multiplier == 0 ? $pick->clean_points : $pick->points;
             $totalPoints += $points;
         @endphp
 

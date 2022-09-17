@@ -1,3 +1,9 @@
+@php
+    $fixturePicks = $picksByFixture->get($fixture->id)->sortByDesc('points')->sortByDesc('multiplier');
+    $homeTeamPicks = $fixturePicks->where('player.team_id', $fixture->homeTeam->id);
+    $awayTeamPicks = $fixturePicks->where('player.team_id', $fixture->awayTeam->id);
+@endphp
+
 <table class="table">
     <thead
         @class(['thead-light', 'text-center', 'font-weight-bold' => $fixture->isFinished()])
@@ -25,12 +31,10 @@
     <tbody class="bg-white">
     <tr>
         <td class="w-50 border-right">
-            @include('components.picks-list', ['picks' => $homeTeamPicks->where('multiplier', '>', 0), 'rtl' => true])
-            @include('components.picks-list', ['picks' => $homeTeamPicks->where('multiplier', 0), 'showCleanPoints' => true, 'rtl' => true])
+            @include('components.picks-list', ['picks' => $homeTeamPicks, 'rtl' => true])
         </td>
         <td class="w-50">
-            @include('components.picks-list', ['picks' => $awayTeamPicks->where('multiplier', '>', 0)])
-            @include('components.picks-list', ['picks' => $awayTeamPicks->where('multiplier', 0), 'showCleanPoints' => true])
+            @include('components.picks-list', ['picks' => $awayTeamPicks])
         </td>
     </tr>
     </tbody>
