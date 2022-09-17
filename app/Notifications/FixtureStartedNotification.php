@@ -43,10 +43,13 @@ class FixtureStartedNotification extends Notification
 
     private function getManagerPicksText(Manager $manager): string
     {
-        return $manager->picks->map(function (ManagerPick $pick) {
-            $isCaptain = $pick->is_captain;
+        return $manager->picks
+            ->sortByDesc('player.price')
+            ->map(function (ManagerPick $pick) {
+                $isCaptain = $pick->is_captain;
 
-            return "{$pick->player->name} ({$pick->player->team->name})" . ($isCaptain ? '©️' : '');
-        })->implode("\n");
+                return "{$pick->player->name} ({$pick->player->team->name})" . ($isCaptain ? '©️' : '');
+            })
+            ->implode("\n");
     }
 }

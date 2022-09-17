@@ -52,7 +52,7 @@ class PlayerActionNotification extends Notification
 
     protected function getActionFullText(): string
     {
-        return "{$this->getActionEmoji()} {$this->getActionTitleText()} {$this->getPlayerText()} {$this->getActionText()} {$this->getActionDiffPointText()}";
+        return "{$this->getActionEmoji()} {$this->getActionTitleText()} {$this->getPlayerText()} {$this->getActionDiffPointText()}";
     }
 
     protected function getActionEmoji(): string
@@ -88,22 +88,8 @@ class PlayerActionNotification extends Notification
             PlayerPointAction::RED_CARDS => 'Красная карточка!',
             PlayerPointAction::YELLOW_CARDS => 'Желтая карточка -',
             PlayerPointAction::OWN_GOALS => 'Автогол!',
-            PlayerPointAction::PENALTIES_MISSED => '',
-            PlayerPointAction::PENALTIES_SAVED => 'Сейв!',
-            default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
-        };
-    }
-
-    protected function getActionText(): string
-    {
-        return match ($this->playerPoint->action) {
-            PlayerPointAction::GOALS_SCORED => 'забил',
-            PlayerPointAction::ASSISTS => 'отдал',
-            PlayerPointAction::RED_CARDS => 'удален',
-            PlayerPointAction::YELLOW_CARDS => '',
-            PlayerPointAction::OWN_GOALS => 'забил в свои ворота',
-            PlayerPointAction::PENALTIES_MISSED => 'не забил пенальти!',
-            PlayerPointAction::PENALTIES_SAVED => 'отбил пенальти!',
+            PlayerPointAction::PENALTIES_MISSED => 'Не забит пенальти!',
+            PlayerPointAction::PENALTIES_SAVED => 'Отбит пенальти!',
             default => throw new LogicException("Unexpected action: {$this->playerPoint->action->name}"),
         };
     }
@@ -113,7 +99,7 @@ class PlayerActionNotification extends Notification
         $diff = $this->getActionDiffPoints();
         $withSign = $diff > 0 ? "+{$diff}" : $diff;
 
-        return "({$withSign})";
+        return $withSign;
     }
 
     protected function getActionDiffPoints(): int
@@ -145,6 +131,6 @@ class PlayerActionNotification extends Notification
 
     protected function getPlayerPointsText(): string
     {
-        return "Очки: {$this->playerPoint->player->points()->forCurrentGameweek()->sum('points')}";
+        return "*Очки: {$this->playerPoint->player->points()->forCurrentGameweek()->sum('points')}*";
     }
 }

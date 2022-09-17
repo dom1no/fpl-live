@@ -68,7 +68,7 @@ class FixtureFinishedNotification extends Notification
     private function getManagerPointsText(Manager $manager): string
     {
         return $manager->picks
-            ->sortBy('points')
+            ->sortByDesc('points')
             ->map(function (ManagerPick $pick) {
                 $isCaptain = $pick->is_captain;
                 $points = $pick->multiplier > 0 ? $pick->points : $pick->clean_points;

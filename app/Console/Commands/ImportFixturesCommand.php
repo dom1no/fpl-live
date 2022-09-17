@@ -43,35 +43,47 @@ class ImportFixturesCommand extends FPLImportCommand
         $importedFixturesIds = [];
 
         foreach ($fixturesData as $fixtureData) {
-            $fixtureBonusStats = collect($fixtureData['stats'])->firstWhere('identifier', 'bonus') ?? [];
 
-            $fixture = Fixture::updateOrCreate([
-                'fpl_id' => $fixtureData['id'],
-            ], [
-                'gameweek_id' => $gameweek->id,
-                'kickoff_time' => $this->parseDate($fixtureData['kickoff_time']),
-                'is_started' => $fixtureData['started'],
-                'is_finished' => $fixtureData['finished'],
-                'is_finished_provisional' => $fixtureData['finished_provisional'],
-                'is_bonuses_added' => ! empty($fixtureBonusStats['a'] ?? false) || ! empty($fixtureBonusStats['h'] ?? false),
-                // 'minutes' => $fixtureData['minutes'], //TODO: FPL всегда отдает 0 для текущих матчей
-            ]);
-
-            $fixture->teams()->sync([
-                $this->teams->get($fixtureData['team_h']) => [
-                    'is_home' => true,
-                    'score' => $fixtureData['team_h_score'],
-                ],
-                $this->teams->get($fixtureData['team_a']) => [
-                    'is_home' => false,
-                    'score' => $fixtureData['team_a_score'],
-                ],
-            ]);
+            if ($this->option('current')) {
+                $fixture = $this->upsertFixture($fixtureData, $gameweek);
+            } else {
+                $fixture = Fixture::withoutEvents(fn () => $this->upsertFixture($fixtureData, $gameweek));
+            }
 
             $importedFixturesIds[] = $fixture->id;
             $this->importedInc();
         }
 
         Fixture::findMany($existedFixturesIds->diff($importedFixturesIds))->each->delete();
+    }
+
+    private function upsertFixture(array $fixtureData, Gameweek $gameweek): Fixture
+    {
+        $fixtureBonusStats = collect($fixtureData['stats'])->firstWhere('identifier', 'bonus') ?? [];
+
+        $fixture = Fixture::updateOrCreate([
+            'fpl_id' => $fixtureData['id'],
+        ], [
+            'gameweek_id' => $gameweek->id,
+            'kickoff_time' => $this->parseDate($fixtureData['kickoff_time']),
+            'is_started' => $fixtureData['started'],
+            'is_finished' => $fixtureData['finished'],
+            'is_finished_provisional' => $fixtureData['finished_provisional'],
+            'is_bonuses_added' => ! empty($fixtureBonusStats['a'] ?? false) || ! empty($fixtureBonusStats['h'] ?? false),
+            // 'minutes' => $fixtureData['minutes'], //TODO: FPL всегда отдает 0 для текущих матчей
+        ]);
+
+        $fixture->teams()->sync([
+            $this->teams->get($fixtureData['team_h']) => [
+                'is_home' => true,
+                'score' => $fixtureData['team_h_score'],
+            ],
+            $this->teams->get($fixtureData['team_a']) => [
+                'is_home' => false,
+                'score' => $fixtureData['team_a_score'],
+            ],
+        ]);
+
+        return $fixture;
     }
 }
