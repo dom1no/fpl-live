@@ -61,7 +61,7 @@ class PlayerModal extends Component
         [$this->futureFixtures, $this->pastFixtures] = $this->player
             ->team
             ->fixtures
-            ->partition(fn(Fixture $fixture) => $fixture->isFeature());
+            ->partition(fn (Fixture $fixture) => $fixture->isFeature());
     }
 
     public function render(): View

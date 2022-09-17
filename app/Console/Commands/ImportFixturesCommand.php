@@ -43,7 +43,6 @@ class ImportFixturesCommand extends FPLImportCommand
         $importedFixturesIds = [];
 
         foreach ($fixturesData as $fixtureData) {
-
             if ($this->option('current')) {
                 $fixture = $this->upsertFixture($fixtureData, $gameweek);
             } else {

@@ -41,7 +41,7 @@ class ManagerPick extends Model
         if ($gameweek->isFeature()) {
             $gameweek = Gameweek::getCurrent();
 
-            if (is_null($query->toBase()->columns)) {
+            if (empty($query->toBase()->columns)) {
                 $query->select();
             }
             $query->selectRaw('0 as points');

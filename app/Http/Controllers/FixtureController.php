@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Fixture;
 use App\Models\ManagerPick;
 use App\Models\Player;
-use App\Models\Team;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
