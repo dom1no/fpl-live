@@ -22,7 +22,7 @@ class TelegramController extends Controller
     public function webhook(Request $request, TelegramService $telegramService): JsonResponse
     {
         $message = $request->message;
-        if (! $message) {
+        if (! $message || ! isset($message['text'])) {
             return response()->json();
         }
 

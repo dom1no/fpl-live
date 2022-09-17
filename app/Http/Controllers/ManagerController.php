@@ -40,8 +40,8 @@ class ManagerController extends Controller
                 'chips' => fn ($q) => $q->withoutNextGameweeks($gameweek),
                 'transfers' => fn ($q) => $q->withoutNextGameweeks($gameweek)->orderByDesc('gameweek_id'),
                 'transfers.gameweek',
-                'transfers.playerOut.points',
-                'transfers.playerIn.points',
+                'transfers.playerOut',
+                'transfers.playerIn',
                 'pointsHistory' => fn ($q) => $q->orderBy('gameweek_id'),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
             ])
@@ -131,8 +131,8 @@ class ManagerController extends Controller
         $managers = Manager::query()
             ->with([
                 'transfers' => fn ($q) => $q->forGameweek($gameweek),
-                'transfers.playerOut.points',
-                'transfers.playerIn.points',
+                'transfers.playerOut.points' => fn ($q) => $q->forGameweek($gameweek),
+                'transfers.playerIn.points' => fn ($q) => $q->forGameweek($gameweek),
                 'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
                 'chips' => fn ($q) => $q->forGameweek($gameweek),
             ])

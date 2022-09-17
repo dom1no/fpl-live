@@ -57,7 +57,7 @@
 
                     {{ $playedPicksCount['played'] }}
                     @if ($playedPicksCount['playing'])
-                        /{{ $playedPicksCount['playing'] }}
+                        / {{ $playedPicksCount['playing'] }}
                     @endif
                 </td>
                 <td>
