@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    @include('components.gameweek-title')
+    @include('components.gameweek.header')
 
     <div class="row">
         <div class="col-sm">
