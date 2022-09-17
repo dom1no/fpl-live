@@ -129,7 +129,7 @@ class ImportPlayersStatsCommand extends FPLImportCommand
         $fixtures = Fixture::select('id', 'is_bonuses_added')
             ->forGameweek($gameweek)
             ->where('is_started', true)
-            ->where('minutes', '>=', now()->subMinutes(45))
+            ->where('minutes', '>=', 45)
             ->with('teams:id')
             ->get();
 
