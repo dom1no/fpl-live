@@ -14,7 +14,11 @@
                     @foreach($managersPicks as $managerPicks)
                         @php($manager = $managerPicks->first()->manager)
                         <tr @class(['font-weight-bold bg-translucent-secondary' => auth()->user()->is($manager)])>
-                            <td class="pl-4 pr-2 text-truncate" style="max-width: 40vw;">{{ $manager->name }}</td>
+                            <td class="pl-4 pr-2 text-truncate" style="max-width: 40vw;">
+                                <a href="{{ route('managers.show', ['manager' => $manager, 'gameweek' => $fixture->gameweek_id]) }}">
+                                    {{ $manager->name }}
+                                </a>
+                            </td>
                             <td class="px-2">{{ $managerPicks->points_sum }}</td>
                             <td class="pl-3 pr-1">
                                 @include('components.picks-list', [
