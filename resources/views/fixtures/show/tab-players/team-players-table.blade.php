@@ -22,7 +22,7 @@
         >
             <td class="text-truncate" style="max-width: 40vw;">
                 {{ $player->name }}
-                @if ($fixture->kickoff_time->greaterThan($player->status_at))
+                @if ($player->status_at && $fixture->kickoff_time->greaterThan($player->status_at))
                     @include('components.player-status-icon', ['class' => 'pb-1'])
                 @endif
                 @for ($i = 0; $i < $playerStats->goals_scored; $i++)

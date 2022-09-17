@@ -10,6 +10,6 @@ if (! function_exists('price_formatted')) {
 if (! function_exists('double_formatted')) {
     function double_formatted($value): string
     {
-        return number_format($value, 2, '.', ' ');
+        return number_format($value ?: 0, 2, '.', ' ');
     }
 }
