@@ -16,8 +16,8 @@ enum PlayerStatus: string
         return match ($fplStatus) {
             'a' => self::OK,
             'd' => self::MINOR_INJURY,
-            'i', 'n' => self::MAJOR_INJURY, // i - травма, n - запрет на матч со своим клубом, если в аренде
-            'u' => self::NOT_AVAILABLE,
+            'i' => self::MAJOR_INJURY,
+            'u', 'n', 's' => self::NOT_AVAILABLE, // n - запрет на матч со своим клубом, если в аренде; s - приостановлен
             default => null
         };
     }
