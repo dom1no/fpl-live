@@ -43,7 +43,7 @@ class FixtureController extends Controller
         $managersPicks = $players->pluck('managerPicks')
             ->collapse()
             ->groupBy('manager_id')
-            ->map(function (Collection $picks) use ($fixture, $players) {
+            ->map(function (Collection $picks) use ($players) {
                 /** @phpstan-ignore-next-line */
                 $picks->points_sum = $picks->sum('points');
 
