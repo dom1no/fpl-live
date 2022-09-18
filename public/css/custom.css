@@ -180,3 +180,10 @@ td.clickable > a {
 .fixture-title-centered.display-3 > .fixture-title-score {
     min-width: 2rem;
 }
+
+
+.fixture-row {
+    -webkit-transition: background-color .15s linear;
+    -ms-transition: background-color .15s linear;
+    transition: background-color .15s linear;
+}

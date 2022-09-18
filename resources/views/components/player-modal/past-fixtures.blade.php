@@ -1,15 +1,16 @@
 @php use App\Models\PlayerPoint; @endphp
 <div style="max-height: 45vh; overflow-y: auto;">
-    <table class="table bg-secondary mb-0">
+    <table class="table mb-0 player-fixtures-table">
         <tbody>
         @foreach($fixtures->sortByDesc('gameweek_id') as $fixture)
             @php
                 $points = $player->points->where('gameweek_id', $fixture->gameweek_id);
                 $stats = $player->stats->firstWhere('gameweek_id', $fixture->gameweek_id) ?: optional();
             @endphp
-            <tr @class(['font-weight-bold' => $fixture->isFinished(), 'bg-light focused' => $fixture->is($currentFixture)])>
-                <td data-toggle="collapse" data-target="#player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}"
-                    class="pointer">
+            <tr @class(['pointer', 'fixture-row', 'font-weight-bold' => $fixture->isFinished(), 'focused bg-translucent-success' => $fixture->is($currentFixture)])
+                data-toggle="collapse" data-target="#player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}"
+            >
+                <td>
                     <span>{{ $fixture->gameweek->name }}</span>
                     <span class="fixture-title-centered m--2">
                         @include('fixtures.components.fixture-title')
@@ -19,7 +20,7 @@
                     </span>
                 </td>
             </tr>
-            <tr @class(['collapse', 'bg-white', 'show' => $fixture->is($currentFixture)]) id="player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}">
+            <tr @class(['collapse', 'fixture-collapse', 'show' => $fixture->is($currentFixture)]) id="player-{{ $player->id }}-modal-fixture-{{ $fixture->id }}">
                 <td class="p-0">
                     @if ($stats->minutes > 0)
                         <table class="table bg-white m-0">
@@ -67,3 +68,17 @@
         </tbody>
     </table>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        $('.fixture-collapse').on('show.bs.collapse', e => {
+            let target = $(e.target);
+            $(`.fixture-row[data-target="#${target.attr('id')}"]`).addClass('bg-translucent-success');
+        });
+
+        $('.fixture-collapse').on('hidden.bs.collapse', e => {
+            let target = $(e.target);
+            $(`.fixture-row[data-target="#${target.attr('id')}"]`).removeClass('bg-translucent-success');
+        });
+    });
+</script>
