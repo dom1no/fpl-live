@@ -80,11 +80,11 @@ class Fixture extends Model
             return 'Не начался';
         }
 
-        if ($this->isInProgress()) {
-            return $this->minutes . '\'';
+        if ($this->isFinished()) {
+            return 'Завершен';
         }
 
-        return 'Завершен';
+        return $this->minutes . '\'';
     }
 
     public function getFotMobLinkAttribute(): ?string
