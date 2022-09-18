@@ -9,7 +9,7 @@ lint:
   script:
     - composer install
     - composer lint
-    - composer larastan
+    - composer larastan -- --memory-limit=512M
   allow_failure: true
 
 pest:
