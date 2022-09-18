@@ -26,8 +26,8 @@ class FixtureController extends Controller
     {
         $players = Player::whereIn('team_id', $fixture->teams->pluck('id'))
             ->with([
-                'stats',
-                'points',
+                'gameweekStats' => fn ($q) => $q->forGameweek($fixture->gameweek),
+                'points' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks' => fn ($q) => $q->forGameweek($fixture->gameweek),
                 'managerPicks.manager',
             ])
@@ -38,7 +38,6 @@ class FixtureController extends Controller
 
         $players->each(function (Player $player) use ($fixture) {
             $player->setRelation('team', $fixture->teams->get($player->team_id));
-            $player->setRelation('gameweekStats', $player->stats->firstWhere('gameweek_id', $fixture->gameweek_id));
         });
 
         $managersPicks = $players->pluck('managerPicks')
@@ -46,7 +45,7 @@ class FixtureController extends Controller
             ->groupBy('manager_id')
             ->map(function (Collection $picks) use ($fixture, $players) {
                 /** @phpstan-ignore-next-line */
-                $picks->points_sum = $fixture->isFeature() ? 0 : $picks->sum('points');
+                $picks->points_sum = $picks->sum('points');
 
                 $picks->each(
                     fn (ManagerPick $pick) => $pick->setRelation('player', $players->get($pick->player_id))
