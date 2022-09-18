@@ -12,7 +12,7 @@
     @foreach($managers as $manager)
         <tr @class(['font-weight-bold bg-light' => auth()->user()->is($manager)])>
             <td style="width: 20px;" class="px-3">
-                {{ $loop->iteration }}
+                {{ $manager->gameweekPointsHistory->total_position }}
             </td>
             <td class="pl-2">
                 <a href="{{ route('managers.show', ['manager' => $manager, 'gameweek' => $gameweek->id]) }}">

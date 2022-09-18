@@ -23,8 +23,8 @@
     </tr>
     <tr>
         <td style="max-width: 45vw;">Место</td>
-        <td>{{ $managerPositions[$gameweek->id] }}</td>
-        <td>{{ $managerPositions['total'] }}</td>
+        <td>{{ $manager->gameweekPointsHistory->position }}</td>
+        <td>{{ $manager->gameweekPointsHistory->total_position }}</td>
     </tr>
     <tr>
         <td style="max-width: 45vw;" class="text-break">Трансферы/платные</td>

@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Fixture;
+use App\Models\ManagerPointsHistory;
 use App\Models\PlayerPoint;
 use App\Observers\FixtureObserver;
+use App\Observers\ManagerPointsHistoryObserver;
 use App\Observers\PlayerPointObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -30,6 +32,7 @@ class EventServiceProvider extends ServiceProvider
     {
         PlayerPoint::observe(PlayerPointObserver::class);
         Fixture::observe(FixtureObserver::class);
+        ManagerPointsHistory::observe(ManagerPointsHistoryObserver::class);
     }
 
     /**

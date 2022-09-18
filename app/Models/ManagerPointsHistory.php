@@ -13,8 +13,10 @@ class ManagerPointsHistory extends Model
         'manager_id',
         'gameweek_id',
         'points',
+        'position',
         'transfers_cost',
         'total_points',
+        'total_position',
     ];
 
     public function manager(): BelongsTo

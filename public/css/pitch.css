@@ -186,18 +186,19 @@
     /*border-bottom-right-radius: 3px;*/
     /*background-color: rgba(233, 249, 241, 0.3);*/
 
+    font-size: 12px;
     background-color: #5de7acff !important;
 }
 
 @media (min-width: 38.125em) {
     .pitch-row-unit-element-value {
-        font-size: 12px;
+        font-size: 13px;
     }
 }
 
 @media (min-width: 64em) {
     .pitch-row-unit-element-value {
-        font-size: 13px;
+        font-size: 14px;
         padding: 3px;
     }
 }

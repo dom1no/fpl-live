@@ -60,24 +60,6 @@ class ManagerController extends Controller
             $transfer->playerIn->setRelation('team', $teams->get($transfer->playerIn->team_id));
         });
 
-        // TODO: оптимизировать
-        $managers = Manager::select('id', 'total_points')
-            ->with([
-                'gameweekPointsHistory' => fn ($q) => $q->forGameweek($gameweek),
-            ])
-            ->get();
-
-        $managerPositions = [
-            $gameweek->id => $managers
-                    ->sortByDesc('gameweekPointsHistory.points')
-                    ->pluck('id')
-                    ->search($manager->id) + 1,
-            'total' => $managers
-                    ->sortByDesc('gameweekPointsHistory.total_points')
-                    ->pluck('id')
-                    ->search($manager->id) + 1,
-        ];
-
         $mainPicks = $manager->picks->where('multiplier', '>', 0);
 
         $playedPicksCount = [
@@ -89,7 +71,7 @@ class ManagerController extends Controller
             )->count(),
         ];
 
-        return view('managers.show', compact('manager', 'gameweek', 'managerPositions', 'playedPicksCount'));
+        return view('managers.show', compact('manager', 'gameweek', 'playedPicksCount'));
     }
 
     public function detailList(Request $request): View
