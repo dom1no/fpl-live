@@ -1,13 +1,7 @@
-@php
-    use App\Models\Gameweek;
-    $currentGameweek = $gameweek ?? Gameweek::getCurrent();
-    $gameweeks = Gameweek::query()->orderBy('id')->get();
-    $previousId = $gameweeks->sortByDesc('id')->firstWhere('id', '<', $currentGameweek->id)->id ?? null;
-    $nextId = $gameweeks->sortBy('id')->firstWhere('id', '>', $currentGameweek->id)->id ?? null;
-@endphp
+@php /** @see \App\View\Composers\GameweekHeaderComposer */ @endphp
 
 <div class="d-flex justify-content-between align-items-center mb-2 mb-md-3">
-    <a href="{{ $previousId ? request()->fullUrlWithQuery(['gameweek' => $previousId]) : '#' }}"
+    <a href="{{ $gameweekUrl($previousId) ?: '#' }}"
         @class(['btn', 'btn-secondary', 'bg-white', 'disabled' => !$previousId])>
         @svg('jam-arrow-left')
         <span class="d-none d-sm-inline-block">Предыдущий</span>
@@ -22,7 +16,7 @@
         </div>
         <div class="dropdown-menu" style="max-height: 40vh; overflow-y: auto;">
             @foreach($gameweeks as $gameweek)
-                <a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['gameweek' => $gameweek->id]) }}">
+                <a class="dropdown-item" href="{{ $gameweekUrl($gameweek->id) }}">
                     {{ $gameweek->name }}
                     @include('components.gameweek.badge', ['class' => 'float-right'])
                 </a>
@@ -30,7 +24,7 @@
         </div>
     </div>
 
-    <a href="{{ $nextId ? request()->fullUrlWithQuery(['gameweek' => $nextId]) : '#' }}"
+    <a href="{{ $gameweekUrl($nextId) }}"
         @class(['btn', 'btn-secondary', 'bg-white', 'disabled' => !$nextId])>
         <span class="d-none d-sm-inline-block">Следующий</span>
         @svg('jam-arrow-right')
